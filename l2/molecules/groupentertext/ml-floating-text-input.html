@@ -1,0 +1,88 @@
+<!-- Fundo rico = contrato de container do glassmorphism (sem ele o blur não aparece). -->
+<div style="min-height:100vh; padding:2rem; background:linear-gradient(135deg,#0b1220 0%,#27286b 45%,#7e1f6a 100%); background-attachment:fixed;">
+  <div style="max-width:64rem; margin:0 auto; font-family:'Inter',system-ui,sans-serif;">
+    <header style="text-align:center; margin-bottom:3rem;">
+      <h1 style="font-size:1.875rem; font-weight:600; color:#fff; margin-bottom:0.5rem;">Floating Text Input</h1>
+      <span style="display:inline-block; padding:0.25rem 0.75rem; background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.25); border-radius:9999px; font-size:0.875rem;">groupEnterText · glassmorphism</span>
+    </header>
+
+    <widget-playground-state-102020 state='{"playground":{"basic":{"value":""},"filled":{"value":"Ada Lovelace"},"error":{"value":"ada","error":"Username already taken"},"complete":{"value":"","error":"","disabled":false,"loading":false}}}'></widget-playground-state-102020>
+
+    <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem; margin-bottom:2rem;">
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Basic</h3>
+        <demo id="demo-basic">
+          <groupentertext--ml-floating-text-input value="{{playground.basic.value}}">
+            <Label>Full name</Label>
+            <Helper>As shown on your document</Helper>
+          </groupentertext--ml-floating-text-input>
+        </demo>
+        <details style="margin-top:1rem;">
+          <summary style="cursor:pointer; font-size:0.875rem; color:rgba(255,255,255,0.7);">Properties</summary>
+          <div style="margin-top:0.5rem; padding:1rem; border:1px solid rgba(255,255,255,0.15); border-radius:0.5rem;">
+            <widget-playground-state-text-102020 label="value" value="{{playground.basic.value}}"></widget-playground-state-text-102020>
+          </div>
+        </details>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Filled (label flutuante)</h3>
+        <demo id="demo-filled">
+          <groupentertext--ml-floating-text-input value="{{playground.filled.value}}">
+            <Label>Full name</Label>
+          </groupentertext--ml-floating-text-input>
+        </demo>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Error</h3>
+        <demo id="demo-error">
+          <groupentertext--ml-floating-text-input value="{{playground.error.value}}" error="{{playground.error.error}}">
+            <Label>Username</Label>
+          </groupentertext--ml-floating-text-input>
+        </demo>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Prefix / Suffix</h3>
+        <demo id="demo-affix">
+          <groupentertext--ml-floating-text-input value="" placeholder="0.00">
+            <Label>Amount</Label>
+            <Prefix>$</Prefix>
+            <Suffix>USD</Suffix>
+          </groupentertext--ml-floating-text-input>
+        </demo>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Mask (phone)</h3>
+        <demo id="demo-mask">
+          <groupentertext--ml-floating-text-input value="" mask="(##) #####-####" input-type="tel">
+            <Label>Phone</Label>
+          </groupentertext--ml-floating-text-input>
+        </demo>
+      </article>
+
+      <article style="background:rgba(255,255,255,0.07); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:600; color:#fff; margin-bottom:1rem;">Complete (disabled / loading)</h3>
+        <demo id="demo-complete">
+          <groupentertext--ml-floating-text-input value="{{playground.complete.value}}" error="{{playground.complete.error}}" disabled="{{playground.complete.disabled}}" loading="{{playground.complete.loading}}">
+            <Label>Email</Label>
+            <Helper>We'll never share it</Helper>
+          </groupentertext--ml-floating-text-input>
+        </demo>
+        <details style="margin-top:1rem;">
+          <summary style="cursor:pointer; font-size:0.875rem; color:rgba(255,255,255,0.7);">Properties</summary>
+          <div style="margin-top:0.5rem; padding:1rem; border:1px solid rgba(255,255,255,0.15); border-radius:0.5rem;">
+            <widget-playground-state-text-102020 label="value" value="{{playground.complete.value}}"></widget-playground-state-text-102020>
+            <widget-playground-state-text-102020 label="error" value="{{playground.complete.error}}"></widget-playground-state-text-102020>
+            <widget-playground-state-boolean-102020 label="disabled" value="{{playground.complete.disabled}}"></widget-playground-state-boolean-102020>
+            <widget-playground-state-boolean-102020 label="loading" value="{{playground.complete.loading}}"></widget-playground-state-boolean-102020>
+          </div>
+        </details>
+      </article>
+
+    </section>
+  </div>
+</div>
