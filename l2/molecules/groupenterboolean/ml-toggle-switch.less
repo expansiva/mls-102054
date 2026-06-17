@@ -1,0 +1,98 @@
+/// <mls fileReference="_102054_/l2/molecules/groupenterboolean/ml-toggle-switch.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// TOGGLE SWITCH — GLASSMORPHISM
+// Aparência self-contained, escopada sob a tag real registrada.
+// Assume fundo ESCURO/rico atrás (contrato de container no playground): texto claro
+// e backdrop-filter visível.
+// =============================================================================
+groupenterboolean--ml-toggle-switch {
+  display: block;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+
+  // ---- textos ----
+  .glass-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.92);
+  }
+  .glass-helper {
+    margin-top: 0.5rem;
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .glass-error-text {
+    margin-top: 0.5rem;
+    font-size: 0.72rem;
+    color: #ffb4ab;
+  }
+  .glass-view-value {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  // ---- track (é o próprio button) ----
+  .glass-track {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: 2.75rem;
+    height: 1.5rem;
+    padding: 0 0.1875rem;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    transition: background 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
+    appearance: none;
+    outline: none;
+
+    &.is-on {
+      background: rgba(99, 102, 241, 0.55);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    &.is-error {
+      border-color: rgba(255, 120, 120, 0.75);
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    &:focus-visible {
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5), 0 4px 16px rgba(0, 0, 0, 0.18);
+    }
+  }
+
+  // aresta especular do vidro
+  .glass-track-highlight {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border-top: 1px solid rgba(255, 255, 255, 0.55);
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+  }
+
+  // ---- thumb ----
+  .glass-thumb {
+    position: relative;
+    z-index: 1;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transform: translateX(0);
+    transition: transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .glass-track.is-on .glass-thumb {
+    transform: translateX(1.25rem);
+  }
+}
+
+
