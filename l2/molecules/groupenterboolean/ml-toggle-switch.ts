@@ -1,4 +1,4 @@
-/// <mls fileReference="_102054_/l2/molecules/groupenterboolean/ml-toggle-switch.ts" enhancement="_102020_/l2/enhancementAura"/>
+/// <mls fileReference="_102054_/l2/molecules/groupenterboolean/ml-toggle-switch.ts" enhancement="_102027_/l2/enhancementLit.ts"/>
 // =============================================================================
 // TOGGLE SWITCH MOLECULE — GLASSMORPHISM (mls-102054)
 // =============================================================================
