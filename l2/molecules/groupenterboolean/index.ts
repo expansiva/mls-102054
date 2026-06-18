@@ -1,6 +1,6 @@
 /// <mls fileReference="_102054_/l2/molecules/groupenterboolean/index.ts" enhancement="_102020_/l2/enhancementAura"/>
 import { html, TemplateResult } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 import { StateLitElement } from '/_102029_/l2/stateLitElement.js';
 
 // Registra a(s) molécula(s) do grupo (side-effect import)
@@ -8,6 +8,10 @@ import '/_102054_/l2/molecules/groupenterboolean/ml-toggle-switch';
 
 @customElement('molecules--groupenterboolean--index-102054')
 export class GroupEnterBooleanIndex extends StateLitElement {
+  // Estado controlado: o toggle reporta 'change' e o index realimenta .value
+  @state() private cardOff = false;
+  @state() private cardOn = true;
+
   render(): TemplateResult {
     return html`
       <div
@@ -26,11 +30,25 @@ export class GroupEnterBooleanIndex extends StateLitElement {
           <article
             style="background:rgba(255,255,255,0.08); backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:1.5rem; display:flex; flex-direction:column; gap:1.5rem;"
           >
-            <groupenterboolean--ml-toggle-switch value="false">
-              <Label>Off</Label>
+            <groupenterboolean--ml-toggle-switch
+              name="demo-off"
+              .value=${this.cardOff}
+              .isEditing=${true}
+              @change=${(e: CustomEvent) => {
+                this.cardOff = e.detail.value;
+              }}
+            >
+              <Label>Starts off</Label>
             </groupenterboolean--ml-toggle-switch>
-            <groupenterboolean--ml-toggle-switch value="true">
-              <Label>On</Label>
+            <groupenterboolean--ml-toggle-switch
+              name="demo-on"
+              .value=${this.cardOn}
+              .isEditing=${true}
+              @change=${(e: CustomEvent) => {
+                this.cardOn = e.detail.value;
+              }}
+            >
+              <Label>Starts on</Label>
             </groupenterboolean--ml-toggle-switch>
           </article>
         </section>

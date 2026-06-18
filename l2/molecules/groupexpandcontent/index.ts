@@ -5,6 +5,8 @@ import { StateLitElement } from '/_102029_/l2/stateLitElement.js';
 
 // Registra a(s) molécula(s) do grupo (side-effect import)
 import '/_102054_/l2/molecules/groupexpandcontent/ml-accordion';
+import '/_102054_/l2/molecules/groupexpandcontent/ml-reveal-overlay';
+import '/_102054_/l2/molecules/groupexpandcontent/ml-collapsible-panel';
 
 @customElement('molecules--groupexpandcontent--index-102054')
 export class GroupExpandContentIndex extends StateLitElement {
@@ -27,6 +29,23 @@ export class GroupExpandContentIndex extends StateLitElement {
             <Section title="Timeline">Milestones are due every Friday.</Section>
             <Section title="Risks">Track vendor delays closely.</Section>
           </groupexpandcontent--ml-accordion>
+
+          <div style="margin-top:1.5rem;">
+            <groupexpandcontent--ml-reveal-overlay multiple="true">
+              <Label>Conteúdo oculto até revelar</Label>
+              <Section title="Chave de API">sk-live-9f8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c</Section>
+            </groupexpandcontent--ml-reveal-overlay>
+          </div>
+
+          <div style="margin-top:1.5rem;">
+            <groupexpandcontent--ml-collapsible-panel>
+              <Label>Perguntas frequentes</Label>
+              <Section title="Como começar?" subtitle="Primeiros passos" icon="🚀" expanded>
+                Crie a conta e siga o onboarding.
+              </Section>
+              <Section title="Posso cancelar?" subtitle="Assinatura">Sim, a qualquer momento.</Section>
+            </groupexpandcontent--ml-collapsible-panel>
+          </div>
         </section>
       </div>
     `;

@@ -1,13 +1,21 @@
 /// <mls fileReference="_102054_/l2/molecules/groupentertext/index.ts" enhancement="_102020_/l2/enhancementAura"/>
 import { html, TemplateResult } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 import { StateLitElement } from '/_102029_/l2/stateLitElement.js';
 
 // Registra a(s) molécula(s) do grupo (side-effect import)
 import '/_102054_/l2/molecules/groupentertext/ml-floating-text-input';
+import '/_102054_/l2/molecules/groupentertext/ml-password-strength-input';
+import '/_102054_/l2/molecules/groupentertext/ml-tag-input';
 
 @customElement('molecules--groupentertext--index-102054')
 export class GroupEnterTextIndex extends StateLitElement {
+  // Estado controlado: o input reporta 'input' e o index realimenta .value
+  @state() private fullName = '';
+  @state() private username = 'ada';
+  @state() private password = 'Senha1!';
+  @state() private tags = 'design, glass, lit';
+
   render(): TemplateResult {
     return html`
       <div
@@ -21,13 +29,50 @@ export class GroupEnterTextIndex extends StateLitElement {
           <h1 style="font-size:2.25rem; font-weight:700; color:#fff; margin-bottom:0.5rem;">Enter Text</h1>
         </header>
         <section style="max-width:28rem; margin:0 auto; display:flex; flex-direction:column; gap:1.5rem;">
-          <groupentertext--ml-floating-text-input value="">
+          <groupentertext--ml-floating-text-input
+            .value=${this.fullName}
+            .isEditing=${true}
+            @input=${(e: CustomEvent) => {
+              this.fullName = e.detail.value;
+            }}
+          >
             <Label>Full name</Label>
             <Helper>As shown on your document</Helper>
           </groupentertext--ml-floating-text-input>
-          <groupentertext--ml-floating-text-input value="ada" error="Username already taken">
+          <groupentertext--ml-floating-text-input
+            .value=${this.username}
+            .isEditing=${true}
+            error="Username already taken"
+            @input=${(e: CustomEvent) => {
+              this.username = e.detail.value;
+            }}
+          >
             <Label>Username</Label>
           </groupentertext--ml-floating-text-input>
+
+          <groupentertext--ml-password-strength-input
+            .value=${this.password}
+            .isEditing=${true}
+            min-length="8"
+            required
+            @input=${(e: CustomEvent) => {
+              this.password = e.detail.value;
+            }}
+          >
+            <Label>Senha</Label>
+            <Helper>Use letras, números e símbolos</Helper>
+          </groupentertext--ml-password-strength-input>
+
+          <groupentertext--ml-tag-input
+            .value=${this.tags}
+            .isEditing=${true}
+            @input=${(e: CustomEvent) => {
+              this.tags = e.detail.value;
+            }}
+          >
+            <Label>Tags</Label>
+            <Helper>Enter ou vírgula para adicionar</Helper>
+          </groupentertext--ml-tag-input>
         </section>
       </div>
     `;
