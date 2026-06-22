@@ -6,7 +6,7 @@
 // Mesma molécula/contrato do mls-102040. Lógica intacta. Aparência (vidro) no .less.
 // This molecule does NOT contain business logic.
 
-import { html, TemplateResult } from 'lit';
+import { html, render as litRender, TemplateResult } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { propertyDataSource } from '/_102029_/l2/collabDecorators.js';
@@ -110,6 +110,8 @@ export class MlCardSelectorMolecule extends MoleculeAuraElement {
 
   private boundHandleOutsideClick: (e: MouseEvent) => void;
   private boundHandleKeydown: (e: KeyboardEvent) => void;
+  private portalContainer: HTMLDivElement | null = null;
+  private boundUpdatePosition: () => void;
 
   // ===========================================================================
   // LIFECYCLE
@@ -118,6 +120,7 @@ export class MlCardSelectorMolecule extends MoleculeAuraElement {
     super();
     this.boundHandleOutsideClick = this.handleOutsideClick.bind(this);
     this.boundHandleKeydown = this.handleKeydown.bind(this);
+    this.boundUpdatePosition = this.updatePanelPosition.bind(this);
   }
 
   connectedCallback() {
@@ -130,6 +133,15 @@ export class MlCardSelectorMolecule extends MoleculeAuraElement {
     super.disconnectedCallback();
     document.removeEventListener('click', this.boundHandleOutsideClick);
     document.removeEventListener('keydown', this.boundHandleKeydown);
+    this.destroyPortal();
+  }
+
+  updated(_changedProperties: Map<string, unknown>) {
+    super.updated(_changedProperties);
+    if (this.isOpen && this.portalContainer) {
+      this.renderPortalContent();
+      this.updatePanelPosition();
+    }
   }
 
   // ===========================================================================
@@ -208,7 +220,7 @@ export class MlCardSelectorMolecule extends MoleculeAuraElement {
   private handleOutsideClick(e: MouseEvent) {
     if (!this.isOpen) return;
     const path = e.composedPath();
-    if (!path.includes(this)) {
+    if (!path.includes(this) && (!this.portalContainer || !path.includes(this.portalContainer))) {
       this.closePanel();
     }
   }
@@ -297,6 +309,7 @@ export class MlCardSelectorMolecule extends MoleculeAuraElement {
     this.isOpen = true;
     this.searchQuery = '';
     this.focusedIndex = 0;
+    this.createPortal();
     this.handleFocus();
   }
 
@@ -304,6 +317,7 @@ export class MlCardSelectorMolecule extends MoleculeAuraElement {
     this.isOpen = false;
     this.searchQuery = '';
     this.focusedIndex = -1;
+    this.destroyPortal();
     this.handleBlur();
   }
 
@@ -323,7 +337,7 @@ export class MlCardSelectorMolecule extends MoleculeAuraElement {
   }
 
   private getPanelClasses(): string {
-    return 'glass-cs-panel absolute z-50 mt-2 w-full max-h-[400px] overflow-auto';
+    return 'glass-cs-panel w-full max-h-[400px] overflow-auto';
   }
 
   private getCardClasses(item: ParsedItem, isSelected: boolean, isFocused: boolean): string {
@@ -505,15 +519,47 @@ export class MlCardSelectorMolecule extends MoleculeAuraElement {
     `;
   }
 
-  private renderPanel(): TemplateResult {
-    if (!this.isOpen || this.loading) return html``;
+  private createPortal() {
+    if (this.portalContainer) return;
+    this.portalContainer = document.createElement('div');
+    this.portalContainer.classList.add('glass-cs-portal');
+    document.body.appendChild(this.portalContainer);
+    this.updatePanelPosition();
+    this.renderPortalContent();
+    window.addEventListener('scroll', this.boundUpdatePosition, true);
+    window.addEventListener('resize', this.boundUpdatePosition);
+  }
 
-    return html`
+  private destroyPortal() {
+    if (!this.portalContainer) return;
+    window.removeEventListener('scroll', this.boundUpdatePosition, true);
+    window.removeEventListener('resize', this.boundUpdatePosition);
+    this.portalContainer.remove();
+    this.portalContainer = null;
+  }
+
+  private updatePanelPosition() {
+    if (!this.portalContainer) return;
+    const trigger = this.querySelector('button[role="combobox"]') as HTMLElement;
+    if (!trigger) return;
+    const rect = trigger.getBoundingClientRect();
+    Object.assign(this.portalContainer.style, {
+      position: 'fixed',
+      top: `${rect.bottom + 8}px`,
+      left: `${rect.left}px`,
+      width: `${rect.width}px`,
+      zIndex: '9999',
+    });
+  }
+
+  private renderPortalContent() {
+    if (!this.portalContainer) return;
+    litRender(html`
       <div role="listbox" class="${this.getPanelClasses()}">
         ${this.renderSearch()}
         ${this.renderCardGrid()}
       </div>
-    `;
+    `, this.portalContainer);
   }
 
   private renderHelper(): TemplateResult {
@@ -570,7 +616,6 @@ export class MlCardSelectorMolecule extends MoleculeAuraElement {
       <div class="relative w-full">
         ${this.renderLabel()}
         ${this.renderTrigger()}
-        ${this.renderPanel()}
         ${this.renderFeedback()}
       </div>
     `;

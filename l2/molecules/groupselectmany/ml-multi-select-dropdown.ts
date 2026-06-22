@@ -6,7 +6,7 @@
 // Mesma molécula/contrato do mls-102040. Lógica intacta. Aparência (vidro) no .less.
 // Popover translúcido (base 0.85 para legibilidade). Layout via Tailwind.
 // This molecule does NOT contain business logic.
-import { html, TemplateResult } from 'lit';
+import { html, render as litRender, TemplateResult } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { propertyDataSource } from '/_102029_/l2/collabDecorators.js';
@@ -93,6 +93,8 @@ export class MultiSelectDropdownMolecule extends MoleculeAuraElement {
   private errorId = `${this.uid}-error`;
   private panelId = `${this.uid}-panel`;
   private hasFocus = false;
+  private portalContainer: HTMLDivElement | null = null;
+  private boundUpdatePosition = () => this.updatePanelPosition();
   // ===========================================================================
   // LIFECYCLE
   // ===========================================================================
@@ -102,6 +104,14 @@ export class MultiSelectDropdownMolecule extends MoleculeAuraElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.unregisterOutsideClick();
+    this.destroyPortal();
+  }
+  updated(_changedProperties: Map<string, unknown>) {
+    super.updated(_changedProperties);
+    if (this.isOpen && this.portalContainer) {
+      this.renderPortalContent();
+      this.updatePanelPosition();
+    }
   }
   // ===========================================================================
   // EVENT HANDLERS
@@ -156,7 +166,7 @@ export class MultiSelectDropdownMolecule extends MoleculeAuraElement {
   private handleFocusOut(e: FocusEvent) {
     if (!this.isEditing) return;
     const related = e.relatedTarget as Node | null;
-    if (this.hasFocus && (!related || !this.contains(related))) {
+    if (this.hasFocus && (!related || (!this.contains(related) && !this.portalContainer?.contains(related)))) {
       this.hasFocus = false;
       this.dispatchEvent(new CustomEvent('blur', { bubbles: true, composed: true }));
       this.closePanel();
@@ -164,7 +174,7 @@ export class MultiSelectDropdownMolecule extends MoleculeAuraElement {
   }
   private handleDocumentClick = (e: Event) => {
     const target = e.target as Node | null;
-    if (!target || !this.contains(target)) {
+    if (!target || (!this.contains(target) && !this.portalContainer?.contains(target))) {
       this.closePanel();
     }
   };
@@ -188,6 +198,7 @@ export class MultiSelectDropdownMolecule extends MoleculeAuraElement {
     this.isOpen = !this.isOpen;
     if (this.isOpen) {
       this.registerOutsideClick();
+      this.createPortal();
       if (this.searchable) {
         setTimeout(() => this.focusSearchInput(), 0);
       }
@@ -200,6 +211,7 @@ export class MultiSelectDropdownMolecule extends MoleculeAuraElement {
     this.isOpen = false;
     this.searchQuery = '';
     this.unregisterOutsideClick();
+    this.destroyPortal();
   }
   private registerOutsideClick() {
     document.addEventListener('pointerdown', this.handleDocumentClick);
@@ -208,7 +220,8 @@ export class MultiSelectDropdownMolecule extends MoleculeAuraElement {
     document.removeEventListener('pointerdown', this.handleDocumentClick);
   }
   private focusSearchInput() {
-    const input = this.querySelector('input[data-search]') as HTMLInputElement | null;
+    const container = this.portalContainer || this;
+    const input = container.querySelector('input[data-search]') as HTMLInputElement | null;
     input?.focus();
   }
   private focusTrigger() {
@@ -216,11 +229,70 @@ export class MultiSelectDropdownMolecule extends MoleculeAuraElement {
     trigger?.focus();
   }
   private moveOptionFocus(direction: number) {
-    const options = Array.from(this.querySelectorAll('[data-option]')) as HTMLElement[];
+    const container = this.portalContainer || this;
+    const options = Array.from(container.querySelectorAll('[data-option]')) as HTMLElement[];
     if (!options.length) return;
     const activeIndex = options.findIndex((el) => el === document.activeElement);
     const nextIndex = activeIndex === -1 ? 0 : (activeIndex + direction + options.length) % options.length;
     options[nextIndex]?.focus();
+  }
+  // ===========================================================================
+  // PORTAL
+  // ===========================================================================
+  private createPortal() {
+    if (this.portalContainer) return;
+    this.portalContainer = document.createElement('div');
+    this.portalContainer.classList.add('glass-msd-portal');
+    document.body.appendChild(this.portalContainer);
+    this.updatePanelPosition();
+    this.renderPortalContent();
+    window.addEventListener('scroll', this.boundUpdatePosition, true);
+    window.addEventListener('resize', this.boundUpdatePosition);
+  }
+  private destroyPortal() {
+    if (!this.portalContainer) return;
+    window.removeEventListener('scroll', this.boundUpdatePosition, true);
+    window.removeEventListener('resize', this.boundUpdatePosition);
+    this.portalContainer.remove();
+    this.portalContainer = null;
+  }
+  private updatePanelPosition() {
+    if (!this.portalContainer) return;
+    const trigger = this.querySelector('button[role="combobox"]') as HTMLElement;
+    if (!trigger) return;
+    const rect = trigger.getBoundingClientRect();
+    Object.assign(this.portalContainer.style, {
+      position: 'fixed',
+      top: `${rect.bottom + 8}px`,
+      left: `${rect.left}px`,
+      width: `${rect.width}px`,
+      zIndex: '9999',
+    });
+  }
+  private renderPortalContent() {
+    if (!this.portalContainer) return;
+    const groups = this.getGroupedItems();
+    const items = this.getUngroupedItems();
+    const selectedValues = this.getSelectedValues();
+    litRender(html`
+      <div class="${this.getPanelClasses()}" @keydown=${(e: KeyboardEvent) => this.handlePanelKeydown(e)}>
+        ${this.searchable
+          ? html`
+              <div class="glass-search-wrap p-2">
+                <input
+                  class="glass-search w-full px-3 py-2 text-sm"
+                  type="text"
+                  placeholder="${this.msg.searchPlaceholder}"
+                  .value=${this.searchQuery}
+                  @input=${(e: Event) => this.handleSearchInput(e)}
+                  data-search
+                />
+              </div>
+            `
+          : html``}
+        ${this.renderOptionList(groups, items, selectedValues)}
+      </div>
+    `, this.portalContainer);
   }
   // ===========================================================================
   // PARSING
@@ -309,7 +381,7 @@ export class MultiSelectDropdownMolecule extends MoleculeAuraElement {
       .join(' ');
   }
   private getPanelClasses(): string {
-    return 'glass-panel absolute z-20 mt-2 w-full';
+    return 'glass-panel w-full';
   }
   private getItemClasses(item: ParsedItem, isSelected: boolean, isDisabled: boolean): string {
     return [
@@ -454,27 +526,6 @@ export class MultiSelectDropdownMolecule extends MoleculeAuraElement {
               ? html`<span class="glass-placeholder">${this.msg.loading}</span>`
               : this.renderTriggerContent(allItems, selectedValues)}
           </button>
-          ${isPanelOpen
-            ? html`
-                <div class="${this.getPanelClasses()}">
-                  ${this.searchable
-                    ? html`
-                        <div class="glass-search-wrap p-2">
-                          <input
-                            class="glass-search w-full px-3 py-2 text-sm"
-                            type="text"
-                            placeholder="${this.msg.searchPlaceholder}"
-                            .value=${this.searchQuery}
-                            @input=${this.handleSearchInput}
-                            data-search
-                          />
-                        </div>
-                      `
-                    : html``}
-                  ${this.renderOptionList(groups, items, selectedValues)}
-                </div>
-              `
-            : html``}
         </div>
         ${this.renderHelperOrError(errorMessage)}
         ${this.name ? html`<input type="hidden" name="${this.name}" value="${this.value}" />` : html``}
