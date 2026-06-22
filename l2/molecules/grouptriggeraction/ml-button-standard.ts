@@ -125,6 +125,7 @@ export class ButtonStandardMolecule extends MoleculeAuraElement {
   // RENDER
   // ==========================================================================
   render() {
+    console.info('Rendering <grouptriggeraction--ml-button-standard> with properties:');
     const labelContent = (this.getSlotContent('Label') || '').trim();
     const iconContent = (this.getSlotContent('Icon') || '').trim();
     const hasLabel = labelContent.length > 0;
