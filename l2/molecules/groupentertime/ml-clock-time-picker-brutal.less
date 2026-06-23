@@ -1,0 +1,166 @@
+/// <mls fileReference="_102054_/l2/molecules/groupentertime/ml-clock-time-picker-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// CLOCK TIME PICKER — BRUTALISM (102054, por herança)
+// Campo sólido + painel popover com grade de horas/minutos/segundos.
+// =============================================================================
+groupentertime--ml-clock-time-picker-brutal {
+  display: block;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+
+  .brutal-tp-label {
+    color: #000;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+  }
+  .brutal-tp-req {
+    color: #ef4444;
+  }
+  .brutal-helper {
+    color: #666;
+  }
+  .brutal-error-text {
+    color: #ef4444;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .brutal-tp-view {
+    color: #000;
+  }
+  .brutal-tp-loading {
+    color: #666;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .brutal-tp-step {
+    color: #000;
+    font-weight: 700;
+  }
+
+  // ---- input ----
+  .brutal-tp-input {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 0;
+    color: #000;
+    outline: none;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 #000;
+
+    &::placeholder {
+      color: #999;
+    }
+    &:focus {
+      outline: 3px solid #000;
+      outline-offset: 2px;
+    }
+    &.is-error {
+      border-color: #ef4444;
+      box-shadow: 3px 3px 0 #ef4444;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      border-color: #999;
+      cursor: not-allowed;
+    }
+  }
+  .brutal-tp-clock {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  // ---- painel ----
+  .brutal-tp-panel {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 0;
+    box-shadow: 6px 6px 0 #000;
+  }
+
+  // ---- opções (relógio) ----
+  .brutal-tp-option {
+    border-radius: 0;
+    border: 2px solid #000;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    font-weight: 700;
+
+    &:hover:not(.is-disabled):not(.is-selected) {
+      background: #f0f0f0;
+    }
+    &.is-selected {
+      background: #000;
+      border-color: #000;
+      color: #fff;
+    }
+    &.is-disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+  }
+
+  // ---- AM/PM ----
+  .brutal-tp-ampm {
+    border-radius: 0;
+    border: 2px solid #000;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    font-weight: 700;
+    text-transform: uppercase;
+
+    &.is-active {
+      background: #000;
+      border-color: #000;
+      color: #fff;
+    }
+  }
+
+  // ---- ações ----
+  .brutal-tp-clear {
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 0;
+    color: #000;
+    cursor: pointer;
+    font-weight: 700;
+    text-transform: uppercase;
+    box-shadow: 2px 2px 0 #000;
+
+    &:hover {
+      background: #000;
+      color: #fff;
+    }
+    &:active {
+      box-shadow: none;
+      transform: translate(2px, 2px);
+    }
+  }
+  .brutal-tp-confirm {
+    border-radius: 0;
+    border: 2px solid #000;
+    background: #3b82f6;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 700;
+    text-transform: uppercase;
+    box-shadow: 2px 2px 0 #000;
+
+    &:hover {
+      background: #2563eb;
+    }
+    &:active {
+      box-shadow: none;
+      transform: translate(2px, 2px);
+    }
+  }
+}

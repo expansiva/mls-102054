@@ -1,0 +1,88 @@
+/// <mls fileReference="_102054_/l2/molecules/groupnotifyuser/ml-toast-notification-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// TOAST NOTIFICATION — BRUTALISM
+// Toast sólido tonalizado por tipo. Sem blur, sem transparência.
+// =============================================================================
+groupnotifyuser--ml-toast-notification-brutal {
+  display: contents;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+
+  .brutal-toast {
+    border-radius: 0;
+    border: 3px solid #000;
+    background: #fff;
+    box-shadow: 3px 3px 0 #000;
+    color: #000;
+
+    &.is-success {
+      background: #fff;
+      border-color: #000;
+      border-left: 6px solid #16a34a;
+    }
+    &.is-warning {
+      background: #fff;
+      border-color: #000;
+      border-left: 6px solid #ca8a04;
+    }
+    &.is-error {
+      background: #fff;
+      border-color: #000;
+      border-left: 6px solid #ef4444;
+    }
+    &.is-info {
+      background: #fff;
+      border-color: #000;
+      border-left: 6px solid #3b82f6;
+    }
+  }
+
+  .brutal-toast-icon {
+    color: #000;
+  }
+  .is-success .brutal-toast-icon {
+    color: #16a34a;
+  }
+  .is-warning .brutal-toast-icon {
+    color: #ca8a04;
+  }
+  .is-error .brutal-toast-icon {
+    color: #ef4444;
+  }
+  .is-info .brutal-toast-icon {
+    color: #3b82f6;
+  }
+
+  .brutal-toast-title {
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .brutal-toast-message {
+    color: #333;
+  }
+  .brutal-toast-action {
+    color: #3b82f6;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .brutal-toast-close {
+    border: 3px solid #000;
+    border-radius: 0;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    &:hover {
+      background: #000;
+      color: #fff;
+    }
+    &:focus-visible {
+      outline: 3px solid #000;
+      outline-offset: 2px;
+    }
+  }
+}

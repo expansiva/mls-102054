@@ -1,0 +1,90 @@
+/// <mls fileReference="_102054_/l2/molecules/groupnavigatesection/ml-breadcrumb-trail-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// BREADCRUMB TRAIL — BRUTALISM
+// Trilha sólida com separadores grossos. Sem transparência, sem blur.
+// =============================================================================
+groupnavigatesection--ml-breadcrumb-trail-brutal {
+  display: block;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+
+  .brutal-bc-label {
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .brutal-bc-muted {
+    color: #666;
+  }
+
+  .brutal-bc-item {
+    border-radius: 0;
+    border: none;
+    background: transparent;
+    color: #666;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    &.is-active {
+      color: #000;
+      font-weight: 700;
+      border-bottom: 3px solid #000;
+    }
+    &.is-interactive {
+      cursor: pointer;
+    }
+    &.is-interactive:hover {
+      background: #eee;
+      color: #000;
+    }
+    &:focus-visible {
+      outline: 3px solid #000;
+      outline-offset: 2px;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      border-color: #999;
+      cursor: not-allowed;
+    }
+  }
+
+  .brutal-bc-sep {
+    color: #000;
+    font-weight: 700;
+  }
+
+  .brutal-bc-overflow-btn {
+    border-radius: 0;
+    border: 3px solid #000;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    font-weight: 700;
+    &:hover {
+      background: #eee;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      border-color: #999;
+      cursor: not-allowed;
+    }
+  }
+
+  // overflow popover
+  .brutal-bc-menu {
+    border-radius: 0;
+    border: 3px solid #000;
+    background: #fff;
+    box-shadow: 3px 3px 0 #000;
+  }
+
+  .brutal-bc-panel {
+    color: #000;
+  }
+  .brutal-error-text {
+    color: #ef4444;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+}

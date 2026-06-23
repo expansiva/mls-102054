@@ -1,0 +1,153 @@
+/// <mls fileReference="_102054_/l2/molecules/groupselectone/ml-select-dropdown-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// SELECT DROPDOWN — BRUTALISM (102054, por heranca)
+// Hard edges, thick borders, offset shadows, no transparency/blur.
+// =============================================================================
+groupselectone--ml-select-dropdown-brutal {
+  display: block;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+
+  .brutal-label {
+    font-weight: 700;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .brutal-required {
+    color: #ef4444;
+  }
+  .brutal-placeholder {
+    color: #999;
+  }
+  .brutal-chevron {
+    color: #000;
+  }
+  .brutal-loading-icon {
+    display: inline-block;
+    animation: brutal-sd-spin 1s steps(8) infinite;
+  }
+
+  @keyframes brutal-sd-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  // ---- trigger ----
+  .brutal-trigger {
+    position: relative;
+    color: #000;
+    border: 3px solid #000;
+    border-radius: 0;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 #000;
+
+    &.is-open {
+      box-shadow: 1px 1px 0 #000;
+      transform: translate(2px, 2px);
+    }
+    &.is-error {
+      border-color: #ef4444;
+      box-shadow: 3px 3px 0 #ef4444;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      border-color: #999;
+      cursor: not-allowed;
+    }
+    &.is-readonly {
+      cursor: default;
+    }
+    &:not(.is-disabled):not(.is-readonly):not(.is-open):hover {
+      background: #f5f5f5;
+    }
+    &:focus-visible {
+      outline: 3px solid #000;
+      outline-offset: 2px;
+    }
+  }
+
+  // ---- feedback / view ----
+  .brutal-helper {
+    color: #555;
+  }
+  .brutal-error-text {
+    color: #ef4444;
+    font-weight: 700;
+  }
+  .brutal-view-label {
+    color: #555;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .brutal-view-value {
+    color: #000;
+  }
+}
+
+// Panel styles — shared between component scope and body-level portal
+groupselectone--ml-select-dropdown-brutal,
+.brutal-sd-portal {
+  .brutal-dropdown {
+    border: 3px solid #000;
+    border-radius: 0;
+    background: #fff;
+    box-shadow: 4px 4px 0 #000;
+  }
+  .brutal-search-wrap {
+    background: #fff;
+    border-bottom: 3px solid #000;
+  }
+  .brutal-search {
+    background: #fff;
+    color: #000;
+    border: none;
+    outline: none;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+    &::placeholder {
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    &:focus {
+      background: #f5f5f5;
+    }
+  }
+  .brutal-item {
+    color: #000;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #e5e5e5;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+    &:last-child {
+      border-bottom: none;
+    }
+    &:not(.is-disabled):not(.is-selected):hover,
+    &.is-focused {
+      background: #f5f5f5;
+    }
+    &.is-selected {
+      background: #000;
+      color: #fff;
+      font-weight: 700;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+  .brutal-group-label {
+    color: #555;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid #000;
+  }
+  .brutal-empty {
+    color: #666;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+}

@@ -1,0 +1,78 @@
+<div style="min-height:100vh; padding:2rem; background:#f5f5f5; font-family:'JetBrains Mono','SF Mono','Courier New',monospace;">
+  <div style="max-width:64rem; margin:0 auto;">
+    <header style="text-align:center; margin-bottom:3rem;">
+      <h1 style="font-size:1.875rem; font-weight:900; color:#000; margin-bottom:0.5rem; text-transform:uppercase;">Multi Select Dropdown</h1>
+      <span style="display:inline-block; padding:0.25rem 0.75rem; background:#fff; color:#000; border:2px solid #000; font-size:0.875rem; font-weight:700;">groupSelectMany · brutalism · 102054</span>
+    </header>
+
+    <widget-playground-state-102020 state='{"playground":{"basic":{"value":"br,us"},"search":{"value":""},"groups":{"value":"fe"},"error":{"value":"","error":""},"viewmode":{"value":"br,pt"}}}'></widget-playground-state-102020>
+
+    <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem; margin-bottom:2rem;">
+
+      <article style="background:#fff; border:3px solid #000; padding:1.5rem; box-shadow:6px 6px 0 #000;">
+        <h3 style="font-size:1.125rem; font-weight:900; color:#000; margin-bottom:1rem; text-transform:uppercase;">Basic (chips)</h3>
+        <demo id="demo-basic">
+          <groupselectmany--ml-multi-select-dropdown-brutal value="{{playground.basic.value}}">
+            <Label>Paises</Label>
+            <Helper>Selecione um ou mais</Helper>
+            <Item value="br">Brasil</Item>
+            <Item value="us">Estados Unidos</Item>
+            <Item value="pt">Portugal</Item>
+            <Item value="jp" disabled>Japao (indisponivel)</Item>
+          </groupselectmany--ml-multi-select-dropdown-brutal>
+        </demo>
+      </article>
+
+      <article style="background:#fff; border:3px solid #000; padding:1.5rem; box-shadow:6px 6px 0 #000;">
+        <h3 style="font-size:1.125rem; font-weight:900; color:#000; margin-bottom:1rem; text-transform:uppercase;">Searchable + max 2</h3>
+        <demo id="demo-search">
+          <groupselectmany--ml-multi-select-dropdown-brutal value="{{playground.search.value}}" searchable="true" max-selection="2">
+            <Label>Tecnologias</Label>
+            <Helper>Escolha ate 2</Helper>
+            <Item value="ts">TypeScript</Item>
+            <Item value="js">JavaScript</Item>
+            <Item value="py">Python</Item>
+            <Item value="go">Go</Item>
+            <Item value="rs">Rust</Item>
+          </groupselectmany--ml-multi-select-dropdown-brutal>
+        </demo>
+      </article>
+
+      <article style="background:#fff; border:3px solid #000; padding:1.5rem; box-shadow:6px 6px 0 #000;">
+        <h3 style="font-size:1.125rem; font-weight:900; color:#000; margin-bottom:1rem; text-transform:uppercase;">Com grupos</h3>
+        <demo id="demo-groups">
+          <groupselectmany--ml-multi-select-dropdown-brutal value="{{playground.groups.value}}">
+            <Label>Times</Label>
+            <Group label="Engenharia">
+              <Item value="fe">Front-end</Item>
+              <Item value="be">Back-end</Item>
+            </Group>
+            <Group label="Produto">
+              <Item value="pm">PM</Item>
+              <Item value="ux">UX</Item>
+            </Group>
+          </groupselectmany--ml-multi-select-dropdown-brutal>
+        </demo>
+      </article>
+
+      <article style="background:#fff; border:3px solid #000; padding:1.5rem; box-shadow:6px 6px 0 #000;">
+        <h3 style="font-size:1.125rem; font-weight:900; color:#000; margin-bottom:1rem; text-transform:uppercase;">Required (min 1) / View</h3>
+        <demo id="demo-error">
+          <groupselectmany--ml-multi-select-dropdown-brutal value="{{playground.error.value}}" required="true" min-selection="1">
+            <Label>Paises</Label>
+            <Item value="br">Brasil</Item>
+            <Item value="us">Estados Unidos</Item>
+          </groupselectmany--ml-multi-select-dropdown-brutal>
+        </demo>
+        <div style="margin-top:1rem;">
+          <groupselectmany--ml-multi-select-dropdown-brutal value="{{playground.viewmode.value}}" is-editing="false">
+            <Label>Paises (view)</Label>
+            <Item value="br">Brasil</Item>
+            <Item value="pt">Portugal</Item>
+          </groupselectmany--ml-multi-select-dropdown-brutal>
+        </div>
+      </article>
+
+    </section>
+  </div>
+</div>

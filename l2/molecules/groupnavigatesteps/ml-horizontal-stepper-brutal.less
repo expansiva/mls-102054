@@ -1,0 +1,90 @@
+/// <mls fileReference="_102054_/l2/molecules/groupnavigatesteps/ml-horizontal-stepper-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// HORIZONTAL STEPPER — BRUTALISM
+// Indicadores quadrados sólidos + conectores grossos. Sem blur, sem transições.
+// =============================================================================
+groupnavigatesteps--ml-horizontal-stepper-brutal {
+  display: block;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+
+  .is-loading {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .brutal-hs-label {
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  // ---- indicador ----
+  .brutal-hs-dot {
+    border-radius: 0;
+    border: 3px solid #000;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 #000;
+
+    &:hover:not(.is-disabled):not(.is-active) {
+      background: #eee;
+    }
+    &:focus-visible {
+      outline: 3px solid #000;
+      outline-offset: 2px;
+    }
+    &.is-active {
+      background: #3b82f6;
+      border-color: #000;
+      color: #fff;
+    }
+    &.is-completed {
+      background: #000;
+      border-color: #000;
+      color: #fff;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      border-color: #999;
+      cursor: not-allowed;
+    }
+  }
+
+  // ---- textos ----
+  .brutal-hs-title {
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    &.is-active {
+      color: #3b82f6;
+    }
+    &.is-disabled {
+      color: #999;
+    }
+  }
+  .brutal-hs-desc {
+    color: #666;
+    &.is-disabled {
+      color: #999;
+    }
+  }
+
+  // ---- conector ----
+  .brutal-hs-connector {
+    background: #ccc;
+    height: 3px;
+    &.is-completed {
+      background: #000;
+    }
+  }
+
+  // ---- loading ----
+  .brutal-hs-loading {
+    color: #666;
+  }
+  .brutal-hs-loading-dot {
+    background: #000;
+  }
+}

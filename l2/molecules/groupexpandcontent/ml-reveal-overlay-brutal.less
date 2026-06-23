@@ -1,0 +1,105 @@
+/// <mls fileReference="_102054_/l2/molecules/groupexpandcontent/ml-reveal-overlay-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// REVEAL OVERLAY — BRUTALISM
+// Overlay sólido cobre o conteúdo até ser revelado. Sem blur, sem transparência.
+// =============================================================================
+groupexpandcontent--ml-reveal-overlay-brutal {
+  display: block;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+
+  .brutal-reveal-loading {
+    border-radius: 0;
+    border: 3px solid #000;
+    background: #fff;
+    color: #666;
+    box-shadow: 3px 3px 0 #000;
+  }
+
+  // ---- header ----
+  .brutal-reveal-header {
+    position: relative;
+    border-radius: 0;
+    border: 3px solid #000;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 #000;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    &:not(.is-disabled):hover {
+      background: #eee;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      border-color: #999;
+      cursor: not-allowed;
+    }
+    &:focus-visible {
+      outline: 3px solid #000;
+      outline-offset: 2px;
+    }
+  }
+  .brutal-reveal-action {
+    color: #3b82f6;
+    font-weight: 700;
+  }
+
+  .brutal-reveal-warning {
+    border-radius: 0;
+    border: 3px solid #000;
+    background: #fff;
+    color: #666;
+  }
+
+  // ---- container do conteúdo ----
+  .brutal-reveal-container {
+    border-radius: 0;
+    border: 3px solid #000;
+    background: #fff;
+    overflow: hidden;
+    box-shadow: 3px 3px 0 #000;
+    &.is-disabled {
+      opacity: 0.4;
+    }
+  }
+  .brutal-reveal-content {
+    color: #000;
+  }
+
+  // ---- overlay sólido (esconde até revelar) ----
+  .brutal-reveal-overlay {
+    border-radius: 0;
+    background: #000;
+    opacity: 1;
+
+    &.is-open {
+      opacity: 0;
+      pointer-events: none;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+  }
+
+  // ---- botão revelar ----
+  .brutal-reveal-btn {
+    border-radius: 0;
+    border: 3px solid #fff;
+    background: #3b82f6;
+    color: #fff;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    &:not(.is-disabled):hover {
+      background: #2563eb;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+}

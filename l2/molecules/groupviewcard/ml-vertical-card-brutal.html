@@ -1,0 +1,31 @@
+<div style="min-height:100vh; padding:2rem; background:#f5f5f5; font-family:'JetBrains Mono','SF Mono','Courier New',monospace;">
+  <div style="max-width:48rem; margin:0 auto;">
+    <header style="text-align:center; margin-bottom:3rem;">
+      <h1 style="font-size:1.875rem; font-weight:900; color:#000; margin-bottom:0.5rem; text-transform:uppercase;">Vertical Card</h1>
+      <span style="display:inline-block; padding:0.25rem 0.75rem; background:#fff; color:#000; border:2px solid #000; font-size:0.875rem; font-weight:700;">groupViewCard · brutalism · 102054</span>
+    </header>
+
+    <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem;">
+      <groupviewcard--ml-vertical-card-brutal>
+        <CardTitle>Plano Pro</CardTitle>
+        <CardDescription>R$ 49/mes</CardDescription>
+        <CardContent>Tudo do plano basico, mais relatorios avancados e suporte prioritario.</CardContent>
+        <CardFooter>Cancele quando quiser</CardFooter>
+        <CardAction>
+          <grouptriggeraction--ml-button-standard-brutal data-variant="primary"><Label>Assinar</Label></grouptriggeraction--ml-button-standard-brutal>
+        </CardAction>
+      </groupviewcard--ml-vertical-card-brutal>
+
+      <groupviewcard--ml-vertical-card-brutal selected="true">
+        <CardTitle>Plano Enterprise</CardTitle>
+        <CardDescription>Sob consulta (selecionado)</CardDescription>
+        <CardContent>Recursos dedicados, SLA e onboarding assistido.</CardContent>
+        <CardAction>
+          <grouptriggeraction--ml-button-standard-brutal data-variant="secondary"><Label>Falar com vendas</Label></grouptriggeraction--ml-button-standard-brutal>
+        </CardAction>
+      </groupviewcard--ml-vertical-card-brutal>
+
+      <groupviewcard--ml-vertical-card-brutal loading="true"></groupviewcard--ml-vertical-card-brutal>
+    </section>
+  </div>
+</div>

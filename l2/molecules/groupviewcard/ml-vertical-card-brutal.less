@@ -1,0 +1,74 @@
+/// <mls fileReference="_102054_/l2/molecules/groupviewcard/ml-vertical-card-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// VERTICAL CARD — BRUTALISM
+// Card solido. Bordas grossas, sombra offset, sem transparencia.
+// =============================================================================
+groupviewcard--ml-vertical-card-brutal {
+  display: block;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+
+  .brutal-card {
+    position: relative;
+    border-radius: 0;
+    border: 3px solid #000;
+    background: #fff;
+    box-shadow: 4px 4px 0 #000;
+    color: #000;
+
+    &.is-interactive {
+      cursor: pointer;
+    }
+    &.is-interactive:hover {
+      box-shadow: 2px 2px 0 #000;
+      transform: translate(2px, 2px);
+    }
+    &.is-interactive:focus-visible {
+      outline: 3px solid #000;
+      outline-offset: 2px;
+    }
+    &.is-selected {
+      background: #dbeafe;
+      border-color: #3b82f6;
+      box-shadow: 4px 4px 0 #3b82f6;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      box-shadow: 2px 2px 0 #999;
+      border-color: #999;
+    }
+  }
+
+  .brutal-card-text,
+  .brutal-card-title {
+    color: #000;
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 0.03em;
+  }
+  .brutal-card-desc {
+    color: #555;
+  }
+  .brutal-card-content {
+    color: #333;
+  }
+  .brutal-card-footer {
+    color: #777;
+  }
+  .brutal-card-action {
+    border-top: 3px solid #000;
+  }
+
+  .brutal-skeleton {
+    border-radius: 0;
+    background: #e5e5e5;
+    border: 2px solid #ccc;
+    animation: brutal-card-pulse 1.4s steps(4) infinite;
+  }
+
+  @keyframes brutal-card-pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.25; }
+  }
+}

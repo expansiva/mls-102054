@@ -1,0 +1,172 @@
+/// <mls fileReference="_102054_/l2/molecules/groupenterdate/ml-date-picker-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// DATE PICKER — BRUTALISM (102054, por herança)
+// Gatilho sólido + calendário popover com bordas grossas e sombra dura.
+// =============================================================================
+groupenterdate--ml-date-picker-brutal {
+  display: block;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+
+  .brutal-dp-label {
+    color: #000;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .brutal-dp-req {
+    color: #ef4444;
+  }
+  .brutal-helper {
+    color: #666;
+  }
+  .brutal-error-text {
+    color: #ef4444;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .brutal-dp-view {
+    color: #000;
+  }
+  .brutal-dp-icon {
+    color: #000;
+  }
+  .brutal-dp-loading {
+    color: #666;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  // ---- gatilho ----
+  .brutal-dp-trigger {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 0;
+    color: #000;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 #000;
+
+    &:focus-visible {
+      outline: 3px solid #000;
+      outline-offset: 2px;
+    }
+    &.is-error {
+      border-color: #ef4444;
+      box-shadow: 3px 3px 0 #ef4444;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      border-color: #999;
+      cursor: not-allowed;
+    }
+    &.is-readonly {
+      cursor: default;
+    }
+  }
+  .brutal-dp-value {
+    color: #999;
+    &.has-value {
+      color: #000;
+    }
+  }
+
+}
+
+// Panel styles — shared between component scope and body-level portal
+groupenterdate--ml-date-picker-brutal,
+.brutal-dp-portal {
+  .brutal-dp-panel {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 0;
+    box-shadow: 6px 6px 0 #000;
+  }
+  .brutal-dp-month {
+    color: #000;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .brutal-dp-weekday {
+    color: #666;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .brutal-dp-weeknum {
+    color: #999;
+    font-weight: 700;
+  }
+
+  // ---- navegação ----
+  .brutal-dp-nav {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 0;
+    color: #000;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 #000;
+
+    &:hover:not(.is-disabled) {
+      background: #000;
+      color: #fff;
+    }
+    &:active:not(.is-disabled) {
+      box-shadow: none;
+      transform: translate(2px, 2px);
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      border-color: #999;
+      cursor: not-allowed;
+    }
+  }
+
+  // ---- dias ----
+  .brutal-dp-day {
+    border-radius: 0;
+    border: 2px solid transparent;
+    color: #000;
+    cursor: pointer;
+    font-weight: 700;
+
+    &:hover:not(.is-disabled):not(.is-selected) {
+      background: #f0f0f0;
+      border-color: #000;
+    }
+    &.is-today {
+      border-color: #3b82f6;
+    }
+    &.is-selected {
+      background: #000;
+      border-color: #000;
+      color: #fff;
+    }
+    &.is-disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+  }
+
+  .brutal-dp-clear {
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 0;
+    color: #000;
+    cursor: pointer;
+    font-weight: 700;
+    text-transform: uppercase;
+    box-shadow: 2px 2px 0 #000;
+
+    &:hover {
+      background: #000;
+      color: #fff;
+    }
+    &:active {
+      box-shadow: none;
+      transform: translate(2px, 2px);
+    }
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+}

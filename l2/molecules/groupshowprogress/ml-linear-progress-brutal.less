@@ -1,0 +1,68 @@
+/// <mls fileReference="_102054_/l2/molecules/groupshowprogress/ml-linear-progress-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// LINEAR PROGRESS — BRUTALISM (102054, por heranca)
+// Trilho solido com preenchimento chapado. Cantos retos, borda grossa.
+// =============================================================================
+groupshowprogress--ml-linear-progress-brutal {
+  display: block;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+
+  .brutal-lp-value {
+    color: #000;
+    font-weight: 700;
+  }
+
+  // ---- trilho ----
+  .brutal-lp-track {
+    background: #e5e5e5;
+    border: 3px solid #000;
+    border-radius: 0;
+    box-shadow: 3px 3px 0 #000;
+  }
+
+  .brutal-lp--xs {
+    height: 0.375rem;
+  }
+  .brutal-lp--sm {
+    height: 0.5rem;
+  }
+  .brutal-lp--md {
+    height: 0.75rem;
+  }
+  .brutal-lp--lg {
+    height: 1rem;
+  }
+
+  // ---- preenchimento ----
+  .brutal-lp-fill {
+    border-radius: 0;
+
+    &.is-default {
+      background: #3b82f6;
+    }
+    &.is-success {
+      background: #10b981;
+    }
+    &.is-warning {
+      background: #f59e0b;
+    }
+    &.is-danger {
+      background: #ef4444;
+    }
+
+    &.is-indeterminate {
+      width: 40% !important;
+      animation: brutal-lp-indeterminate 1.2s steps(20) infinite;
+    }
+  }
+
+  @keyframes brutal-lp-indeterminate {
+    0% {
+      transform: translateX(-60%);
+    }
+    100% {
+      transform: translateX(160%);
+    }
+  }
+}

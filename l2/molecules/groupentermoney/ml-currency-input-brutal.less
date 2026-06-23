@@ -1,0 +1,69 @@
+/// <mls fileReference="_102054_/l2/molecules/groupentermoney/ml-currency-input-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// CURRENCY INPUT — BRUTALISM (102054, por herança)
+// =============================================================================
+groupentermoney--ml-currency-input-brutal {
+  display: block;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+
+  .brutal-cur-label {
+    color: #000;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .brutal-cur-view {
+    color: #000;
+    font-weight: 700;
+  }
+  .brutal-helper {
+    color: #666;
+  }
+  .brutal-error-text {
+    color: #ef4444;
+    font-weight: 700;
+  }
+
+  .brutal-cur-input {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 0;
+    color: #000;
+    outline: none;
+    box-shadow: 3px 3px 0 #000;
+    transition: none;
+
+    &::placeholder {
+      color: #999;
+    }
+    &:focus {
+      outline: 3px solid #000;
+      outline-offset: 2px;
+    }
+    &.is-error {
+      border-color: #ef4444;
+      box-shadow: 3px 3px 0 #ef4444;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      border-color: #999;
+      box-shadow: 2px 2px 0 #999;
+    }
+    &.is-readonly {
+      background: #f5f5f5;
+    }
+  }
+
+  .is-loading {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .brutal-cur-loading {
+    background: rgba(255, 255, 255, 0.8);
+    color: #000;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+}

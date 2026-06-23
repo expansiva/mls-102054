@@ -1,0 +1,93 @@
+<!-- Brutalism: flat white background, no gradients. -->
+<div style="min-height:100vh; padding:2rem; background:#fff;">
+  <div style="max-width:64rem; margin:0 auto; font-family:'JetBrains Mono','SF Mono','Courier New',monospace;">
+    <header style="text-align:center; margin-bottom:3rem;">
+      <h1 style="font-size:1.875rem; font-weight:700; color:#000; margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.05em;">Select Dropdown</h1>
+      <span style="display:inline-block; padding:0.25rem 0.75rem; background:#000; color:#fff; border:3px solid #000; font-size:0.875rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;">groupSelectOne / brutalism</span>
+    </header>
+
+    <widget-playground-state-102020 state='{"playground":{"basic":{"value":""},"search":{"value":"br"},"groups":{"value":""},"error":{"value":"","error":"Selecione um pais"},"disabled":{"value":"us"},"viewmode":{"value":"br"}}}'></widget-playground-state-102020>
+
+    <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem; margin-bottom:2rem;">
+
+      <article style="background:#fff; border:3px solid #000; box-shadow:4px 4px 0 #000; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:700; color:#000; margin-bottom:1rem; text-transform:uppercase; letter-spacing:0.05em;">Basic</h3>
+        <demo id="demo-basic">
+          <groupselectone--ml-select-dropdown-brutal value="{{playground.basic.value}}">
+            <Label>PAIS</Label>
+            <Helper>Escolha o pais de origem</Helper>
+            <Item value="br">Brasil</Item>
+            <Item value="us">Estados Unidos</Item>
+            <Item value="pt">Portugal</Item>
+            <Item value="jp" disabled>Japao (indisponivel)</Item>
+          </groupselectone--ml-select-dropdown-brutal>
+        </demo>
+      </article>
+
+      <article style="background:#fff; border:3px solid #000; box-shadow:4px 4px 0 #000; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:700; color:#000; margin-bottom:1rem; text-transform:uppercase; letter-spacing:0.05em;">Searchable</h3>
+        <demo id="demo-search">
+          <groupselectone--ml-select-dropdown-brutal value="{{playground.search.value}}" searchable="true">
+            <Label>CIDADE</Label>
+            <Item value="sp">Sao Paulo</Item>
+            <Item value="rj">Rio de Janeiro</Item>
+            <Item value="bh">Belo Horizonte</Item>
+            <Item value="br">Brasilia</Item>
+            <Item value="poa">Porto Alegre</Item>
+          </groupselectone--ml-select-dropdown-brutal>
+        </demo>
+      </article>
+
+      <article style="background:#fff; border:3px solid #000; box-shadow:4px 4px 0 #000; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:700; color:#000; margin-bottom:1rem; text-transform:uppercase; letter-spacing:0.05em;">Com grupos</h3>
+        <demo id="demo-groups">
+          <groupselectone--ml-select-dropdown-brutal value="{{playground.groups.value}}">
+            <Label>TIME</Label>
+            <Group label="Engenharia">
+              <Item value="fe">Front-end</Item>
+              <Item value="be">Back-end</Item>
+            </Group>
+            <Group label="Produto">
+              <Item value="pm">Product Manager</Item>
+              <Item value="ux">UX Designer</Item>
+            </Group>
+          </groupselectone--ml-select-dropdown-brutal>
+        </demo>
+      </article>
+
+      <article style="background:#fff; border:3px solid #000; box-shadow:4px 4px 0 #000; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:700; color:#000; margin-bottom:1rem; text-transform:uppercase; letter-spacing:0.05em;">Erro (required)</h3>
+        <demo id="demo-error">
+          <groupselectone--ml-select-dropdown-brutal value="{{playground.error.value}}" error="{{playground.error.error}}" required="true">
+            <Label>PAIS</Label>
+            <Item value="br">Brasil</Item>
+            <Item value="us">Estados Unidos</Item>
+          </groupselectone--ml-select-dropdown-brutal>
+        </demo>
+      </article>
+
+      <article style="background:#fff; border:3px solid #000; box-shadow:4px 4px 0 #000; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:700; color:#000; margin-bottom:1rem; text-transform:uppercase; letter-spacing:0.05em;">Disabled</h3>
+        <demo id="demo-disabled">
+          <groupselectone--ml-select-dropdown-brutal value="{{playground.disabled.value}}" disabled="true">
+            <Label>PAIS</Label>
+            <Item value="br">Brasil</Item>
+            <Item value="us">Estados Unidos</Item>
+          </groupselectone--ml-select-dropdown-brutal>
+        </demo>
+      </article>
+
+      <article style="background:#fff; border:3px solid #000; box-shadow:4px 4px 0 #000; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:700; color:#000; margin-bottom:1rem; text-transform:uppercase; letter-spacing:0.05em;">View mode</h3>
+        <demo id="demo-viewmode">
+          <groupselectone--ml-select-dropdown-brutal value="{{playground.viewmode.value}}" is-editing="false">
+            <Label>PAIS</Label>
+            <Item value="br">Brasil</Item>
+            <Item value="us">Estados Unidos</Item>
+          </groupselectone--ml-select-dropdown-brutal>
+        </demo>
+      </article>
+
+    </section>
+  </div>
+</div>

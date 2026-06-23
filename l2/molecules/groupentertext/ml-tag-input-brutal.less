@@ -1,0 +1,115 @@
+/// <mls fileReference="_102054_/l2/molecules/groupentertext/ml-tag-input-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// TAG INPUT — BRUTALISM (102054, por herança)
+// =============================================================================
+groupentertext--ml-tag-input-brutal {
+  display: block;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+
+  .brutal-tag-label {
+    color: #000;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .brutal-tag-req {
+    color: #ef4444;
+  }
+  .brutal-tag-view {
+    color: #000;
+  }
+  .brutal-tag-affix {
+    color: #000;
+  }
+  .brutal-tag-counter {
+    color: #666;
+  }
+  .brutal-helper {
+    color: #666;
+  }
+  .brutal-error-text {
+    color: #ef4444;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .brutal-tag-loading {
+    background: rgba(255, 255, 255, 0.85);
+    border: 3px solid #000;
+    border-radius: 0;
+    color: #000;
+  }
+
+  .brutal-tag-box {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 0;
+    box-shadow: 3px 3px 0 #000;
+    cursor: text;
+
+    &.is-focused {
+      outline: 3px solid #000;
+      outline-offset: 2px;
+    }
+    &.is-error {
+      border-color: #ef4444;
+      box-shadow: 3px 3px 0 #ef4444;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      border-color: #999;
+      cursor: not-allowed;
+    }
+    &.is-readonly {
+      cursor: default;
+      background: #f5f5f5;
+    }
+  }
+
+  .brutal-tag-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #000;
+    font-family: inherit;
+
+    &::placeholder {
+      color: #999;
+    }
+    &.is-disabled {
+      cursor: not-allowed;
+    }
+    &.is-readonly {
+      cursor: default;
+    }
+  }
+
+  .brutal-tag {
+    background: #000;
+    color: #fff;
+    border: 2px solid #000;
+    border-radius: 0;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .brutal-tag-remove {
+    color: #fff;
+    border-radius: 0;
+    cursor: pointer;
+
+    &:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+    &:focus-visible {
+      outline: 3px solid #000;
+      outline-offset: 2px;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+}

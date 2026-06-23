@@ -1,0 +1,91 @@
+/// <mls fileReference="_102054_/l2/molecules/groupnotifyuser/ml-alert-modal-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// ALERT MODAL — BRUTALISM
+// Scrim sólido + painel com bordas grossas. Sem blur, sem transparência.
+// =============================================================================
+groupnotifyuser--ml-alert-modal-brutal {
+  display: contents;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+
+  // scrim: fundo escuro sólido
+  .brutal-modal-scrim {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  // painel sólido
+  .brutal-modal {
+    position: relative;
+    border-radius: 0;
+    border: 3px solid #000;
+    background: #fff;
+    box-shadow: 6px 6px 0 #000;
+    color: #000;
+
+    &.is-success {
+      border-top: 6px solid #16a34a;
+    }
+    &.is-warning {
+      border-top: 6px solid #ca8a04;
+    }
+    &.is-error {
+      border-top: 6px solid #ef4444;
+    }
+    &.is-info {
+      border-top: 6px solid #3b82f6;
+    }
+  }
+
+  // ícone quadrado por tipo
+  .brutal-modal-icon-wrap {
+    color: #000;
+    background: #eee;
+    border: 3px solid #000;
+  }
+  .is-success .brutal-modal-icon-wrap {
+    color: #16a34a;
+    background: #f0fdf4;
+    border-color: #16a34a;
+  }
+  .is-warning .brutal-modal-icon-wrap {
+    color: #ca8a04;
+    background: #fefce8;
+    border-color: #ca8a04;
+  }
+  .is-error .brutal-modal-icon-wrap {
+    color: #ef4444;
+    background: #fef2f2;
+    border-color: #ef4444;
+  }
+  .is-info .brutal-modal-icon-wrap {
+    color: #3b82f6;
+    background: #eff6ff;
+    border-color: #3b82f6;
+  }
+
+  .brutal-modal-title {
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .brutal-modal-message {
+    color: #333;
+  }
+
+  .brutal-modal-dismiss {
+    border: 3px solid #000;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    border-radius: 0;
+    padding: 0.25rem;
+    &:hover {
+      background: #000;
+      color: #fff;
+    }
+    &:focus-visible {
+      outline: 3px solid #000;
+      outline-offset: 2px;
+    }
+  }
+}

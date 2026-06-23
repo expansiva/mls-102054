@@ -1,0 +1,22 @@
+<!-- Brutalism: flat white background, no gradients. -->
+<div style="min-height:100vh; padding:2rem; background:#fff;">
+  <div style="max-width:42rem; margin:0 auto; font-family:'JetBrains Mono','SF Mono','Courier New',monospace;">
+    <header style="text-align:center; margin-bottom:3rem;">
+      <h1 style="font-size:1.875rem; font-weight:700; color:#000; margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.05em;">Card Selector</h1>
+      <span style="display:inline-block; padding:0.25rem 0.75rem; background:#000; color:#fff; border:3px solid #000; font-size:0.875rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;">groupSelectOne / brutalism</span>
+    </header>
+
+    <widget-playground-state-102020 state='{"playground":{"plan":{"value":"pro"}}}'></widget-playground-state-102020>
+
+    <article style="background:#fff; border:3px solid #000; box-shadow:4px 4px 0 #000; padding:1.5rem;">
+      <groupselectone--ml-card-selector-brutal value="{{playground.plan.value}}" searchable>
+        <Label>PLANO</Label>
+        <Helper>Clique para abrir e escolher um card</Helper>
+        <Item value="free"><strong>Free</strong><br/><span style="color:#555">R$ 0/mes</span></Item>
+        <Item value="pro"><strong>Pro</strong><br/><span style="color:#555">R$ 49/mes</span></Item>
+        <Item value="business"><strong>Business</strong><br/><span style="color:#555">R$ 149/mes</span></Item>
+        <Item value="enterprise" disabled><strong>Enterprise</strong><br/><span style="color:#555">Sob consulta</span></Item>
+      </groupselectone--ml-card-selector-brutal>
+    </article>
+  </div>
+</div>

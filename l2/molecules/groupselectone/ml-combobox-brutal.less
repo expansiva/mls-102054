@@ -1,0 +1,164 @@
+/// <mls fileReference="_102054_/l2/molecules/groupselectone/ml-combobox-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// COMBOBOX — BRUTALISM (102054, por heranca)
+// Hard edges, thick borders, offset shadows, no transparency/blur.
+// =============================================================================
+groupselectone--ml-combobox-brutal {
+  display: block;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+
+  .brutal-combo-label {
+    color: #000;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .brutal-combo-label-view {
+    color: #555;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .brutal-combo-view {
+    color: #999;
+    &.has-value {
+      color: #000;
+    }
+  }
+  .brutal-helper {
+    color: #555;
+  }
+  .brutal-error-text {
+    color: #ef4444;
+    font-weight: 700;
+  }
+  .brutal-combo-chevron {
+    color: #000;
+  }
+
+  // ---- input trigger ----
+  .brutal-combo-input {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 0;
+    color: #000;
+    outline: none;
+    box-shadow: 3px 3px 0 #000;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+
+    &::placeholder {
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    &:focus {
+      outline: 3px solid #000;
+      outline-offset: 2px;
+      box-shadow: 1px 1px 0 #000;
+      transform: translate(2px, 2px);
+    }
+    &.is-error {
+      border-color: #ef4444;
+      box-shadow: 3px 3px 0 #ef4444;
+      &:focus {
+        outline-color: #ef4444;
+        box-shadow: 1px 1px 0 #ef4444;
+      }
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      border-color: #999;
+      cursor: not-allowed;
+    }
+    &.is-readonly {
+      background: #f5f5f5;
+      cursor: default;
+    }
+  }
+
+  .brutal-combo-clear {
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 0;
+    background: #fff;
+    &:hover {
+      background: #000;
+      color: #fff;
+    }
+    &:focus-visible {
+      outline: 3px solid #000;
+      outline-offset: 2px;
+    }
+  }
+
+  .brutal-combo-skeleton {
+    background: #e5e5e5;
+    border: 3px solid #000;
+    border-radius: 0;
+  }
+}
+
+// Panel styles — shared between component scope and body-level portal
+groupselectone--ml-combobox-brutal,
+.brutal-cb-portal {
+  // ---- dropdown panel ----
+  .brutal-combo-panel {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 0;
+    box-shadow: 4px 4px 0 #000;
+    list-style: none;
+    margin: 0.25rem 0 0;
+    padding-left: 0;
+  }
+
+  .brutal-combo-empty {
+    color: #666;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .brutal-combo-group {
+    color: #555;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid #000;
+  }
+
+  .brutal-combo-option {
+    color: #000;
+    cursor: pointer;
+    border-bottom: 1px solid #e5e5e5;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+
+    &:last-child {
+      border-bottom: none;
+    }
+    &:hover {
+      background: #f5f5f5;
+    }
+    &.is-active {
+      background: #e5e5e5;
+      color: #000;
+      font-weight: 700;
+    }
+    &.is-selected {
+      background: #000;
+      color: #fff;
+      font-weight: 700;
+    }
+    &.is-disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+
+  .brutal-combo-check {
+    color: #fff;
+  }
+  .brutal-combo-add {
+    color: #3b82f6;
+  }
+}

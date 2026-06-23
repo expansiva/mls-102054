@@ -1,0 +1,71 @@
+/// <mls fileReference="_102054_/l2/molecules/groupviewmetric/ml-metric-card-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
+
+// =============================================================================
+// METRIC CARD — BRUTALISM (102054, por heranca)
+// Card solido com valor em destaque e badge de tendencia. Bordas grossas, sem filtros.
+// =============================================================================
+groupviewmetric--ml-metric-card-brutal {
+  display: block;
+  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+
+  .brutal-mc {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 0;
+    color: #000;
+    box-shadow: 4px 4px 0 #000;
+  }
+
+  .brutal-mc-label {
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .brutal-mc-value {
+    color: #000;
+  }
+  .brutal-mc-helper {
+    color: #777;
+  }
+
+  .brutal-mc-icon {
+    background: #f5f5f5;
+    border: 3px solid #000;
+    border-radius: 0;
+    color: #000;
+  }
+
+  // ---- tendencia ----
+  .brutal-mc-trend {
+    border-radius: 0;
+    border: 2px solid #000;
+
+    &.is-up {
+      color: #fff;
+      background: #10b981;
+      border-color: #000;
+    }
+    &.is-down {
+      color: #fff;
+      background: #ef4444;
+      border-color: #000;
+    }
+    &.is-neutral {
+      color: #000;
+      background: #e5e5e5;
+      border-color: #000;
+    }
+  }
+
+  // ---- skeleton ----
+  .brutal-mc-skel {
+    background: #e5e5e5;
+    border: 2px solid #ccc;
+    border-radius: 0;
+    animation: brutal-mc-pulse 1.4s steps(4) infinite;
+  }
+  @keyframes brutal-mc-pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.25; }
+  }
+}

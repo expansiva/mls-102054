@@ -1,0 +1,63 @@
+<!-- Brutalism: flat white background, no gradients. -->
+<div style="min-height:100vh; padding:2rem; background:#fff;">
+  <div style="max-width:64rem; margin:0 auto; font-family:'JetBrains Mono','SF Mono','Courier New',monospace;">
+    <header style="text-align:center; margin-bottom:3rem;">
+      <h1 style="font-size:1.875rem; font-weight:700; color:#000; margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.05em;">Segmented Control</h1>
+      <span style="display:inline-block; padding:0.25rem 0.75rem; background:#000; color:#fff; border:3px solid #000; font-size:0.875rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;">groupSelectOne / brutalism</span>
+    </header>
+
+    <widget-playground-state-102020 state='{"playground":{"basic":{"value":"month"},"three":{"value":"list"},"disabled":{"value":"day"},"viewmode":{"value":"month"}}}'></widget-playground-state-102020>
+
+    <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:1.5rem; margin-bottom:2rem;">
+
+      <article style="background:#fff; border:3px solid #000; box-shadow:4px 4px 0 #000; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:700; color:#000; margin-bottom:1rem; text-transform:uppercase; letter-spacing:0.05em;">Periodo</h3>
+        <demo id="demo-basic">
+          <groupselectone--ml-segmented-control-brutal value="{{playground.basic.value}}">
+            <Label>VISUALIZACAO</Label>
+            <Item value="day">Dia</Item>
+            <Item value="week">Semana</Item>
+            <Item value="month">Mes</Item>
+          </groupselectone--ml-segmented-control-brutal>
+        </demo>
+      </article>
+
+      <article style="background:#fff; border:3px solid #000; box-shadow:4px 4px 0 #000; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:700; color:#000; margin-bottom:1rem; text-transform:uppercase; letter-spacing:0.05em;">Layout</h3>
+        <demo id="demo-three">
+          <groupselectone--ml-segmented-control-brutal value="{{playground.three.value}}">
+            <Label>MODO</Label>
+            <Helper>Como exibir os itens</Helper>
+            <Item value="list">Lista</Item>
+            <Item value="grid">Grade</Item>
+            <Item value="kanban" disabled>Kanban</Item>
+          </groupselectone--ml-segmented-control-brutal>
+        </demo>
+      </article>
+
+      <article style="background:#fff; border:3px solid #000; box-shadow:4px 4px 0 #000; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:700; color:#000; margin-bottom:1rem; text-transform:uppercase; letter-spacing:0.05em;">Disabled</h3>
+        <demo id="demo-disabled">
+          <groupselectone--ml-segmented-control-brutal value="{{playground.disabled.value}}" disabled="true">
+            <Label>VISUALIZACAO</Label>
+            <Item value="day">Dia</Item>
+            <Item value="week">Semana</Item>
+            <Item value="month">Mes</Item>
+          </groupselectone--ml-segmented-control-brutal>
+        </demo>
+      </article>
+
+      <article style="background:#fff; border:3px solid #000; box-shadow:4px 4px 0 #000; padding:1.5rem;">
+        <h3 style="font-size:1.125rem; font-weight:700; color:#000; margin-bottom:1rem; text-transform:uppercase; letter-spacing:0.05em;">View mode</h3>
+        <demo id="demo-viewmode">
+          <groupselectone--ml-segmented-control-brutal value="{{playground.viewmode.value}}" is-editing="false">
+            <Label>VISUALIZACAO</Label>
+            <Item value="day">Dia</Item>
+            <Item value="month">Mes</Item>
+          </groupselectone--ml-segmented-control-brutal>
+        </demo>
+      </article>
+
+    </section>
+  </div>
+</div>
