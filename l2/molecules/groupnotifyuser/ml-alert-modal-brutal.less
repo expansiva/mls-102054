@@ -1,91 +1,112 @@
 /// <mls fileReference="_102054_/l2/molecules/groupnotifyuser/ml-alert-modal-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// ALERT MODAL — BRUTALISM
+// ALERT MODAL — BRUTALISM (Strategy D)
+// O render() herdado do 102040 emite classes semânticas ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -brutal) e redefine toda a aparência.
 // Scrim sólido + painel com bordas grossas. Sem blur, sem transparência.
+// Layout/posição (fixed inset-0, flex, p-6) vem do Tailwind no template.
 // =============================================================================
 groupnotifyuser--ml-alert-modal-brutal {
   display: contents;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
 
-  // scrim: fundo escuro sólido
-  .brutal-modal-scrim {
+  // ---- tokens do tema brutal ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-surface: #ffffff;
+  --ml-on-surface: #000000;
+  --ml-primary: #3b82f6;
+  --ml-success: #16a34a;
+  --ml-warning: #ca8a04; // valor antigo vence o default do skill (#d97706)
+  --ml-error: #ef4444;
+  --ml-text-transform: uppercase;
+  --ml-letter-spacing: 0.05em;
+
+  font-family: var(--ml-font-family);
+
+  // Scrim: a classe "ml-surface-bg/40" emitida pelo template é um token morto
+  // (Tailwind não está configurado com cores ml-*, e "/40" não casa com
+  // ".ml-surface-bg" via CSS). Âncora estável: o único elemento aria-hidden.
+  div[aria-hidden='true'] {
     background: rgba(0, 0, 0, 0.7);
   }
 
-  // painel sólido
-  .brutal-modal {
-    position: relative;
-    border-radius: 0;
-    border: 3px solid #000;
-    background: #fff;
-    box-shadow: 6px 6px 0 #000;
-    color: #000;
-
-    &.is-success {
-      border-top: 6px solid #16a34a;
-    }
-    &.is-warning {
-      border-top: 6px solid #ca8a04;
-    }
-    &.is-error {
-      border-top: 6px solid #ef4444;
-    }
-    &.is-info {
-      border-top: 6px solid #3b82f6;
-    }
+  // painel (classe real, não o token "/40" acima — só o container a usa puro)
+  .ml-surface-bg {
+    border-radius: var(--ml-radius-sm, 0);
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    background: var(--ml-surface, #ffffff);
+    box-shadow: 6px 6px 0 #000000; // offset antigo (6px), não o canônico 4px
+    color: var(--ml-on-surface, #000000);
   }
 
-  // ícone quadrado por tipo
-  .brutal-modal-icon-wrap {
-    color: #000;
-    background: #eee;
-    border: 3px solid #000;
+  // acento por tipo (borda superior grossa) — mesma especificidade da regra
+  // acima, então a ordem (depois) decide quem vence no border-top
+  .ml-border-info {
+    border-top: 6px solid var(--ml-primary, #3b82f6);
   }
-  .is-success .brutal-modal-icon-wrap {
-    color: #16a34a;
-    background: #f0fdf4;
-    border-color: #16a34a;
+  .ml-border-success {
+    border-top: 6px solid var(--ml-success, #16a34a);
   }
-  .is-warning .brutal-modal-icon-wrap {
-    color: #ca8a04;
-    background: #fefce8;
-    border-color: #ca8a04;
+  .ml-border-warning {
+    border-top: 6px solid var(--ml-warning, #ca8a04);
   }
-  .is-error .brutal-modal-icon-wrap {
-    color: #ef4444;
-    background: #fef2f2;
-    border-color: #ef4444;
+  .ml-border-error {
+    border-top: 6px solid var(--ml-error, #ef4444);
   }
-  .is-info .brutal-modal-icon-wrap {
-    color: #3b82f6;
+
+  // ícone: quadrado (sem rounded-full), borda grossa, tonalizado por tipo
+  .ml-primary-text.ml-primary-dim-bg {
+    border-radius: var(--ml-radius-sm, 0);
+    border: var(--ml-border-width, 3px) solid var(--ml-primary, #3b82f6);
     background: #eff6ff;
-    border-color: #3b82f6;
+  }
+  .ml-success-text.ml-success-dim-bg {
+    border-radius: var(--ml-radius-sm, 0);
+    border: var(--ml-border-width, 3px) solid var(--ml-success, #16a34a);
+    background: #f0fdf4;
+  }
+  .ml-warning-text.ml-warning-dim-bg {
+    border-radius: var(--ml-radius-sm, 0);
+    border: var(--ml-border-width, 3px) solid var(--ml-warning, #ca8a04);
+    background: #fefce8;
+  }
+  .ml-error-text.ml-error-dim-bg {
+    border-radius: var(--ml-radius-sm, 0);
+    border: var(--ml-border-width, 3px) solid var(--ml-error, #ef4444);
+    background: #fef2f2;
   }
 
-  .brutal-modal-title {
-    color: #000;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  // título (h3) vs mensagem (div) — ambos usam "ml-text"; a tag os diferencia
+  h3.ml-text {
+    color: var(--ml-on-surface, #000000);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
   }
-  .brutal-modal-message {
-    color: #333;
+  div.ml-text {
+    color: #333333; // valor antigo (mais claro que o preto puro do título)
   }
 
-  .brutal-modal-dismiss {
-    border: 3px solid #000;
-    background: #fff;
-    color: #000;
-    cursor: pointer;
-    border-radius: 0;
+  // dismiss (botão apenas com ícone) — único hook de hover disponível
+  // ("hover:ml-text") reproduz a inversão completa do botão antigo
+  button.ml-text-muted {
+    border-radius: var(--ml-radius-sm, 0);
+    border: var(--ml-border-width, 3px) solid #000000;
+    background: var(--ml-surface, #ffffff);
+    color: #000000;
     padding: 0.25rem;
-    &:hover {
-      background: #000;
-      color: #fff;
-    }
+    cursor: pointer;
+    transition: none;
+
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
     }
+  }
+  .hover\:ml-text:hover {
+    background: #000000;
+    color: #ffffff;
   }
 }

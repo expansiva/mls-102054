@@ -1,71 +1,115 @@
 /// <mls fileReference="_102054_/l2/molecules/groupviewmetric/ml-metric-card-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// METRIC CARD — BRUTALISM (102054, por heranca)
-// Card solido com valor em destaque e badge de tendencia. Bordas grossas, sem filtros.
+// METRIC CARD — BRUTALISM
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -brutal) e redefine toda a aparência.
+// Card sólido com valor em destaque e badge de tendência. Bordas grossas, sem filtros.
+// Layout (padding, gap, flex) vem do Tailwind no template.
 // =============================================================================
 groupviewmetric--ml-metric-card-brutal {
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
 
-  .brutal-mc {
-    background: #fff;
-    border: 3px solid #000;
-    border-radius: 0;
-    color: #000;
-    box-shadow: 4px 4px 0 #000;
+  // ---- tokens do tema brutal ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-radius-md: 0;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-surface: #ffffff;
+  --ml-on-surface: #000000;
+  --ml-on-surface-muted: #555555;
+
+  font-family: var(--ml-font-family);
+
+  // ---- container (ml-surface-bg + ml-border + ml-text coexistem no root) ----
+  .ml-surface-bg {
+    background: var(--ml-surface, #ffffff);
+    box-shadow: 4px 4px 0 #000000;
+    transition: none;
   }
 
-  .brutal-mc-label {
-    color: #555;
+  .ml-border {
+    border-width: var(--ml-border-width, 3px);
+    border-style: solid;
+    border-color: var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-md, 0);
+  }
+
+  // ml-text é usada no root, no valor e no <span> do ícone — as 3 ocorrências
+  // querem a mesma cor preta, sem colisão real
+  .ml-text {
+    color: var(--ml-on-surface, #000000);
+  }
+
+  // ---- label (text-sm) vs helper (text-xs) — mesma classe ml-text-muted;
+  // a tendência neutra também usa ml-text-muted mas sempre junto de
+  // ml-surface-dim-bg + ml-border, tratada à parte abaixo ----
+  .text-sm.ml-text-muted {
+    color: #555555;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
-  .brutal-mc-value {
-    color: #000;
-  }
-  .brutal-mc-helper {
-    color: #777;
+
+  .text-xs.ml-text-muted:not(.inline-flex) {
+    color: #777777;
   }
 
-  .brutal-mc-icon {
+  // ---- wrapper do ícone: única ocorrência de ml-surface-dim-bg com justify-center ----
+  .justify-center.ml-surface-dim-bg {
     background: #f5f5f5;
-    border: 3px solid #000;
+    border: 3px solid #000000;
     border-radius: 0;
-    color: #000;
   }
 
-  // ---- tendencia ----
-  .brutal-mc-trend {
-    border-radius: 0;
-    border: 2px solid #000;
-
-    &.is-up {
-      color: #fff;
-      background: #10b981;
-      border-color: #000;
-    }
-    &.is-down {
-      color: #fff;
-      background: #ef4444;
-      border-color: #000;
-    }
-    &.is-neutral {
-      color: #000;
-      background: #e5e5e5;
-      border-color: #000;
-    }
-  }
-
-  // ---- skeleton ----
-  .brutal-mc-skel {
+  // ---- skeleton: única ocorrência de ml-surface-dim-bg + rounded-md sem ml-border ----
+  .rounded-md.ml-surface-dim-bg:not(.ml-border) {
     background: #e5e5e5;
-    border: 2px solid #ccc;
+    border: 2px solid #cccccc;
     border-radius: 0;
     animation: brutal-mc-pulse 1.4s steps(4) infinite;
   }
+
   @keyframes brutal-mc-pulse {
     0%, 100% { opacity: 0.6; }
     50% { opacity: 0.25; }
+  }
+
+  // ---- badge de tendência: forma compartilhada pelas 3 direções (up/down/neutral) ----
+  .rounded-md.border {
+    border-radius: 0;
+    border-width: 2px;
+    border-color: #000000;
+  }
+
+  // up
+  .ml-success-text {
+    color: #ffffff;
+  }
+  .ml-success-dim-bg {
+    background: #10b981;
+  }
+  .ml-success-border {
+    border-color: #000000;
+  }
+
+  // down
+  .ml-error-text {
+    color: #ffffff;
+  }
+  .ml-error-dim-bg {
+    background: #ef4444;
+  }
+  .ml-border-error {
+    border-color: #000000;
+  }
+
+  // neutral — única ocorrência com as 3 classes juntas (ml-text-muted +
+  // ml-surface-dim-bg + ml-border); precisa reafirmar border-width por cima
+  // do .ml-border genérico (3px) para manter os 2px do badge
+  .ml-text-muted.ml-surface-dim-bg.ml-border {
+    color: #000000;
+    background: #e5e5e5;
+    border-width: 2px;
+    border-color: #000000;
   }
 }

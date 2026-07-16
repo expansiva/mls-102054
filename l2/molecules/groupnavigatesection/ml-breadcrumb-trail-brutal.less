@@ -2,89 +2,101 @@
 
 // =============================================================================
 // BREADCRUMB TRAIL — BRUTALISM
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -brutal) e redefine toda a aparência.
 // Trilha sólida com separadores grossos. Sem transparência, sem blur.
 // =============================================================================
 groupnavigatesection--ml-breadcrumb-trail-brutal {
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
 
-  .brutal-bc-label {
-    color: #000;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .brutal-bc-muted {
-    color: #666;
+  // ---- tokens do tema brutal ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-surface: #ffffff;
+  --ml-on-surface: #000000;
+  --ml-error: #ef4444;
+  --ml-shadow-1: 3px 3px 0 #000000;
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;
+  --ml-letter-spacing: 0.05em;
+
+  .ml-label {
+    color: var(--ml-on-surface, #000000);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
   }
 
-  .brutal-bc-item {
-    border-radius: 0;
+  .ml-text {
+    color: var(--ml-on-surface, #000000);
+  }
+
+  .ml-text-muted {
+    color: #666666;
+  }
+
+  .ml-error-text {
+    color: var(--ml-error, #ef4444);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // Item da trilha (tab/span) e botão "..." de overflow emitem a MESMA classe
+  // (.ml-breadcrumb); o botão de overflow é o único elemento com aria-label,
+  // usado aqui para lhe dar a caixa com borda que o .less antigo isolava em
+  // .brutal-bc-overflow-btn.
+  .ml-breadcrumb {
+    border-radius: var(--ml-radius-sm, 0);
     border: none;
     background: transparent;
-    color: #666;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    color: #666666;
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+    transition: none;
 
-    &.is-active {
-      color: #000;
-      font-weight: 700;
-      border-bottom: 3px solid #000;
+    &[aria-label] {
+      border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+      background: var(--ml-surface, #ffffff);
+      color: var(--ml-on-surface, #000000);
     }
-    &.is-interactive {
-      cursor: pointer;
-    }
-    &.is-interactive:hover {
-      background: #eee;
-      color: #000;
+    &.cursor-pointer:hover {
+      background: #eeeeee;
+      color: var(--ml-on-surface, #000000);
     }
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
     }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
-    }
+  }
+  .ml-breadcrumb[aria-label].ml-disabled {
+    border-color: #999999;
   }
 
-  .brutal-bc-sep {
-    color: #000;
-    font-weight: 700;
+  .ml-breadcrumb-current {
+    color: var(--ml-on-surface, #000000);
+    border-bottom: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
   }
 
-  .brutal-bc-overflow-btn {
-    border-radius: 0;
-    border: 3px solid #000;
-    background: #fff;
-    color: #000;
-    cursor: pointer;
-    font-weight: 700;
-    &:hover {
-      background: #eee;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
-    }
+  .ml-breadcrumb-separator {
+    color: var(--ml-on-surface, #000000);
+    font-weight: var(--ml-font-weight-medium, 700);
   }
 
-  // overflow popover
-  .brutal-bc-menu {
-    border-radius: 0;
-    border: 3px solid #000;
-    background: #fff;
-    box-shadow: 3px 3px 0 #000;
-  }
-
-  .brutal-bc-panel {
-    color: #000;
-  }
-  .brutal-error-text {
-    color: #ef4444;
-    font-weight: 700;
-    text-transform: uppercase;
+  // popover de overflow
+  .ml-breadcrumb-dropdown {
+    border-radius: var(--ml-radius-sm, 0);
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    background: var(--ml-surface, #ffffff);
+    box-shadow: var(--ml-shadow-1, 3px 3px 0 #000000);
   }
 }

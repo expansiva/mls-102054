@@ -1,90 +1,128 @@
 /// <mls fileReference="_102054_/l2/molecules/groupentertext/ml-floating-text-input-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// ML FLOATING TEXT INPUT — BRUTALISM (102054, por herança)
+// ML FLOATING TEXT INPUT — BRUTALISM
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -brutal) e redefine toda a aparência.
+// Cantos retos, borders grossas, sombra offset sólida, sem transparência.
+// Layout (padding, gap, flex) vem do Tailwind no template.
 // =============================================================================
 groupentertext--ml-floating-text-input-brutal {
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+
+  // ---- tokens do tema brutal (valores do .less antigo têm precedência) ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-border-style: solid;
+  --ml-outline-variant: #000000;
+  --ml-primary: #3b82f6;
+  --ml-surface: #ffffff;
+  --ml-on-surface: #000000;
+  --ml-on-surface-muted: #999999;   // placeholder (antigo: #999)
+  --ml-on-surface-faint: #666666;   // label inline (antigo: #666)
+  --ml-error: #ef4444;
+  --ml-shadow-1: 3px 3px 0 #000000; // antigo usava offset 3px (vence os 4px canônicos)
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;   // assinatura do brutal
+  --ml-letter-spacing: 0.05em;      // assinatura do brutal
+
+  font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
 
   // ---- campo (superfície bruta) ----
-  .brutal-input-container {
-    position: relative;
-    border-radius: 0;
-    border: 3px solid #000;
-    background: #fff;
-    box-shadow: 3px 3px 0 #000;
-    cursor: text;
+  .ml-input-container {
+    background: var(--ml-surface, #ffffff);
+    border: var(--ml-border-width, 3px) var(--ml-border-style, solid) var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-sm, 0);
+    box-shadow: var(--ml-shadow-1, 3px 3px 0 #000000);
+    transition: none; // o .less base anima border/shadow; brutal muda em "snap"
 
-    &:focus-within:not(.is-error) {
-      outline: 3px solid #000;
+    &:focus-within:not(.ml-input-container-error) {
+      outline: 3px solid #000000;
       outline-offset: 2px;
-    }
-    &.is-error {
-      border-color: #ef4444;
-      box-shadow: 3px 3px 0 #ef4444;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
     }
   }
 
+  .ml-input-container-error {
+    border-color: var(--ml-error, #ef4444);
+    box-shadow: 3px 3px 0 #ef4444;
+  }
+
+  .ml-input-container.ml-disabled {
+    border-color: #999999;
+    box-shadow: 3px 3px 0 #999999;
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
   // ---- input ----
-  .brutal-input-field {
-    color: #000;
-    caret-color: #3b82f6;
-    font-family: inherit;
+  .ml-input {
+    color: var(--ml-on-surface, #000000);
+    caret-color: var(--ml-primary, #3b82f6);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
     &::placeholder {
-      color: #999;
-    }
-    &.is-readonly {
-      cursor: default;
+      color: var(--ml-on-surface-muted, #999999);
     }
   }
 
   // ---- labels ----
-  .brutal-input-inline-label {
-    color: #666;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .brutal-input-floating-label {
-    color: #000;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  // label inline (não flutuada) — o markup herdado traz transition-all: anular
+  .ml-text-faint {
+    color: var(--ml-on-surface-faint, #666666);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+    transition: none;
   }
 
-  // ---- prefix / suffix ----
-  .brutal-input-affix {
-    color: #000;
+  // .ml-text-muted cobre label flutuante (label), label do view mode (div solto)
+  // e affixes Prefix/Suffix (divs dentro de .ml-input-container / .ml-text).
+  // Os antigos tinham valores distintos → regra geral p/ labels + override
+  // mais específico p/ affixes (técnica de migração: seletor aninhado).
+  .ml-text-muted {
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
   }
-  .brutal-input-spinner {
-    border: 3px solid #ccc;
-    border-top-color: #000;
+  .ml-input-container .ml-text-muted,
+  .ml-text .ml-text-muted {
+    // affixes: o antigo .brutal-input-affix só definia color #000
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  // ---- spinner (mecânico) ----
+  .ml-spinner {
+    border: 3px solid #cccccc;
+    border-top-color: var(--ml-on-surface, #000000);
+    border-radius: 0; // o antigo era quadrado (sem rounded-full)
+    animation-timing-function: steps(8); // rotação em passos, sem suavidade
   }
 
   // ---- feedback ----
-  .brutal-input-error {
-    color: #ef4444;
-    font-weight: 700;
-    text-transform: uppercase;
+  .ml-error-text {
+    color: var(--ml-error, #ef4444);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
   }
-  .brutal-input-helper {
+  .ml-helper {
     color: #666;
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
   }
 
   // ---- view mode ----
-  .brutal-input-view-label {
-    color: #000;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .brutal-input-view-value {
-    color: #000;
+  .ml-text {
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
   }
 }

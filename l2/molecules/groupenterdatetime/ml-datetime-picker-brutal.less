@@ -1,194 +1,224 @@
 /// <mls fileReference="_102054_/l2/molecules/groupenterdatetime/ml-datetime-picker-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// DATETIME PICKER — BRUTALISM (102054, por herança)
-// Gatilho sólido + painel popover com calendário e colunas de hora/minuto.
+// DATETIME PICKER — BRUTALISM
+// Estratégia D: o render()/getPortalTemplate() herdados do 102040 emitem
+// classes ml-*; este .less é COMPLETO (o .less base não alcança a tag -brutal)
+// e redefine toda a aparência. Escopo duplo: a tag do componente e o container
+// do portal (data-widget) montado em document.body.
+// Hard edges, thick borders, offset shadows, no transparency/blur.
+// Layout/posicionamento vem do Tailwind no template.
 // =============================================================================
-groupenterdatetime--ml-datetime-picker-brutal {
+groupenterdatetime--ml-datetime-picker-brutal,
+div[data-widget="groupenterdatetime--ml-datetime-picker-brutal"] {
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
 
-  .brutal-dtp-label {
-    color: #000;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    &.is-disabled {
-      opacity: 0.4;
-    }
+  // ---- tokens do tema brutal (valores do design original quando divergem) ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-on-surface: #000000;
+  --ml-on-surface-muted: #999999;
+  --ml-error: #ef4444;
+  --ml-surface: #ffffff;
+  --ml-surface-dim: #f0f0f0;        // hover de dia/hora — valor original
+  --ml-primary: #3b82f6;
+  --ml-on-primary: #ffffff;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-radius-md: 0;
+  --ml-radius-lg: 0;
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;   // assinatura do brutal
+  --ml-letter-spacing: 0.05em;      // assinatura do brutal
+
+  // ---- texto / feedback ----
+  .ml-label {
+    color: var(--ml-on-surface, #000000);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
   }
-  .brutal-dtp-req {
-    color: #ef4444;
+
+  // asterisco de obrigatório e parágrafo de erro compartilham .ml-error-text;
+  // só o parágrafo (p) leva peso/uppercase — valores do design original
+  .ml-error-text {
+    color: var(--ml-error, #ef4444);
   }
-  .brutal-helper {
-    color: #666;
+  p.ml-error-text {
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
   }
-  .brutal-error-text {
-    color: #ef4444;
-    font-weight: 700;
-    text-transform: uppercase;
+
+  .ml-helper {
+    color: #666666;
   }
-  .brutal-dtp-view {
-    color: #000;
+
+  // valor do gatilho com valor + display do modo visualização
+  .ml-text {
+    color: var(--ml-on-surface, #000000);
   }
-  .brutal-dtp-icon {
-    color: #000;
+
+  // cabeçalho do mês (único .ml-text com o utilitário font-medium)
+  .ml-text.font-medium {
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
   }
-  .brutal-dtp-spinner {
-    border: 3px solid #ccc;
-    border-top-color: #000;
+
+  // placeholder do gatilho
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, #999999);
   }
-  .brutal-dtp-month {
-    color: #000;
-    font-weight: 700;
-    text-transform: uppercase;
+
+  // ícones de calendário/relógio (svg) pretos — valor do design original
+  svg.ml-text-muted {
+    color: var(--ml-on-surface, #000000);
   }
-  .brutal-dtp-weekday {
-    color: #666;
-    font-weight: 700;
-    text-transform: uppercase;
+
+  // linha de dias da semana (único .ml-text-muted com o utilitário grid)
+  .grid.ml-text-muted {
+    color: #666666;
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // spinner de loading: quadrado (sem raio, contra o rounded-full herdado) e
+  // com giro "mecânico" (assinatura brutal: sem suavidade)
+  .ml-spinner {
+    border: 3px solid #cccccc;
+    border-top-color: var(--ml-on-surface, #000000);
+    border-radius: 0;
+  }
+  .animate-spin {
+    animation-timing-function: steps(8);
   }
 
   // ---- gatilho ----
-  .brutal-dtp-trigger {
-    background: #fff;
-    border: 3px solid #000;
-    border-radius: 0;
-    color: #000;
+  .ml-input-container {
+    background: var(--ml-surface, #ffffff);
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-md, 0);
+    color: var(--ml-on-surface, #000000);
     cursor: pointer;
-    box-shadow: 3px 3px 0 #000;
+    box-shadow: 3px 3px 0 #000000; // offset original (3px, não 4px)
+    transition: none;
 
-    &.is-focused {
-      outline: 3px solid #000;
+    // compostos: vencem os utilitários focus:outline-none/focus:ring-2 herdados
+    &.ml-input-container-focused {
+      outline: 3px solid #000000;
       outline-offset: 2px;
+      box-shadow: 3px 3px 0 #000000;
     }
-    &.is-error {
-      border-color: #ef4444;
+    &.ml-input-container-error {
+      border-color: var(--ml-error, #ef4444);
       box-shadow: 3px 3px 0 #ef4444;
     }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
-    }
-  }
-  .brutal-dtp-value {
-    color: #999;
-    &.has-value {
-      color: #000;
+    &.ml-disabled {
+      border-color: #999999;
+      box-shadow: 3px 3px 0 #999999;
     }
   }
 
-}
-
-// Panel styles — shared between component scope and body-level portal
-groupenterdatetime--ml-datetime-picker-brutal,
-.brutal-dtp-portal {
-  .brutal-dtp-panel {
-    background: #fff;
-    border: 3px solid #000;
-    border-radius: 0;
-    box-shadow: 6px 6px 0 #000;
+  // ---- painel (renderiza no portal via data-widget) ----
+  .ml-calendar-container {
+    background: var(--ml-surface, #ffffff);
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-lg, 0);
+    box-shadow: 6px 6px 0 #000000; // offset original do painel
   }
 
-  // ---- navegação ----
-  .brutal-dtp-nav {
-    background: #fff;
-    border: 2px solid #000;
-    border-radius: 0;
-    color: #000;
+  // ---- navegação de mês + botão limpar (mesma classe ml-calendar-nav) ----
+  .ml-calendar-nav {
+    background: var(--ml-surface, #ffffff);
+    border: 2px solid var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-md, 0);
+    color: var(--ml-on-surface, #000000);
     cursor: pointer;
-    font-weight: 700;
-    box-shadow: 2px 2px 0 #000;
+    font-weight: var(--ml-font-weight-medium, 700);
+    box-shadow: 2px 2px 0 #000000;
+    transition: none;
 
     &:hover {
-      background: #000;
-      color: #fff;
+      background: #000000;
+      color: #ffffff;
     }
     &:active {
       box-shadow: none;
       transform: translate(2px, 2px);
     }
+  }
+  // só o botão limpar tem o utilitário rounded-md — uppercase do design original
+  .ml-calendar-nav.rounded-md {
+    text-transform: var(--ml-text-transform, uppercase);
   }
 
   // ---- dias ----
-  .brutal-dtp-day {
-    border-radius: 0;
+  .ml-calendar-day {
     border: 2px solid transparent;
-    color: #000;
+    border-radius: var(--ml-radius-md, 0);
+    color: var(--ml-on-surface, #000000);
     cursor: pointer;
-    font-weight: 700;
+    font-weight: var(--ml-font-weight-medium, 700);
+    transition: none;
 
-    &:hover:not(.is-disabled):not(.is-selected) {
-      background: #f0f0f0;
-      border-color: #000;
+    &--hoverable:hover {
+      background: var(--ml-surface-dim, #f0f0f0);
+      border-color: var(--ml-outline-variant, #000000);
     }
-    &.is-today {
-      border-color: #3b82f6;
-    }
-    &.is-selected {
-      background: #000;
-      border-color: #000;
-      color: #fff;
-    }
-    &.is-disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
+  }
+  .ml-calendar-day-today {
+    border-color: var(--ml-primary, #3b82f6);
+  }
+  .ml-calendar-day-selected {
+    background: #000000;
+    border-color: #000000;
+    color: #ffffff;
+  }
+  .ml-calendar-day-disabled {
+    opacity: 0.3; // valor original (difere do token 0.4)
+    cursor: not-allowed;
   }
 
   // ---- hora/minuto ----
-  .brutal-dtp-time {
-    border-radius: 0;
+  .ml-calendar-time-btn {
     border: 2px solid transparent;
-    color: #000;
+    border-radius: var(--ml-radius-md, 0);
+    color: var(--ml-on-surface, #000000);
     cursor: pointer;
-    font-weight: 700;
+    font-weight: var(--ml-font-weight-medium, 700);
+    transition: none;
 
-    &:hover:not(.is-disabled):not(.is-selected) {
-      background: #f0f0f0;
-      border-color: #000;
+    &--hoverable:hover {
+      background: var(--ml-surface-dim, #f0f0f0);
+      border-color: var(--ml-outline-variant, #000000);
     }
-    &.is-selected {
-      background: #000;
-      border-color: #000;
-      color: #fff;
+    &-selected {
+      background: #000000;
+      border-color: #000000;
+      color: #ffffff;
     }
-    &.is-disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
+    &.ml-disabled {
+      opacity: 0.3; // valor original (difere do token 0.4)
     }
   }
 
-  // ---- ações ----
-  .brutal-dtp-clear {
-    background: #fff;
-    border: 2px solid #000;
-    border-radius: 0;
-    color: #000;
+  // ---- confirmar ----
+  .ml-calendar-confirm {
+    background: var(--ml-primary, #3b82f6);
+    border: 2px solid var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-md, 0);
+    color: var(--ml-on-primary, #ffffff);
     cursor: pointer;
-    font-weight: 700;
-    text-transform: uppercase;
-    box-shadow: 2px 2px 0 #000;
-
-    &:hover {
-      background: #000;
-      color: #fff;
-    }
-    &:active {
-      box-shadow: none;
-      transform: translate(2px, 2px);
-    }
-  }
-  .brutal-dtp-confirm {
-    background: #3b82f6;
-    border: 2px solid #000;
-    border-radius: 0;
-    color: #fff;
-    cursor: pointer;
-    font-weight: 700;
-    text-transform: uppercase;
-    box-shadow: 2px 2px 0 #000;
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    box-shadow: 2px 2px 0 #000000;
+    transition: none;
 
     &:hover {
       background: #2563eb;

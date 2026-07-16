@@ -1,180 +1,220 @@
 /// <mls fileReference="_102054_/l2/molecules/groupselectone/ml-card-selector-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// CARD SELECTOR — BRUTALISM (102054, por heranca)
-// Hard edges, thick borders, offset shadows, no transparency.
+// CARD SELECTOR — BRUTALISM
+// Estratégia D: o render()/getPortalTemplate() herdados do 102040 emitem
+// classes ml-*; este .less é COMPLETO (o .less base não alcança a tag -brutal)
+// e redefine toda a aparência. Escopo duplo: a tag do componente e o container
+// do portal (data-widget) montado em document.body.
+// Hard edges, thick borders, offset shadows, no transparency/blur.
+// Layout/posicionamento vem do Tailwind no template.
 // =============================================================================
-groupselectone--ml-card-selector-brutal {
+groupselectone--ml-card-selector-brutal,
+div[data-widget="groupselectone--ml-card-selector-brutal"] {
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
 
-  .brutal-cs-label {
-    color: #000;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .brutal-cs-req {
-    color: #ef4444;
-  }
-  .brutal-helper {
-    color: #555;
-  }
-  .brutal-error-text {
-    color: #ef4444;
-    font-weight: 700;
-  }
-  .brutal-cs-chevron {
-    color: #000;
-  }
-  .brutal-cs-empty {
-    color: #666;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-  .brutal-cs-group {
-    color: #555;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .brutal-cs-check {
-    color: #3b82f6;
-  }
-  .brutal-cs-loading-icon {
-    display: inline-block;
-    animation: brutal-spin 1s steps(8) infinite;
+  // ---- tokens do tema brutal ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-on-surface: #000000;
+  --ml-on-surface-muted: #999999;
+  --ml-error: #ef4444;
+  --ml-surface: #ffffff;
+  --ml-surface-dim: #f5f5f5;
+  --ml-border-width: 3px;
+  --ml-border-style: solid;
+  --ml-outline-variant: #000000;
+  --ml-radius-md: 0;
+  --ml-radius-lg: 0;
+  --ml-primary: #3b82f6;
+  --ml-on-primary: #ffffff;
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;   // novo token — assinatura do brutal
+  --ml-letter-spacing: 0.05em;      // novo token — assinatura do brutal
+
+  // ---- texto / feedback ----
+  .ml-label {
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    font-weight: var(--ml-font-weight-medium, 700);
+    color: var(--ml-on-surface, #000000);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
   }
 
-  @keyframes brutal-spin {
-    to { transform: rotate(360deg); }
+  .ml-helper {
+    color: #555555;
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
   }
 
-  // ---- view mode ----
-  .brutal-cs-view {
-    color: #000;
-    .brutal-cs-view-label {
-      color: #555;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
+  // cobre também o asterisco de obrigatório (span.ml-error-text.ml-0\.5) — no
+  // design antigo o asterisco não era bold (.brutal-cs-req); mesclado com o
+  // texto de erro (.brutal-error-text, bold) pois a base usa a mesma classe
+  // para os dois usos e a diferença visual num único caractere é irrelevante.
+  .ml-error-text {
+    color: var(--ml-error, #ef4444);
+    font-weight: var(--ml-font-weight-medium, 700);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+  }
+
+  .ml-text {
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+  }
+
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, #999999);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+  }
+
+  // chevron (svg) preto, mais forte que o texto muted — valor do design original
+  svg.ml-text-muted {
+    color: var(--ml-on-surface, #000000);
+  }
+
+  // rótulo de grupo no grid de cards (div com utility "uppercase" no markup) —
+  // cinza, bold, tracking — distinto do muted padrão (placeholder)
+  .ml-text-muted.uppercase {
+    color: #555555;
+    font-weight: var(--ml-font-weight-medium, 700);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+  }
+
+  // view mode: label muted dentro do wrapper .ml-text (valores do design original)
+  .ml-text .ml-text-muted {
+    color: #555555;
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+  }
+
+  // spinner de loading com giro "mecânico" (assinatura brutal: sem suavidade)
+  .animate-spin {
+    animation-timing-function: steps(8);
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
   // ---- trigger ----
-  .brutal-cs-trigger {
-    background: #fff;
-    border: 3px solid #000;
-    border-radius: 0;
-    color: #000;
+  .ml-select-trigger {
+    position: relative;
+    color: var(--ml-on-surface, #000000);
+    border: var(--ml-border-width, 3px) var(--ml-border-style, solid) var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-md, 0);
+    background: var(--ml-surface, #ffffff);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
     cursor: pointer;
-    box-shadow: 3px 3px 0 #000;
+    box-shadow: 3px 3px 0 #000000;
+    transition: none;
 
-    &:hover:not(.is-disabled):not(.is-open):not(.is-error) {
-      background: #f5f5f5;
+    &:hover:not(.ml-disabled):not(.ml-select-trigger-open) {
+      background: var(--ml-surface-dim, #f5f5f5);
     }
-    &.is-open {
-      box-shadow: 1px 1px 0 #000;
-      transform: translate(2px, 2px);
-    }
-    &.is-error {
-      border-color: #ef4444;
-      box-shadow: 3px 3px 0 #ef4444;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
-    }
-    &.is-readonly {
-      cursor: default;
-    }
-
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
     }
   }
-  .brutal-cs-value {
-    color: #000;
-    &.is-placeholder {
-      color: #999;
-    }
-  }
-}
 
-// Panel styles — shared between component scope and body-level portal
-groupselectone--ml-card-selector-brutal,
-.brutal-cs-portal {
-  .brutal-cs-panel {
-    background: #fff;
-    border: 3px solid #000;
-    border-radius: 0;
-    box-shadow: 4px 4px 0 #000;
+  // aberto: o trigger "afunda" na direção da sombra
+  .ml-select-trigger-open {
+    box-shadow: 1px 1px 0 #000000;
+    transform: translate(2px, 2px);
   }
-  .brutal-cs-search-row {
-    border-bottom: 3px solid #000;
-  }
-  .brutal-cs-search {
-    background: #fff;
-    border: 3px solid #000;
-    border-radius: 0;
-    color: #000;
-    outline: none;
-    font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
 
+  .ml-select-trigger-error {
+    border-color: var(--ml-error, #ef4444);
+    box-shadow: 3px 3px 0 #ef4444;
+  }
+
+  .ml-select-trigger.ml-disabled {
+    border-color: #999999;
+  }
+
+  // busca reaproveita "ml-select-trigger" (mesma classe do botão trigger) —
+  // herda borda/sombra/hover/foco do bloco acima; aqui só cor de texto/placeholder
+  .ml-combobox-input {
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
     &::placeholder {
-      color: #999;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    &:focus {
-      outline: 3px solid #000;
-      outline-offset: 2px;
+      color: var(--ml-on-surface-muted, #999999);
+      text-transform: var(--ml-text-transform, uppercase);
+      letter-spacing: var(--ml-letter-spacing, 0.05em);
     }
   }
-  .brutal-cs-card {
-    background: #fff;
-    border: 3px solid #000;
-    border-radius: 0;
-    color: #000;
-    cursor: pointer;
-    box-shadow: 2px 2px 0 #000;
 
-    &:hover:not(.is-disabled):not(.is-selected) {
-      background: #f5f5f5;
+  // ---- painel (renderiza no portal via data-widget) ----
+  .ml-select-panel {
+    background: var(--ml-surface, #ffffff);
+    border: var(--ml-border-width, 3px) var(--ml-border-style, solid) var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-lg, 0);
+    box-shadow: 4px 4px 0 #000000;
+  }
+
+  // o wrapper de busca (getPortalTemplate) reaproveita a MESMA classe
+  // "ml-select-panel" do painel externo (aninhado) — sem este ajuste a busca
+  // ganharia moldura+sombra duplicadas; mantém só a borda inferior divisória
+  // (intenção do antigo .brutal-cs-search-row)
+  .ml-select-panel .ml-select-panel {
+    border: none;
+    border-bottom: var(--ml-border-width, 3px) var(--ml-border-style, solid) var(--ml-outline-variant, #000000);
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .ml-select-empty {
+    color: #666666;
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+  }
+
+  // checkmark do card selecionado — branco sobre o fundo azul de is-selected
+  .ml-select-checkmark {
+    color: var(--ml-on-primary, #ffffff);
+  }
+
+  .ml-select-item-highlighted {
+    outline: 3px solid #000000;
+    outline-offset: 2px;
+  }
+
+  // ---- cards (grid) ----
+  .ml-card-option {
+    background: var(--ml-surface, #ffffff);
+    border: var(--ml-border-width, 3px) var(--ml-border-style, solid) var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-md, 0);
+    color: var(--ml-on-surface, #000000);
+    cursor: pointer;
+    box-shadow: 2px 2px 0 #000000;
+    transition: none;
+
+    &:hover:not(.ml-disabled):not(.ml-card-option-selected) {
+      background: var(--ml-surface-dim, #f5f5f5);
       transform: translate(-1px, -1px);
-      box-shadow: 3px 3px 0 #000;
-    }
-    &.is-selected {
-      background: #3b82f6;
-      color: #fff;
-      border-color: #000;
-      box-shadow: 1px 1px 0 #000;
-      transform: translate(1px, 1px);
-    }
-    &.is-focused {
-      outline: 3px solid #000;
-      outline-offset: 2px;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
+      box-shadow: 3px 3px 0 #000000;
     }
   }
-  .brutal-cs-group {
-    color: #555;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+
+  .ml-card-option-selected {
+    background: var(--ml-primary, #3b82f6);
+    color: var(--ml-on-primary, #ffffff);
+    border-color: #000000;
+    box-shadow: 1px 1px 0 #000000;
+    transform: translate(1px, 1px);
   }
-  .brutal-cs-empty {
-    color: #666;
-    font-weight: 700;
-    text-transform: uppercase;
+
+  // estado ausente no design antigo (base não tinha noção de erro por-card) —
+  // aplicado por completude, espelhando o tratamento de erro do trigger
+  .ml-card-option-error {
+    border-color: var(--ml-error, #ef4444);
+    box-shadow: 2px 2px 0 #ef4444;
   }
-  .brutal-cs-check {
-    color: #fff;
+
+  .ml-card-option.ml-disabled {
+    border-color: #999999;
   }
 }

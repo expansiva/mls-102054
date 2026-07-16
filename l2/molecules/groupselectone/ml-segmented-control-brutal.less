@@ -1,98 +1,122 @@
 /// <mls fileReference="_102054_/l2/molecules/groupselectone/ml-segmented-control-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// SEGMENTED CONTROL — BRUTALISM (102054, por heranca)
+// SEGMENTED CONTROL — BRUTALISM
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -brutal) e redefine toda a
+// aparência. Sem portal — escopo único sob a própria tag.
 // Hard edges, thick borders, offset shadows, no transparency/blur.
+// Layout/posicionamento vem do Tailwind no template.
 // =============================================================================
 groupselectone--ml-segmented-control-brutal {
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
 
-  .brutal-seg-label {
-    color: #000;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  // ---- tokens do tema brutal ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-on-surface: #000000;
+  --ml-error: #ef4444;
+  --ml-surface: #ffffff;
+  --ml-surface-dim: #f5f5f5;
+  --ml-border-width: 3px;
+  --ml-border-style: solid;
+  --ml-outline-variant: #000000;
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;   // novo token — assinatura do brutal
+  --ml-letter-spacing: 0.05em;      // novo token — assinatura do brutal
+
+  .ml-label {
+    color: var(--ml-on-surface, #000000);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
     margin-bottom: 0.375rem;
   }
-  .brutal-required {
-    color: #ef4444;
+
+  .ml-helper {
+    color: #555555;
   }
 
-  // ---- track ----
-  .brutal-seg-track {
+  // cobre também o asterisco de obrigatório (span.ml-error-text.ml-0\.5) —
+  // mesclado com o texto de erro; ver nota em ml-card-selector-brutal.less
+  .ml-error-text {
+    color: var(--ml-error, #ef4444);
+    font-weight: var(--ml-font-weight-medium, 700);
+  }
+
+  .ml-text {
+    color: var(--ml-on-surface, #000000);
+  }
+
+  // usado tanto para "carregando" quanto "sem opções" — o design antigo já
+  // estilizava os dois com o MESMO valor, sem colisão a resolver aqui
+  .ml-text-muted {
+    color: #666666;
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: uppercase;
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // ---- trilho ----
+  .ml-segmented-track {
     border-radius: 0;
-    border: 3px solid #000;
-    background: #fff;
-    box-shadow: 3px 3px 0 #000;
-
-    &.is-error {
-      border-color: #ef4444;
-      box-shadow: 3px 3px 0 #ef4444;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-    }
-    &.is-loading {
-      opacity: 0.4;
-    }
+    border: var(--ml-border-width, 3px) var(--ml-border-style, solid) var(--ml-outline-variant, #000000);
+    background: var(--ml-surface, #ffffff);
+    box-shadow: 3px 3px 0 #000000;
   }
 
-  // ---- segment ----
-  .brutal-seg {
+  .ml-segmented-track-error {
+    border-color: var(--ml-error, #ef4444);
+    box-shadow: 3px 3px 0 #ef4444;
+  }
+
+  // colisão: disabled e loading emitem a MESMA classe "ml-disabled" no
+  // trilho, mas o design antigo só escurecia a borda no caso de disabled real
+  // (loading mantinha borda preta) — diferenciado pela utility "cursor-wait"
+  // que só o loading carrega junto
+  .ml-segmented-track.ml-disabled:not(.cursor-wait) {
+    border-color: #999999;
+  }
+
+  // ---- segmento ----
+  .ml-segmented-option {
     flex: 1 1 0;
     border-radius: 0;
-    border: 3px solid #000;
-    background: #fff;
-    color: #000;
+    border: var(--ml-border-width, 3px) var(--ml-border-style, solid) var(--ml-outline-variant, #000000);
+    background: var(--ml-surface, #ffffff);
+    color: var(--ml-on-surface, #000000);
     cursor: pointer;
     outline: none;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    box-shadow: 2px 2px 0 #000;
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+    box-shadow: 2px 2px 0 #000000;
+    transition: none;
 
-    &.is-selected {
-      background: #000;
-      color: #fff;
-      box-shadow: none;
-      transform: translate(2px, 2px);
-    }
-    &:not(.is-selected):not(.is-disabled):hover {
-      background: #f5f5f5;
+    &:hover:not(.ml-segmented-option-active):not(.ml-disabled) {
+      background: var(--ml-surface-dim, #f5f5f5);
       transform: translate(-1px, -1px);
-      box-shadow: 3px 3px 0 #000;
+      box-shadow: 3px 3px 0 #000000;
     }
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
     }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
-    }
-    &.is-readonly {
-      cursor: default;
-    }
   }
 
-  .brutal-seg-loading,
-  .brutal-seg-empty {
-    color: #666;
-    font-weight: 700;
-    text-transform: uppercase;
+  .ml-segmented-option-active {
+    background: #000000;
+    color: #ffffff;
+    box-shadow: none;
+    transform: translate(2px, 2px);
   }
 
-  // ---- feedback / view ----
-  .brutal-helper {
-    color: #555;
-  }
-  .brutal-error-text {
-    color: #ef4444;
-    font-weight: 700;
-  }
-  .brutal-seg-view-value {
-    color: #000;
+  .ml-segmented-option.ml-disabled {
+    border-color: #999999;
   }
 }

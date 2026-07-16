@@ -1,90 +1,106 @@
 /// <mls fileReference="_102054_/l2/molecules/groupnavigatesteps/ml-horizontal-stepper-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
-// =============================================================================
-// HORIZONTAL STEPPER — BRUTALISM
-// Indicadores quadrados sólidos + conectores grossos. Sem blur, sem transições.
-// =============================================================================
 groupnavigatesteps--ml-horizontal-stepper-brutal {
-  display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-primary: #3b82f6;
+  --ml-on-primary: #ffffff;
+  --ml-surface: #ffffff;
+  --ml-on-surface: #000000;
+  --ml-disabled-opacity: 0.4;
+  --ml-shadow-1: 3px 3px 0 #000000;
+  --ml-text-transform: uppercase;
+  --ml-letter-spacing: 0.05em;
 
-  .is-loading {
-    opacity: 0.4;
+  display: block;
+  font-family: var(--ml-font-family);
+
+  .ml-label {
+    color: var(--ml-on-surface);
+    text-transform: var(--ml-text-transform);
+    letter-spacing: var(--ml-letter-spacing);
+  }
+
+  // ---- step title / description text ----
+  .ml-text {
+    color: var(--ml-on-surface);
+    text-transform: var(--ml-text-transform);
+    letter-spacing: var(--ml-letter-spacing);
+  }
+
+  .ml-step-active-text {
+    color: var(--ml-primary);
+    text-transform: var(--ml-text-transform);
+    letter-spacing: var(--ml-letter-spacing);
+  }
+
+  // description sempre carrega ml-text-muted sozinha; título desabilitado
+  // carrega ml-text-muted junto de ml-text (ou ml-step-active-text) — o
+  // seletor composto (2 classes) resolve a colisão N-para-1 sem depender de
+  // ordem de declaração.
+  .ml-text-muted {
+    color: #666666;
+  }
+  .ml-text.ml-text-muted,
+  .ml-step-active-text.ml-text-muted {
+    color: #999999;
+  }
+
+  // ---- disabled (container em loading, e composto no indicador) ----
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity);
+    cursor: not-allowed;
     pointer-events: none;
   }
 
-  .brutal-hs-label {
-    color: #000;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
+  // ---- indicador do step ----
+  .ml-step-number {
+    border-radius: var(--ml-radius-sm);
+    border: var(--ml-border-width) solid var(--ml-outline-variant);
+    background: var(--ml-surface);
+    color: var(--ml-on-surface);
+    box-shadow: var(--ml-shadow-1);
+    transition: none;
 
-  // ---- indicador ----
-  .brutal-hs-dot {
-    border-radius: 0;
-    border: 3px solid #000;
-    background: #fff;
-    color: #000;
-    cursor: pointer;
-    box-shadow: 3px 3px 0 #000;
-
-    &:hover:not(.is-disabled):not(.is-active) {
-      background: #eee;
+    &:not(.ml-disabled):not(.ml-step-active):hover {
+      background: #eeeeee;
     }
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: var(--ml-border-width) solid #000000;
       outline-offset: 2px;
-    }
-    &.is-active {
-      background: #3b82f6;
-      border-color: #000;
-      color: #fff;
-    }
-    &.is-completed {
-      background: #000;
-      border-color: #000;
-      color: #fff;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
     }
   }
 
-  // ---- textos ----
-  .brutal-hs-title {
-    color: #000;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    &.is-active {
-      color: #3b82f6;
-    }
-    &.is-disabled {
-      color: #999;
-    }
+  .ml-step-active {
+    background: var(--ml-primary);
+    border-color: var(--ml-outline-variant);
+    color: var(--ml-on-primary);
   }
-  .brutal-hs-desc {
-    color: #666;
-    &.is-disabled {
-      color: #999;
-    }
+
+  .ml-step-completed {
+    background: var(--ml-on-surface);
+    border-color: var(--ml-outline-variant);
+    color: var(--ml-on-primary);
+  }
+
+  .ml-step-number.ml-disabled {
+    border-color: #999999;
+    box-shadow: 3px 3px 0 #999999;
   }
 
   // ---- conector ----
-  .brutal-hs-connector {
-    background: #ccc;
+  .ml-step-connector {
+    background: #cccccc;
     height: 3px;
-    &.is-completed {
-      background: #000;
-    }
+  }
+  .ml-step-connector-completed {
+    background: var(--ml-on-surface);
   }
 
   // ---- loading ----
-  .brutal-hs-loading {
-    color: #666;
-  }
-  .brutal-hs-loading-dot {
-    background: #000;
+  .ml-step-loading-dot {
+    background: var(--ml-on-surface);
   }
 }

@@ -1,90 +1,101 @@
 /// <mls fileReference="_102054_/l2/molecules/grouptriggeraction/ml-split-button-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// SPLIT BUTTON — BRUTALISM (botão + menu popover)
-// Cantos retos, borders grossas, menu com sombra offset.
+// SPLIT BUTTON — BRUTALISM (Strategy D — theme sheet COMPLETO, sem portal)
+// Cantos retos, borders grossas, menu inline com sombra offset.
+// Tamanho e layout vêm das utilities Tailwind do render() herdado.
 // =============================================================================
 grouptriggeraction--ml-split-button-brutal {
   display: inline-block;
 
-  .brutal-split-primary,
-  .brutal-split-chevron {
-    border: 3px solid #000;
-    background: #3b82f6;
-    color: #fff;
-    cursor: pointer;
-    font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  // ---- brutal theme tokens ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-primary: #3b82f6;
+  --ml-on-primary: #ffffff;
+  --ml-surface: #ffffff;
+  --ml-surface-dim: #f0f0f0;
+  --ml-on-surface: #000000;
+  --ml-shadow-1: 4px 4px 0 #000000;
+  --ml-shadow-2: 2px 2px 0 #000000;
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;
+  --ml-letter-spacing: 0.05em;
+
+  // ---- primary + chevron (mesma superfície interativa) ----
+  .ml-split-trigger,
+  .ml-split-dropdown {
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-sm, 0);
+    background: var(--ml-primary, #3b82f6);
+    color: var(--ml-on-primary, #ffffff);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+    box-shadow: var(--ml-shadow-1, 4px 4px 0 #000000);
     transition: none;
 
-    &:hover:not(:disabled) {
+    &:not(.ml-disabled):hover {
       background: #2563eb;
+      box-shadow: var(--ml-shadow-2, 2px 2px 0 #000000);
+      transform: translate(2px, 2px);
+    }
+    &:not(.ml-disabled):active {
+      box-shadow: 0 0 0 #000000;
+      transform: translate(4px, 4px);
     }
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
     }
-    &:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      border-color: #999;
-    }
   }
-  .brutal-split-primary {
-    border-radius: 0;
-    box-shadow: 4px 4px 0 #000;
 
-    &:hover:not(:disabled) {
-      box-shadow: 2px 2px 0 #000;
-      transform: translate(2px, 2px);
-    }
-    &:active:not(:disabled) {
-      box-shadow: 0 0 0 #000;
-      transform: translate(4px, 4px);
-    }
-  }
-  .brutal-split-chevron {
-    border-radius: 0;
+  // o chevron cola no trigger — sem borda dupla entre os dois botões
+  .ml-split-dropdown {
     border-left: none;
-    box-shadow: 4px 4px 0 #000;
-
-    &:hover:not(:disabled) {
-      box-shadow: 2px 2px 0 #000;
-      transform: translate(2px, 2px);
-    }
-    &:active:not(:disabled) {
-      box-shadow: 0 0 0 #000;
-      transform: translate(4px, 4px);
-    }
   }
 
-  // ---- menu (popover brutal) ----
-  .brutal-split-menu {
-    border: 3px solid #000;
-    border-radius: 0;
-    background: #fff;
-    box-shadow: 4px 4px 0 #000;
+  .ml-split-trigger.ml-disabled,
+  .ml-split-dropdown.ml-disabled {
+    border-color: #999999;
+    box-shadow: 2px 2px 0 #999999;
   }
-  .brutal-split-option {
-    border-radius: 0;
+
+  // ---- menu (popover brutal, inline no template — sem portal) ----
+  .ml-split-menu {
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-sm, 0);
+    background: var(--ml-surface, #ffffff);
+    box-shadow: var(--ml-shadow-1, 4px 4px 0 #000000);
+  }
+
+  .ml-split-item {
+    border-radius: var(--ml-radius-sm, 0);
     border: none;
     background: transparent;
-    color: #000;
-    cursor: pointer;
-    font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    font-weight: 600; // valor do .less antigo — peso menor que os botões (700)
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: 0.03em; // valor do .less antigo — tracking menor que os botões (0.05em)
     transition: none;
 
-    &:not(.is-disabled):hover {
-      background: #f0f0f0;
+    &:not(.ml-disabled):hover {
+      background: var(--ml-surface-dim, #f0f0f0);
     }
-    &.is-disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
+    &:focus-visible {
+      outline: 3px solid #000000;
+      outline-offset: 2px;
     }
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 }

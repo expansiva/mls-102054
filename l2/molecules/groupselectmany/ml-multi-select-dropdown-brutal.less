@@ -1,141 +1,185 @@
 /// <mls fileReference="_102054_/l2/molecules/groupselectmany/ml-multi-select-dropdown-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// MULTI SELECT DROPDOWN — BRUTALISM por HERANCA (102054)
-// Cantos retos, borders grossas, sombra offset solida, sem transparencia.
+// MULTI SELECT DROPDOWN — BRUTALISM
+// Estratégia D: o render()/getPortalTemplate() herdados do 102040 emitem
+// classes ml-*; este .less é COMPLETO (o .less base não alcança a tag -brutal)
+// e redefine toda a aparência. Escopo duplo: a tag do componente e o container
+// do portal (data-widget) montado em document.body.
+// Hard edges, thick borders, offset shadows, no transparency/blur.
+// Layout/posicionamento vem do Tailwind no template.
 // =============================================================================
-groupselectmany--ml-multi-select-dropdown-brutal {
+groupselectmany--ml-multi-select-dropdown-brutal,
+div[data-widget="groupselectmany--ml-multi-select-dropdown-brutal"] {
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
 
-  .brutal-label {
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #000;
+  // ---- tokens do tema brutal ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-on-surface: #000000;
+  --ml-on-surface-muted: #666666;
+  --ml-error: #ef4444;
+  --ml-surface: #ffffff;
+  --ml-surface-dim: #f5f5f5;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-radius-md: 0;
+  --ml-radius-lg: 0;
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;   // novo token — assinatura do brutal
+  --ml-letter-spacing: 0.05em;      // novo token — assinatura do brutal
+
+  font-family: var(--ml-font-family);
+
+  // ---- texto / feedback ----
+  .ml-label {
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+    color: var(--ml-on-surface, #000000);
   }
-  .brutal-placeholder {
-    color: #666;
+
+  .ml-helper {
+    color: var(--ml-on-surface-muted, #666666);
+    font-family: var(--ml-font-family);
   }
-  .brutal-count {
-    color: #000;
+
+  .ml-error-text {
+    color: var(--ml-error, #ef4444);
+    font-weight: var(--ml-font-weight-medium, 700);
+  }
+
+  // trigger: placeholder / contador de selecionados (>3) / "loading" renderizam
+  // o MESMO <span class="ml-text-muted"> sem nenhum atributo diferenciador —
+  // colisão N-para-1 sem âncora possível. Usa-se o valor do placeholder do
+  // design antigo (brutal-placeholder); o destaque bold-preto que o antigo
+  // brutal-count tinha é perdido (ver relatório).
+  span.ml-text-muted {
+    color: var(--ml-on-surface-muted, #666666);
+    font-family: var(--ml-font-family);
+  }
+
+  // group-label / empty (dentro do painel) — ambos emitem div.ml-text-muted;
+  // o group-label carrega a utility Tailwind font-semibold, usada como âncora
+  // para diferenciar dos dois (brutal-group-label vs brutal-empty).
+  div.ml-text-muted {
+    color: var(--ml-on-surface-muted, #666666);
     font-weight: 700;
+    font-family: var(--ml-font-family);
+  }
+  div.ml-text-muted.font-semibold {
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
   // ---- chips selecionados ----
-  .brutal-tag {
+  .ml-select-tag {
     border-radius: 0;
     background: #3b82f6;
-    color: #fff;
-    border: 2px solid #000;
+    color: #ffffff;
+    border: 2px solid #000000;
     font-weight: 700;
   }
 
   // ---- trigger ----
-  .brutal-trigger {
+  .ml-select-trigger {
     position: relative;
-    color: #000;
-    border: 3px solid #000;
-    border-radius: 0;
-    background: #fff;
-    box-shadow: 3px 3px 0 #000;
-    cursor: pointer;
+    color: var(--ml-on-surface, #000000);
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-md, 0);
+    background: var(--ml-surface, #ffffff);
+    box-shadow: 3px 3px 0 #000000;
     text-align: left;
+    transition: none;
 
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
     }
-    &.is-error {
-      border-color: #ef4444;
-      box-shadow: 3px 3px 0 #ef4444;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      box-shadow: 2px 2px 0 #999;
-      border-color: #999;
-    }
+  }
+  // neutraliza o anel Tailwind (focus:ring-2) herdado no template — o brutal
+  // usa apenas outline via :focus-visible, sem glow; sem equivalente no
+  // design antigo (a marcação antiga não tinha esse utilitário).
+  .ml-select-trigger-focus {
+    &:focus { box-shadow: none !important; }
+  }
+  .ml-select-trigger-error {
+    border-color: var(--ml-error, #ef4444);
+    box-shadow: 3px 3px 0 #ef4444;
+  }
+  // estado composto: base emite .ml-select-trigger E .ml-disabled juntos
+  .ml-select-trigger.ml-disabled {
+    box-shadow: 2px 2px 0 #999999;
+    border-color: #999999;
   }
 
-  // ---- feedback / view ----
-  .brutal-helper {
-    color: #666;
+  // ---- view mode ----
+  .ml-select-view {
+    border-radius: var(--ml-radius-md, 0);
+    border: var(--ml-border-width, 3px) solid #000000;
+    background: var(--ml-surface-dim, #f5f5f5);
+    color: var(--ml-on-surface, #000000);
   }
-  .brutal-error-text {
-    color: #ef4444;
-    font-weight: 700;
-  }
-  .brutal-view-box {
-    border-radius: 0;
-    border: 3px solid #000;
-    background: #f5f5f5;
-    color: #000;
-  }
-}
 
-// Panel styles — shared between component scope and body-level portal
-groupselectmany--ml-multi-select-dropdown-brutal,
-.brutal-msd-portal {
-  .brutal-panel {
-    border: 3px solid #000;
-    border-radius: 0;
-    background: #fff;
-    box-shadow: 3px 3px 0 #000;
+  // ---- painel (renderiza no portal via data-widget) ----
+  .ml-select-panel {
+    border: var(--ml-border-width, 3px) solid #000000;
+    border-radius: var(--ml-radius-lg, 0);
+    background: var(--ml-surface, #ffffff);
+    box-shadow: 3px 3px 0 #000000;
   }
-  .brutal-search-wrap {
-    border-bottom: 3px solid #000;
+  // separador do bloco de busca — a base não emite classe própria no wrapper
+  // do input (só Tailwind "p-2"); âncora estrutural via :has() no input
+  // marcado com o atributo estável data-search.
+  .ml-select-panel > div:has(> input[data-search]) {
+    border-bottom: var(--ml-border-width, 3px) solid #000000;
   }
-  .brutal-search {
-    background: #fff;
-    color: #000;
-    border: 3px solid #000;
+  .ml-select-search {
+    background: var(--ml-surface, #ffffff);
+    color: var(--ml-on-surface, #000000);
+    border: var(--ml-border-width, 3px) solid #000000;
     border-radius: 0;
     outline: none;
-    font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+    font-family: var(--ml-font-family);
     &::placeholder {
-      color: #999;
+      color: #999999;
     }
     &:focus {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
+      box-shadow: none !important;
     }
   }
-  .brutal-item {
+  .ml-select-item {
+    border-width: 2px;
+    border-style: solid;
+    border-color: transparent;
     border-radius: 0;
-    border: 2px solid transparent;
-    color: #000;
+    color: var(--ml-on-surface, #000000);
     background: transparent;
-    cursor: pointer;
-    font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
-
-    &:not(.is-disabled):not(.is-selected):hover {
-      background: #f0f0f0;
-      border-color: #000;
-    }
-    &.is-selected {
-      background: #3b82f6;
-      border-color: #000;
-      color: #fff;
-      font-weight: 700;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
+    font-family: var(--ml-font-family);
+    transition: none;
   }
-  .brutal-check {
-    color: #fff;
+  .ml-select-item-hover:hover {
+    background: var(--ml-surface-dim, #f5f5f5);
+    border-color: #000000;
+  }
+  .ml-select-item-selected {
+    border: 2px solid #000000;
+    border-radius: 0;
+    background: #3b82f6;
+    color: #ffffff;
+    font-weight: 700;
+    transition: none;
+  }
+  .ml-select-check {
+    color: #ffffff;
     font-weight: 900;
-  }
-  .brutal-group-label {
-    color: #666;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .brutal-empty {
-    color: #666;
-    font-weight: 700;
   }
 }

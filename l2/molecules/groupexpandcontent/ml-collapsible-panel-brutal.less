@@ -1,94 +1,133 @@
 /// <mls fileReference="_102054_/l2/molecules/groupexpandcontent/ml-collapsible-panel-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// COLLAPSIBLE PANEL — BRUTALISM
+// COLLAPSIBLE PANEL — BRUTALISM (Strategy D theme sheet)
 // Seções sólidas empilhadas; cabeçalho aberto em azul accent.
 // =============================================================================
 groupexpandcontent--ml-collapsible-panel-brutal {
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-primary: #3b82f6;
+  --ml-on-primary: #ffffff;
+  --ml-surface: #ffffff;
+  --ml-surface-dim: #eeeeee;
+  --ml-on-surface: #000000;
+  --ml-on-surface-muted: #666666;
+  --ml-shadow-1: 3px 3px 0 #000000;
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;
+  --ml-letter-spacing: 0.05em;
+
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  font-family: var(--ml-font-family);
 
-  .brutal-clp-label {
-    color: #000;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  // .ml-label is emitted for both the top Label slot (a <div>) and each
+  // section title (a <span>) — the old variant styled them differently
+  // (uppercase group label vs plain-case title), so differentiate by tag.
+  div.ml-label {
+    font-weight: var(--ml-font-weight-medium);
+    color: var(--ml-on-surface);
+    text-transform: var(--ml-text-transform);
+    letter-spacing: var(--ml-letter-spacing);
+  }
+  span.ml-label {
+    color: var(--ml-on-surface);
   }
 
-  // ---- seção ----
-  .brutal-clp-section {
-    background: #fff;
-    border: 3px solid #000;
-    border-radius: 0;
+  // .ml-text-muted covers both the section icon (span, first child) and the
+  // subtitle (span right after the title) — old had different colors for
+  // each, so anchor on structure instead of redefining the shared class.
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted);
+  }
+  span.ml-text-muted:first-child {
+    color: var(--ml-on-surface);
+  }
+
+  .ml-skeleton {
+    background: var(--ml-surface-dim);
+    border-radius: var(--ml-radius-sm);
+    border: var(--ml-border-width) solid var(--ml-outline-variant);
+  }
+
+  // .ml-panel-header is emitted twice per section: the outer section wrapper
+  // (via an inline style, no dynamic class) AND the inner clickable header
+  // row (nested one level in, carrying the same class). Style the outer as
+  // the "section" box and override on the direct-child inner header row.
+  .ml-panel-header {
+    background: var(--ml-surface);
+    border: var(--ml-border-width) solid var(--ml-outline-variant);
     overflow: hidden;
-    box-shadow: 3px 3px 0 #000;
+    box-shadow: var(--ml-shadow-1);
 
-    &.is-open {
-      border-color: #3b82f6;
-      box-shadow: 3px 3px 0 #3b82f6;
+    // base can't class the outer wrapper when its section is open — anchor
+    // structurally on the inner header carrying the open class.
+    &:has(> .ml-panel-header-open) {
+      border-color: var(--ml-primary);
+      box-shadow: 3px 3px 0 var(--ml-primary);
+    }
+
+    > .ml-panel-header {
+      border: none;
+      box-shadow: none;
+      font-weight: var(--ml-font-weight-medium);
+      text-transform: var(--ml-text-transform);
+      letter-spacing: var(--ml-letter-spacing);
+      transition: none;
+
+      &:not(.ml-disabled):not(.ml-panel-header-open):hover {
+        background: var(--ml-surface-dim);
+      }
+      &:focus-visible {
+        outline: var(--ml-border-width) solid var(--ml-outline-variant);
+        outline-offset: 2px;
+      }
+      &.ml-disabled {
+        opacity: var(--ml-disabled-opacity);
+        border-color: #999999;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
     }
   }
 
-  // ---- cabeçalho ----
-  .brutal-clp-header {
-    background: #fff;
-    border: none;
-    cursor: pointer;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  .ml-panel-header-open {
+    background: var(--ml-primary);
+    color: var(--ml-on-primary);
 
-    &:hover:not(.is-disabled):not(.is-open) {
-      background: #eee;
+    span.ml-label {
+      color: var(--ml-on-primary);
     }
-    &:focus-visible {
-      outline: 3px solid #000;
-      outline-offset: 2px;
+    span.ml-text-muted:first-child {
+      color: var(--ml-on-primary);
     }
-    &.is-open {
-      background: #3b82f6;
-      color: #fff;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
+    span.ml-label + .ml-text-muted {
+      color: rgba(255, 255, 255, 0.8);
     }
   }
 
-  .brutal-clp-icon {
-    color: #000;
-  }
-  .is-open .brutal-clp-icon {
-    color: #fff;
-  }
-  .brutal-clp-title {
-    color: #000;
-  }
-  .is-open .brutal-clp-title {
-    color: #fff;
-  }
-  .brutal-clp-subtitle {
-    color: #666;
-  }
-  .is-open .brutal-clp-subtitle {
-    color: rgba(255, 255, 255, 0.8);
-  }
-  .brutal-clp-chevron {
-    color: #000;
-  }
-  .is-open .brutal-clp-chevron {
-    color: #fff;
-  }
-  .brutal-clp-body {
-    color: #000;
-    border-top: 3px solid #000;
+  .ml-panel-chevron {
+    color: var(--ml-on-surface);
+    transition: none;
   }
 
-  // ---- skeleton ----
-  .brutal-clp-skel {
-    background: #eee;
-    border: 3px solid #000;
-    border-radius: 0;
+  .ml-panel-chevron-open {
+    color: var(--ml-on-primary);
+  }
+
+  // .ml-panel-content is also emitted twice (region wrapper + inner padded
+  // block) — same technique as .ml-panel-header above.
+  .ml-panel-content {
+    border-top: var(--ml-border-width) solid var(--ml-outline-variant);
+    background: var(--ml-surface);
+    transition: none;
+
+    .ml-panel-content {
+      border-top: none;
+      color: var(--ml-on-surface);
+    }
   }
 }

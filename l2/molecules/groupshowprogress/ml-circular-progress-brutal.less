@@ -1,21 +1,26 @@
 /// <mls fileReference="_102054_/l2/molecules/groupshowprogress/ml-circular-progress-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// CIRCULAR PROGRESS — BRUTALISM (102054, por heranca)
-// Anel solido com arco chapado. Cantos retos, sem filtros.
+// CIRCULAR PROGRESS — BRUTALISM
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -brutal) e redefine toda a aparência.
+// Anel sólido com arco chapado. Cantos retos, sem filtros.
 // =============================================================================
 groupshowprogress--ml-circular-progress-brutal {
   display: inline-block;
   font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
 
-  .brutal-cp-track {
+  .ml-stroke-track {
     stroke: #e5e5e5;
   }
-  .brutal-cp-fill {
+
+  .ml-stroke-primary {
     stroke: #3b82f6;
   }
-  .brutal-cp-value {
-    color: #000;
+
+  .ml-text {
+    color: #000000;
     font-weight: 700;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
   }
 }

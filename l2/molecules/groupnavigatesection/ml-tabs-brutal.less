@@ -2,69 +2,94 @@
 
 // =============================================================================
 // TABS — BRUTALISM
-// Abas sólidas com bordas grossas; ativa destacada em preto.
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -brutal) e redefine toda a aparência.
+// Abas sólidas com bordas grossas; ativa destacada em preto. Sem transparência, sem blur.
 // =============================================================================
 groupnavigatesection--ml-tabs-brutal {
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
 
-  .brutal-nav-label {
-    color: #000;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  // ---- tokens do tema brutal ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-surface: #ffffff;
+  --ml-on-surface: #000000;
+  --ml-error: #ef4444;
+  --ml-shadow-1: 3px 3px 0 #000000;
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;
+  --ml-letter-spacing: 0.05em;
+
+  .ml-label {
+    color: var(--ml-on-surface, #000000);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
   }
 
-  .brutal-tablist {
-    border-bottom: 3px solid #000;
+  .ml-error-text {
+    color: var(--ml-error, #ef4444);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
   }
 
-  .brutal-tab {
-    border: 3px solid #000;
+  .ml-text-muted {
+    color: #666666;
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .ml-tab-list {
+    border-bottom: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+  }
+
+  .ml-tab {
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
     border-bottom: none;
-    background: #eee;
-    color: #000;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-right: -3px;
+    background: #eeeeee;
+    color: var(--ml-on-surface, #000000);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+    transition: none;
 
-    &.is-active {
-      background: #000;
-      color: #fff;
-    }
-    &:not(.is-active):not(.is-disabled):hover {
-      background: #ddd;
+    &.cursor-pointer:not(.ml-tab-active):hover {
+      background: #dddddd;
     }
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
     }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
-    }
+  }
+  .ml-tab.ml-disabled {
+    border-color: #999999;
   }
 
-  .brutal-tab-panel {
-    border-radius: 0;
-    border: 3px solid #000;
+  .ml-tab-active {
+    background: #000000;
+    color: #ffffff;
+  }
+
+  .ml-tab-panel {
+    border-radius: var(--ml-radius-sm, 0);
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
     border-top: none;
-    background: #fff;
-    color: #000;
-    box-shadow: 3px 3px 0 #000;
+    background: var(--ml-surface, #ffffff);
+    color: var(--ml-on-surface, #000000);
+    box-shadow: var(--ml-shadow-1, 3px 3px 0 #000000);
   }
 
-  .brutal-nav-box {
-    border-radius: 0;
-    border: 3px solid #000;
-    background: #fff;
-    color: #666;
-    box-shadow: 3px 3px 0 #000;
-  }
-  .brutal-error-text {
-    color: #ef4444;
-    font-weight: 700;
-    text-transform: uppercase;
+  .ml-tab-container {
+    border-radius: var(--ml-radius-sm, 0);
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    background: var(--ml-surface, #ffffff);
+    box-shadow: var(--ml-shadow-1, 3px 3px 0 #000000);
   }
 }

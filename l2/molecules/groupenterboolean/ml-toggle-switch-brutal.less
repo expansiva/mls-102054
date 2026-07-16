@@ -1,72 +1,107 @@
 /// <mls fileReference="_102054_/l2/molecules/groupenterboolean/ml-toggle-switch-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// TOGGLE SWITCH — BRUTALISM (102054, por herança)
+// TOGGLE SWITCH — BRUTALISM (102054) — Strategy D theme sheet (COMPLETE)
 // Trilho reto com border grossa + thumb quadrado sólido.
+// Inventário de classes: ml-toggle-switch.{ts,less} (mls-102040).
+// Valores visuais: .less antigo da variante brutal (precedência na migração).
 // =============================================================================
 groupenterboolean--ml-toggle-switch-brutal {
-  display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  // ---- brutal theme tokens (apenas os consumidos; valores antigos vencem) ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-primary: #3b82f6;
+  --ml-surface-dim: #e5e5e5; // trilho desligado (valor antigo, vence #f5f5f5)
+  --ml-on-surface: #000000;
+  --ml-error: #ef4444;
+  --ml-shadow-1: 2px 2px 0 #000000; // valor antigo (vence 4px 4px 0)
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;
+  --ml-letter-spacing: 0.05em;
 
-  .brutal-tg-label {
-    color: #000;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  display: block;
+  font-family: var(--ml-font-family, monospace);
+
+  // ---- textos ----
+  .ml-label {
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family, monospace);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
   }
-  .brutal-tg-view {
-    color: #000;
-    font-weight: 700;
-    text-transform: uppercase;
+
+  // valor em modo visualização (Sim/Não)
+  .ml-text {
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family, monospace);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
   }
-  .brutal-helper {
+
+  .ml-helper {
     color: #666;
+    font-family: var(--ml-font-family, monospace);
   }
-  .brutal-error-text {
-    color: #ef4444;
-    font-weight: 700;
+
+  .ml-error-text {
+    color: var(--ml-error, #ef4444);
+    font-family: var(--ml-font-family, monospace);
+    font-weight: var(--ml-font-weight-medium, 700);
   }
 
   // ---- trilho ----
-  .brutal-tg-track {
-    border-radius: 0;
-    background: #e5e5e5;
-    border: 3px solid #000;
-    cursor: pointer;
+  .ml-toggle-track {
+    background: var(--ml-surface-dim, #e5e5e5);
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-sm, 0);
+    box-shadow: var(--ml-shadow-1, 2px 2px 0 #000000);
     transition: none;
-    box-shadow: 2px 2px 0 #000;
 
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
-    }
-    &.is-on {
-      background: #3b82f6;
-      border-color: #000;
-    }
-    &.is-error {
-      border-color: #ef4444;
-      box-shadow: 2px 2px 0 #ef4444;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      border-color: #999;
-      box-shadow: 2px 2px 0 #999;
     }
   }
 
-  // ---- thumb ----
-  .brutal-tg-thumb {
-    border-radius: 0;
-    background: #000;
-    box-shadow: none;
-    transform: translateX(0.2rem);
-    transition: none;
+  .ml-toggle-track-on {
+    background: var(--ml-primary, #3b82f6);
+    border-color: var(--ml-outline-variant, #000000);
+  }
 
-    &.is-on {
-      background: #fff;
-      transform: translateX(1.7rem);
-    }
+  .ml-toggle-track-error {
+    border-color: var(--ml-error, #ef4444);
+    box-shadow: 2px 2px 0 #ef4444;
+  }
+
+  // ---- thumb ----
+  // Geometria adaptada ao markup herdado (trilho h-6/w-11, thumb h-4/w-4,
+  // border 3px): inset simétrico de 4px em ambos os estados.
+  .ml-toggle-thumb {
+    background: #000000;
+    border-radius: var(--ml-radius-sm, 0);
+    box-shadow: none;
+    transform: translateX(0.25rem);
+    transition: none;
+  }
+
+  .ml-toggle-track-on .ml-toggle-thumb {
+    background: #ffffff;
+    transform: translateX(1.125rem);
+  }
+
+  // ---- estados ----
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .ml-toggle-track.ml-disabled {
+    border-color: #999;
+    box-shadow: 2px 2px 0 #999;
   }
 }

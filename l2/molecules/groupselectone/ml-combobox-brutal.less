@@ -1,164 +1,231 @@
 /// <mls fileReference="_102054_/l2/molecules/groupselectone/ml-combobox-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// COMBOBOX — BRUTALISM (102054, por heranca)
+// COMBOBOX — BRUTALISM
+// Estratégia D: o render()/getPortalTemplate() herdados do 102040 emitem
+// classes ml-*; este .less é COMPLETO (o .less base não alcança a tag -brutal)
+// e redefine toda a aparência. Escopo duplo: a tag do componente e o container
+// do portal (data-widget) montado em document.body.
 // Hard edges, thick borders, offset shadows, no transparency/blur.
+// Layout/posicionamento vem do Tailwind no template.
 // =============================================================================
-groupselectone--ml-combobox-brutal {
+groupselectone--ml-combobox-brutal,
+div[data-widget="groupselectone--ml-combobox-brutal"] {
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
 
-  .brutal-combo-label {
-    color: #000;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .brutal-combo-label-view {
-    color: #555;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .brutal-combo-view {
-    color: #999;
-    &.has-value {
-      color: #000;
-    }
-  }
-  .brutal-helper {
-    color: #555;
-  }
-  .brutal-error-text {
-    color: #ef4444;
-    font-weight: 700;
-  }
-  .brutal-combo-chevron {
-    color: #000;
+  // ---- tokens do tema brutal ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-on-surface: #000000;
+  --ml-on-surface-muted: #999999;
+  --ml-error: #ef4444;
+  --ml-surface: #ffffff;
+  --ml-surface-dim: #f5f5f5;
+  --ml-border-width: 3px;
+  --ml-border-style: solid;
+  --ml-outline-variant: #000000;
+  --ml-radius-md: 0;
+  --ml-radius-lg: 0;
+  --ml-primary: #3b82f6;
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;   // novo token — assinatura do brutal
+  --ml-letter-spacing: 0.05em;      // novo token — assinatura do brutal
+
+  // ---- label: colisão N-para-1 (base usa "ml-label" tanto no modo edição
+  // quanto no modo view, com cores antigas diferentes) — ancorado pela tag ----
+  label.ml-label {
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    font-weight: var(--ml-font-weight-medium, 700);
+    color: var(--ml-on-surface, #000000);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
   }
 
-  // ---- input trigger ----
-  .brutal-combo-input {
-    background: #fff;
-    border: 3px solid #000;
-    border-radius: 0;
-    color: #000;
-    outline: none;
-    box-shadow: 3px 3px 0 #000;
-    font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
-
-    &::placeholder {
-      color: #999;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    &:focus {
-      outline: 3px solid #000;
-      outline-offset: 2px;
-      box-shadow: 1px 1px 0 #000;
-      transform: translate(2px, 2px);
-    }
-    &.is-error {
-      border-color: #ef4444;
-      box-shadow: 3px 3px 0 #ef4444;
-      &:focus {
-        outline-color: #ef4444;
-        box-shadow: 1px 1px 0 #ef4444;
-      }
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
-    }
-    &.is-readonly {
-      background: #f5f5f5;
-      cursor: default;
-    }
+  div.ml-label {
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    font-weight: var(--ml-font-weight-medium, 700);
+    color: #555555;
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
   }
 
-  .brutal-combo-clear {
-    color: #000;
-    border: 2px solid #000;
-    border-radius: 0;
-    background: #fff;
+  .ml-helper {
+    color: #555555;
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+  }
+
+  .ml-error-text {
+    color: var(--ml-error, #ef4444);
+    font-weight: var(--ml-font-weight-medium, 700);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+  }
+
+  // texto do valor (view mode com valor, e input) — cor padrão preta
+  .ml-text {
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+  }
+
+  // padrão: placeholder cinza (view mode sem valor); também aplica-se ao
+  // rótulo desabilitado — não há esse caso neste componente
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, #999999);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+  }
+
+  // chevron: span isolado (sem outra classe ml-*) envolvendo o svg — preto,
+  // mais forte que o muted padrão (valor do design original)
+  span.ml-text-muted {
+    color: var(--ml-on-surface, #000000);
+  }
+
+  // botão de limpar (×): único elemento <button class="ml-text-muted">;
+  // sem classe ml-* própria para a "caixa" — ancorado na tag + classe herdada
+  button.ml-text-muted {
+    color: #000000;
+    border: 2px solid #000000;
+    border-radius: 0; // sobrepõe "rounded-full" do Tailwind — assinatura brutal exige quinas retas
+    background: #ffffff;
+
     &:hover {
-      background: #000;
-      color: #fff;
+      background: #000000;
+      color: #ffffff;
     }
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
     }
   }
 
-  .brutal-combo-skeleton {
-    background: #e5e5e5;
-    border: 3px solid #000;
-    border-radius: 0;
+  // rótulo de grupo no dropdown: único <li role="presentation" class="... ml-text-muted">
+  li.ml-text-muted[role="presentation"] {
+    color: #555555;
+    font-weight: var(--ml-font-weight-medium, 700);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+    border-bottom: 2px solid #000000;
   }
-}
 
-// Panel styles — shared between component scope and body-level portal
-groupselectone--ml-combobox-brutal,
-.brutal-cb-portal {
-  // ---- dropdown panel ----
-  .brutal-combo-panel {
-    background: #fff;
-    border: 3px solid #000;
-    border-radius: 0;
-    box-shadow: 4px 4px 0 #000;
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // ---- input trigger (também usado pelo skeleton de loading, como <div>) ----
+  .ml-select-trigger {
+    background: var(--ml-surface, #ffffff);
+    color: var(--ml-on-surface, #000000);
+    border: var(--ml-border-width, 3px) var(--ml-border-style, solid) var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-md, 0);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    box-shadow: 3px 3px 0 #000000;
+    transition: none;
+
+    &:hover:not(.ml-disabled):not(.ml-select-trigger-open) {
+      background: var(--ml-surface-dim, #f5f5f5);
+    }
+    &:focus-visible {
+      outline: 3px solid #000000;
+      outline-offset: 2px;
+    }
+  }
+
+  // skeleton de loading reaproveita "ml-select-trigger" num <div> (em vez do
+  // <input>) — cinza claro, sem sombra (valor do antigo .brutal-combo-skeleton)
+  div.ml-select-trigger {
+    background: #e5e5e5;
+    box-shadow: none;
+  }
+
+  // aberto: o input "afunda" na direção da sombra
+  .ml-select-trigger-open {
+    box-shadow: 1px 1px 0 #000000;
+    transform: translate(2px, 2px);
+  }
+
+  .ml-select-trigger-error {
+    border-color: var(--ml-error, #ef4444);
+    box-shadow: 3px 3px 0 #ef4444;
+  }
+
+  .ml-select-trigger-error.ml-select-trigger-open {
+    box-shadow: 1px 1px 0 #ef4444;
+  }
+
+  .ml-select-trigger.ml-disabled {
+    border-color: #999999;
+  }
+
+  // readonly não tem classe ml-* própria — aplicado via atributo HTML nativo
+  // no próprio elemento que já carrega "ml-select-trigger"
+  .ml-select-trigger[readonly] {
+    background: var(--ml-surface-dim, #f5f5f5);
+  }
+
+  .ml-combobox-input {
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    &::placeholder {
+      color: var(--ml-on-surface-muted, #999999);
+      text-transform: var(--ml-text-transform, uppercase);
+      letter-spacing: var(--ml-letter-spacing, 0.05em);
+    }
+  }
+
+  // ---- painel (renderiza no portal via data-widget) ----
+  .ml-select-panel {
+    background: var(--ml-surface, #ffffff);
+    border: var(--ml-border-width, 3px) var(--ml-border-style, solid) var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-lg, 0);
+    box-shadow: 4px 4px 0 #000000;
     list-style: none;
-    margin: 0.25rem 0 0;
     padding-left: 0;
   }
 
-  .brutal-combo-empty {
-    color: #666;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-  .brutal-combo-group {
-    color: #555;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-bottom: 2px solid #000;
+  .ml-select-empty {
+    color: #666666;
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
   }
 
-  .brutal-combo-option {
-    color: #000;
+  // ---- opções ----
+  .ml-select-item {
+    color: var(--ml-on-surface, #000000);
     cursor: pointer;
     border-bottom: 1px solid #e5e5e5;
-    font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    transition: none;
 
     &:last-child {
       border-bottom: none;
     }
-    &:hover {
-      background: #f5f5f5;
-    }
-    &.is-active {
-      background: #e5e5e5;
-      color: #000;
-      font-weight: 700;
-    }
-    &.is-selected {
-      background: #000;
-      color: #fff;
-      font-weight: 700;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      pointer-events: none;
+    &:hover:not(.ml-disabled):not(.ml-select-item-selected) {
+      background: var(--ml-surface-dim, #f5f5f5);
     }
   }
 
-  .brutal-combo-check {
-    color: #fff;
+  .ml-select-item-highlighted {
+    background: #e5e5e5;
+    color: var(--ml-on-surface, #000000);
+    font-weight: var(--ml-font-weight-medium, 700);
   }
-  .brutal-combo-add {
-    color: #3b82f6;
+
+  .ml-select-item-selected {
+    background: #000000;
+    color: #ffffff;
+    font-weight: var(--ml-font-weight-medium, 700);
+  }
+
+  // ícone "+" da opção de texto livre ("usar valor digitado") — azul (valor
+  // original .brutal-combo-add); reaproveita a MESMA classe do checkmark real
+  svg.ml-select-checkmark {
+    color: var(--ml-primary, #3b82f6);
+  }
+
+  // checkmark real do item selecionado: única instância com utility "ml-auto"
+  // (posicionamento) — branco sobre o fundo preto de ml-select-item-selected
+  svg.ml-select-checkmark.ml-auto {
+    color: #ffffff;
   }
 }

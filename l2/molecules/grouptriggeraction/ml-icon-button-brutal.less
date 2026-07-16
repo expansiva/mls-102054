@@ -1,52 +1,84 @@
 /// <mls fileReference="_102054_/l2/molecules/grouptriggeraction/ml-icon-button-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// ICON BUTTON — BRUTALISM
+// ICON BUTTON — BRUTALISM (Strategy D — theme sheet COMPLETO)
 // Quadrado reto, border grossa, sombra offset sólida.
+// Tamanho e layout vêm das utilities Tailwind do render() herdado.
 // =============================================================================
 grouptriggeraction--ml-icon-button-brutal {
   display: inline-block;
 
-  .brutal-icon-btn {
-    position: relative;
-    border-radius: 0;
-    border: 3px solid #000;
-    background: #fff;
-    color: #000;
-    box-shadow: 3px 3px 0 #000;
-    cursor: pointer;
-    transition: none;
-    appearance: none;
+  // ---- brutal theme tokens ----
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-surface: #ffffff;
+  --ml-surface-dim: #f0f0f0;
+  --ml-on-surface: #000000;
+  --ml-on-surface-muted: #999999;
+  --ml-shadow-1: 3px 3px 0 #000000; // valor do .less antigo (3px, não os 4px canônicos)
+  --ml-shadow-2: 1px 1px 0 #000000; // valor do .less antigo (1px, não os 2px canônicos)
+  --ml-disabled-opacity: 0.4;
 
-    &:not(.is-disabled):hover {
-      background: #f0f0f0;
-      box-shadow: 1px 1px 0 #000;
+  .ml-button {
+    appearance: none;
+    position: relative;
+    border-radius: var(--ml-radius-sm, 0);
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    box-shadow: var(--ml-shadow-1, 3px 3px 0 #000000);
+    transition: none;
+
+    // hover cinético: o botão "afunda" na direção da sombra
+    &:not(.ml-disabled):hover {
+      box-shadow: var(--ml-shadow-2, 1px 1px 0 #000000);
       transform: translate(2px, 2px);
     }
-    &:not(.is-disabled):active {
-      box-shadow: 0 0 0 #000;
+    &:not(.ml-disabled):active {
+      box-shadow: 0 0 0 #000000;
       transform: translate(3px, 3px);
     }
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      border-color: #999;
-      box-shadow: 2px 2px 0 #999;
-    }
-    &.is-loading {
-      cursor: wait;
     }
   }
 
-  .brutal-icon-btn-icon {
-    color: #000;
+  .ml-button-secondary {
+    background: var(--ml-surface, #ffffff);
+    color: var(--ml-on-surface, #000000);
+
+    &:not(.ml-disabled):hover {
+      background: var(--ml-surface-dim, #f0f0f0);
+    }
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
+    border-color: var(--ml-on-surface-muted, #999999);
+    box-shadow: 2px 2px 0 var(--ml-on-surface-muted, #999999);
+  }
+
+  // loading (isDisabled=true) precisa vencer o cursor "not-allowed" do
+  // .ml-disabled acima — o render() herdado aplica a utility cursor-wait
+  // junto com ml-disabled; seletor composto garante a especificidade certa.
+  .ml-disabled.cursor-wait {
+    cursor: wait;
+  }
+
+  // Wrapper do ícone: o render() herdado não emite classe ml-* nele
+  // (só Tailwind w-full h-full); alvo via atributo aria-hidden.
+  .ml-button > span[aria-hidden='true'] {
+    color: var(--ml-on-surface, #000000);
     padding: 22%;
   }
-  .is-disabled .brutal-icon-btn-icon {
-    color: #999;
+  .ml-disabled > span[aria-hidden='true'] {
+    color: var(--ml-on-surface-muted, #999999);
+  }
+
+  // Spinner mecânico: rotação em passos, não suave (assinatura brutal)
+  .animate-spin {
+    animation-timing-function: steps(8);
   }
 }

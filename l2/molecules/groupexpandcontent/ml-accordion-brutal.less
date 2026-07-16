@@ -1,83 +1,107 @@
 /// <mls fileReference="_102054_/l2/molecules/groupexpandcontent/ml-accordion-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// ML ACCORDION — BRUTALISM
+// ML ACCORDION — BRUTALISM (Strategy D theme sheet)
 // Blocos sólidos empilhados; sem transparência, sem blur, sem transições.
 // =============================================================================
 groupexpandcontent--ml-accordion-brutal {
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-primary: #3b82f6;
+  --ml-on-primary: #ffffff;
+  --ml-surface: #ffffff;
+  --ml-surface-dim: #eeeeee;
+  --ml-on-surface: #000000;
+  --ml-on-surface-muted: #666666;
+  --ml-shadow-1: 3px 3px 0 #000000;
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;
+  --ml-letter-spacing: 0.05em;
+
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  font-family: var(--ml-font-family);
 
-  .brutal-acc-label {
-    margin-bottom: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: #000;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  .ml-label {
+    font-weight: var(--ml-font-weight-medium);
+    color: var(--ml-on-surface);
+    text-transform: var(--ml-text-transform);
+    letter-spacing: var(--ml-letter-spacing);
   }
 
-  .brutal-acc-muted {
-    color: #666;
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted);
   }
 
-  .brutal-acc-skeleton {
-    border-radius: 0;
-    background: #eee;
-    border: 3px solid #000;
+  .ml-skeleton {
+    border-radius: var(--ml-radius-sm);
+    background: var(--ml-surface-dim);
+    border: var(--ml-border-width) solid var(--ml-outline-variant);
   }
 
-  // ---- seção ----
-  .brutal-acc-section {
-    border-radius: 0;
+  // The per-section wrapper carries no ml-* class of its own — anchor on the
+  // header's stable data attribute instead of bare element order.
+  div:has(> [data-accordion-header='true']) {
+    border-radius: var(--ml-radius-sm);
     overflow: hidden;
-    border: 3px solid #000;
-    box-shadow: 3px 3px 0 #000;
+    border: var(--ml-border-width) solid var(--ml-outline-variant);
+    box-shadow: var(--ml-shadow-1);
   }
 
-  // ---- header ----
-  .brutal-acc-header {
+  .ml-accordion-header {
     position: relative;
-    color: #000;
-    background: #fff;
+    color: var(--ml-on-surface);
+    background: var(--ml-surface);
     border: none;
-    cursor: pointer;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-weight: var(--ml-font-weight-medium);
+    text-transform: var(--ml-text-transform);
+    letter-spacing: var(--ml-letter-spacing);
+    transition: none;
 
-    &.is-open {
-      background: #3b82f6;
-      color: #fff;
-    }
-    &:not(.is-disabled):not(.is-open):hover {
-      background: #eee;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
+    &:not(.ml-disabled):not(.ml-accordion-header-open):hover {
+      background: var(--ml-surface-dim);
     }
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: var(--ml-border-width) solid var(--ml-outline-variant);
       outline-offset: 2px;
     }
   }
 
-  // ---- chevron ----
-  .brutal-acc-chevron {
-    color: #000;
-    &.is-open {
-      color: #fff;
-    }
+  .ml-accordion-header-open {
+    background: var(--ml-primary);
+    color: var(--ml-on-primary);
   }
 
-  // ---- content ----
-  .brutal-acc-content {
-    background: #fff;
-    border-top: 3px solid #000;
+  .ml-accordion-header.ml-disabled {
+    opacity: var(--ml-disabled-opacity);
+    border-color: #999999;
+    cursor: not-allowed;
+    pointer-events: none;
   }
-  .brutal-acc-body {
-    color: #000;
+
+  .ml-accordion-chevron {
+    color: var(--ml-on-surface);
+    transition: none;
+  }
+
+  .ml-accordion-chevron-open {
+    color: var(--ml-on-primary);
+  }
+
+  // .ml-accordion-content is emitted twice per section (the collapsible
+  // region wrapper AND the inner padded text block) — differentiate so the
+  // border/background aren't duplicated on the inner block.
+  .ml-accordion-content {
+    background: var(--ml-surface);
+    border-top: var(--ml-border-width) solid var(--ml-outline-variant);
+    color: var(--ml-on-surface);
+    transition: none;
+
+    .ml-accordion-content {
+      border-top: none;
+      background: transparent;
+    }
   }
 }

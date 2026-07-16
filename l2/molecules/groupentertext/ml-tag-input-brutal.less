@@ -1,115 +1,167 @@
 /// <mls fileReference="_102054_/l2/molecules/groupentertext/ml-tag-input-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// TAG INPUT — BRUTALISM (102054, por herança)
+// TAG INPUT — BRUTALISM
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -brutal) e redefine toda a aparência.
+// Valores migrados do .less antigo da variante (precedência da migração):
+// sombra 3px (não 4px), tag com border 2px, contador/helper #666.
+// Layout (padding, gap, flex) vem do Tailwind no template.
 // =============================================================================
 groupentertext--ml-tag-input-brutal {
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
 
-  .brutal-tag-label {
-    color: #000;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .brutal-tag-req {
-    color: #ef4444;
-  }
-  .brutal-tag-view {
-    color: #000;
-  }
-  .brutal-tag-affix {
-    color: #000;
-  }
-  .brutal-tag-counter {
-    color: #666;
-  }
-  .brutal-helper {
-    color: #666;
-  }
-  .brutal-error-text {
-    color: #ef4444;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-  .brutal-tag-loading {
-    background: rgba(255, 255, 255, 0.85);
-    border: 3px solid #000;
-    border-radius: 0;
-    color: #000;
+  // ---- tokens do tema brutal ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-border-style: solid;
+  --ml-outline-variant: #000000;
+  --ml-surface: #ffffff;
+  --ml-surface-dim: #f5f5f5;
+  --ml-on-surface: #000000;
+  --ml-on-surface-muted: #999999;
+  --ml-error: #ef4444;
+  --ml-shadow-1: 3px 3px 0 #000000; // valor do .less antigo (3px) prevalece sobre o canônico 4px
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;   // assinatura do brutal
+  --ml-letter-spacing: 0.05em;      // assinatura do brutal
+
+  font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+
+  // ---- label (antigo .brutal-tag-label) ----
+  .ml-label {
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family, monospace);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
   }
 
-  .brutal-tag-box {
-    background: #fff;
-    border: 3px solid #000;
-    border-radius: 0;
-    box-shadow: 3px 3px 0 #000;
-    cursor: text;
+  // asterisco de required (antigo .brutal-tag-req) e mensagem de erro
+  // compartilham .ml-error-text; a mensagem (um <p role="alert">) tem
+  // valores próprios (antigo .brutal-error-text) → seletor mais específico.
+  .ml-error-text {
+    color: var(--ml-error, #ef4444);
+    font-family: var(--ml-font-family, monospace);
+  }
+  p.ml-error-text {
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+  }
 
-    &.is-focused {
-      outline: 3px solid #000;
+  // helper (antigo .brutal-helper)
+  .ml-helper {
+    color: #666666;
+    font-family: var(--ml-font-family, monospace);
+  }
+
+  // view mode (antigo .brutal-tag-view)
+  .ml-text {
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family, monospace);
+  }
+
+  // contador do textarea (antigo .brutal-tag-counter)
+  .ml-text-muted {
+    color: #666666;
+    font-family: var(--ml-font-family, monospace);
+  }
+
+  // prefix/suffix (antigo .brutal-tag-affix: preto sólido, não "faint")
+  .ml-text-faint {
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family, monospace);
+  }
+
+  // ---- container do input (antigo .brutal-tag-box) ----
+  .ml-input-container {
+    background: var(--ml-surface, #ffffff);
+    border: var(--ml-border-width, 3px) var(--ml-border-style, solid) var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-sm, 0);
+    box-shadow: var(--ml-shadow-1, 3px 3px 0 #000000);
+    transition: none;
+
+    // antigo .is-focused
+    &:focus-within {
+      outline: 3px solid #000000;
       outline-offset: 2px;
     }
-    &.is-error {
-      border-color: #ef4444;
-      box-shadow: 3px 3px 0 #ef4444;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
-    }
-    &.is-readonly {
-      cursor: default;
-      background: #f5f5f5;
+    // antigo .is-readonly (a base não emite classe de readonly no container;
+    // âncora estrutural no atributo readonly do campo herdado)
+    &:has(input[readonly], textarea[readonly]) {
+      background: var(--ml-surface-dim, #f5f5f5);
     }
   }
 
-  .brutal-tag-input {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #000;
-    font-family: inherit;
+  // antigo .is-error
+  .ml-input-container-error {
+    border-color: var(--ml-error, #ef4444);
+    box-shadow: 3px 3px 0 #ef4444;
+  }
+
+  // disabled acinzenta borda E sombra (regra canônica da skill — estrutura cinza)
+  .ml-input-container.ml-disabled {
+    border-color: #999999;
+    box-shadow: 3px 3px 0 #999999;
+  }
+
+  // ---- campo (antigo .brutal-tag-input; bg/border/outline vêm do Tailwind herdado) ----
+  .ml-input {
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family, monospace);
 
     &::placeholder {
-      color: #999;
-    }
-    &.is-disabled {
-      cursor: not-allowed;
-    }
-    &.is-readonly {
-      cursor: default;
+      color: var(--ml-on-surface-muted, #999999);
     }
   }
 
-  .brutal-tag {
-    background: #000;
-    color: #fff;
-    border: 2px solid #000;
-    border-radius: 0;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  // ---- tag (antigo .brutal-tag) ----
+  .ml-tag {
+    background: #000000;
+    color: #ffffff;
+    border: 2px solid #000000; // antigo: 2px, mais fino que o container
+    border-radius: var(--ml-radius-sm, 0);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
   }
 
-  .brutal-tag-remove {
-    color: #fff;
-    border-radius: 0;
+  // ---- botão de remover (antigo .brutal-tag-remove) ----
+  .ml-tag-remove {
+    color: #ffffff;
+    border-radius: 0; // anula o rounded-full herdado
     cursor: pointer;
+    transition: none;
 
     &:hover {
-      background: #ef4444;
-      color: #fff;
+      background: var(--ml-error, #ef4444);
+      color: #ffffff;
     }
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
     }
-    &.is-disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
+  }
+
+  // ---- estados genéricos ----
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // ---- overlay de loading (antigo .brutal-tag-loading) ----
+  .ml-loading-overlay {
+    background: rgba(255, 255, 255, 0.85); // valor do .less antigo prevalece
+    border: 3px solid #000000;
+    border-radius: 0; // anula o rounded-lg herdado
+    color: #000000;
+  }
+
+  // spinner mecânico: rotação em passos, sem suavidade
+  .animate-spin {
+    animation-timing-function: steps(8);
   }
 }

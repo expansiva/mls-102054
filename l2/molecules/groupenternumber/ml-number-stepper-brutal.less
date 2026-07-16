@@ -1,94 +1,149 @@
 /// <mls fileReference="_102054_/l2/molecules/groupenternumber/ml-number-stepper-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// NUMBER STEPPER — BRUTALISM (102054, por herança)
+// NUMBER STEPPER — BRUTALISM (102054, Strategy D: folha de tema COMPLETA)
 // =============================================================================
+// A borda/sombra do input vive no .ml-input-container (markup herdado da base);
+// os valores visuais vêm do .less antigo da variante (precedência: valor antigo
+// vence a tabela canônica — ex.: sombra 3px do input, 2px/1px dos botões).
 groupenternumber--ml-number-stepper-brutal {
+  // ---- brutal theme tokens (somente os consumidos por esta molécula) ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-surface: #ffffff;
+  --ml-surface-dim: #f0f0f0;
+  --ml-on-surface: #000000;
+  --ml-on-surface-muted: #999999;
+  --ml-error: #ef4444;
+  --ml-shadow-1: 3px 3px 0 #000000; // valor antigo (3px) vence o canônico (4px)
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;
+  --ml-letter-spacing: 0.05em;
+
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  font-family: var(--ml-font-family, monospace);
 
-  .brutal-ns-label {
-    color: #000;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .brutal-ns-affix {
-    color: #000;
-    font-weight: 700;
+  // ---- texto / papéis semânticos ----
+  .ml-text {
+    // modo visualização (antigo .brutal-ns-view)
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family, monospace);
+    font-weight: var(--ml-font-weight-medium, 700);
   }
 
-  .brutal-ns-input {
-    border-radius: 0;
-    border: 3px solid #000;
-    background: #fff;
-    color: #000;
-    box-shadow: 3px 3px 0 #000;
-    transition: none;
+  .ml-error-text {
+    color: var(--ml-error, #ef4444);
+    font-family: var(--ml-font-family, monospace);
+    font-weight: var(--ml-font-weight-medium, 700);
+  }
+
+  .ml-text-muted {
+    font-family: var(--ml-font-family, monospace);
+  }
+  // um ml-* para vários papéis antigos → seletores mais específicos por elemento
+  label.ml-text-muted {
+    // antigo .brutal-ns-label
+    color: var(--ml-on-surface, #000000);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+  }
+  span.ml-text-muted {
+    // antigo .brutal-ns-affix (Prefix/Suffix)
+    color: var(--ml-on-surface, #000000);
+    font-weight: var(--ml-font-weight-medium, 700);
+  }
+  p.ml-text-muted {
+    // antigo .brutal-helper
+    color: #666;
+  }
+  div.ml-text-muted {
+    // antigo .brutal-ns-loading
+    color: #666;
+  }
+
+  // ---- estados genéricos ----
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // ---- input (o quadro brutal fica no container, não no input) ----
+  .ml-input {
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family, monospace);
+
     &::placeholder {
-      color: #999;
+      color: var(--ml-on-surface-muted, #999999);
     }
-    &:focus {
-      outline: 3px solid #000;
+  }
+
+  .ml-input-container {
+    background-color: var(--ml-surface, #ffffff);
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-sm, 0);
+    box-shadow: var(--ml-shadow-1, 3px 3px 0 #000000);
+    transition: none;
+
+    &:focus-within {
+      // antigo :focus do input; a borda agora vive no container
+      outline: 3px solid #000000;
       outline-offset: 2px;
     }
-    &.is-error {
-      border-color: #ef4444;
-      box-shadow: 3px 3px 0 #ef4444;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      border-color: #999;
-      box-shadow: 2px 2px 0 #999;
-    }
-    &.is-readonly {
-      cursor: default;
-      background: #f5f5f5;
+
+    &:has(input[readonly]) {
+      // antigo .is-readonly (cursor: default já vem da utility herdada)
+      background-color: #f5f5f5;
     }
   }
 
-  .brutal-ns-btn {
-    border-radius: 0;
-    border: 3px solid #000;
-    background: #fff;
-    color: #000;
-    font-weight: 900;
+  // erro: classe da base + estado estrutural (required vazio não recebe a classe)
+  .ml-input-container-error,
+  .ml-input-container:has(input[aria-invalid='true']) {
+    border-color: var(--ml-error, #ef4444);
+    box-shadow: 3px 3px 0 var(--ml-error, #ef4444);
+  }
+
+  // estrutura acinzentada quando o container está desabilitado
+  .ml-disabled .ml-input-container {
+    border-color: #999999;
+    box-shadow: 2px 2px 0 #999999;
+  }
+
+  // ---- botões +/− ----
+  .ml-stepper-button {
+    border-radius: var(--ml-radius-sm, 0);
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    background-color: var(--ml-surface, #ffffff);
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family, monospace);
+    font-weight: 900; // valor antigo vence o token (700)
     cursor: pointer;
-    box-shadow: 2px 2px 0 #000;
+    box-shadow: 2px 2px 0 #000000; // offset antigo dos botões (2px)
     transition: none;
+
     &:hover:not(:disabled) {
-      background: #f0f0f0;
-      box-shadow: 1px 1px 0 #000;
+      background-color: var(--ml-surface-dim, #f0f0f0);
+      box-shadow: 1px 1px 0 #000000;
       transform: translate(1px, 1px);
     }
     &:active:not(:disabled) {
-      box-shadow: 0 0 0 #000;
+      box-shadow: 0 0 0 #000000;
       transform: translate(2px, 2px);
     }
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
     }
     &:disabled {
-      opacity: 0.4;
+      opacity: var(--ml-disabled-opacity, 0.4);
       cursor: not-allowed;
-      border-color: #999;
+      border-color: #999999;
+      box-shadow: 2px 2px 0 #999999;
     }
-  }
-
-  .brutal-ns-view {
-    color: #000;
-    font-weight: 700;
-  }
-  .brutal-ns-loading {
-    color: #666;
-  }
-  .brutal-helper {
-    color: #666;
-  }
-  .brutal-error-text {
-    color: #ef4444;
-    font-weight: 700;
   }
 }

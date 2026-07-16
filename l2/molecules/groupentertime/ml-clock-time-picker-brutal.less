@@ -1,159 +1,209 @@
 /// <mls fileReference="_102054_/l2/molecules/groupentertime/ml-clock-time-picker-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// CLOCK TIME PICKER — BRUTALISM (102054, por herança)
-// Campo sólido + painel popover com grade de horas/minutos/segundos.
+// CLOCK TIME PICKER — BRUTALISM (102054)
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -brutal) e redefine toda a aparência.
+// Valores migrados do .less brutal antigo (o valor antigo vence a tabela canônica).
+// Layout (padding, grid, flex) vem do Tailwind no template.
 // =============================================================================
 groupentertime--ml-clock-time-picker-brutal {
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
 
-  .brutal-tp-label {
-    color: #000;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  // ---- tokens do tema brutal (valores do .less antigo vencem) ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-border-style: solid;
+  --ml-outline-variant: #000000;
+  --ml-primary: #3b82f6;
+  --ml-on-primary: #ffffff;
+  --ml-surface: #ffffff;
+  --ml-surface-dim: #f0f0f0;
+  --ml-on-surface: #000000;
+  --ml-on-surface-muted: #999999;
+  --ml-error: #ef4444;
+  --ml-shadow-1: 6px 6px 0 #000000; // sombra do painel (antigo: 6px, vence os 4px canônicos)
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;   // assinatura do brutal
+  --ml-letter-spacing: 0.05em;      // assinatura do brutal
+
+  // ---- label ----
+  .ml-label {
     display: block;
+    color: var(--ml-on-surface, #000000);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
   }
-  .brutal-tp-req {
-    color: #ef4444;
+
+  // asterisco de required (span dentro do label) e texto de erro (p) compartilham
+  // .ml-error-text; o parágrafo de erro tem regras próprias (seletor mais específico)
+  .ml-error-text {
+    color: var(--ml-error, #ef4444);
   }
-  .brutal-helper {
-    color: #666;
-  }
-  .brutal-error-text {
-    color: #ef4444;
+  p.ml-error-text {
     font-weight: 700;
     text-transform: uppercase;
   }
-  .brutal-tp-view {
-    color: #000;
+
+  .ml-helper {
+    color: #666;
   }
-  .brutal-tp-loading {
+
+  // ---- modo visualização ----
+  .ml-text {
+    color: var(--ml-on-surface, #000000);
+  }
+
+  // .ml-text-muted é emitido em 3 elementos com valores antigos distintos:
+  // div = loading, span = rótulo do estágio (Hora/Minuto/Segundo), button = ícone do relógio
+  div.ml-text-muted {
     color: #666;
     font-weight: 700;
     text-transform: uppercase;
   }
-  .brutal-tp-step {
-    color: #000;
+  span.ml-text-muted {
+    color: var(--ml-on-surface, #000000);
     font-weight: 700;
   }
-
-  // ---- input ----
-  .brutal-tp-input {
-    background: #fff;
-    border: 3px solid #000;
-    border-radius: 0;
-    color: #000;
-    outline: none;
-    cursor: pointer;
-    box-shadow: 3px 3px 0 #000;
-
-    &::placeholder {
-      color: #999;
-    }
-    &:focus {
-      outline: 3px solid #000;
-      outline-offset: 2px;
-    }
-    &.is-error {
-      border-color: #ef4444;
-      box-shadow: 3px 3px 0 #ef4444;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
-    }
-  }
-  .brutal-tp-clock {
+  button.ml-text-muted {
     background: transparent;
     border: none;
     cursor: pointer;
     font-size: 1.25rem;
+    color: var(--ml-on-surface, #000000);
+    transition: none;
+
     &:disabled {
-      opacity: 0.4;
+      opacity: var(--ml-disabled-opacity, 0.4);
       cursor: not-allowed;
     }
+  }
+
+  // ---- input (mesmo elemento carrega .ml-input e .ml-input-container) ----
+  .ml-input-container {
+    background: var(--ml-surface, #ffffff);
+    border: var(--ml-border-width, 3px) var(--ml-border-style, solid) var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-sm, 0);
+    box-shadow: 3px 3px 0 #000000;
+    transition: none;
+  }
+
+  .ml-input {
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    outline: none;
+
+    &::placeholder {
+      color: var(--ml-on-surface-muted, #999999);
+    }
+    &:focus {
+      outline: 3px solid #000000;
+      outline-offset: 2px;
+    }
+  }
+
+  .ml-input-container-error {
+    border-color: var(--ml-error, #ef4444);
+    box-shadow: 3px 3px 0 #ef4444;
+  }
+
+  // ---- estados desabilitados ----
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .ml-input-container.ml-disabled {
+    border-color: #999;
+    box-shadow: 3px 3px 0 #999;
   }
 
   // ---- painel ----
-  .brutal-tp-panel {
-    background: #fff;
-    border: 3px solid #000;
-    border-radius: 0;
-    box-shadow: 6px 6px 0 #000;
+  .ml-clock-panel {
+    background: var(--ml-surface, #ffffff);
+    border: var(--ml-border-width, 3px) var(--ml-border-style, solid) var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-sm, 0);
+    box-shadow: var(--ml-shadow-1, 6px 6px 0 #000000);
   }
 
-  // ---- opções (relógio) ----
-  .brutal-tp-option {
-    border-radius: 0;
-    border: 2px solid #000;
-    background: #fff;
-    color: #000;
-    cursor: pointer;
+  // ---- opções (grade de horas/minutos/segundos) ----
+  .ml-clock-number {
+    background: var(--ml-surface, #ffffff);
+    color: var(--ml-on-surface, #000000);
+    border: 2px solid #000000;
+    border-radius: var(--ml-radius-sm, 0);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
     font-weight: 700;
+    transition: none;
 
-    &:hover:not(.is-disabled):not(.is-selected) {
-      background: #f0f0f0;
+    &:hover:not(.ml-disabled):not(.ml-clock-number-selected) {
+      background: var(--ml-surface-dim, #f0f0f0);
     }
-    &.is-selected {
-      background: #000;
-      border-color: #000;
-      color: #fff;
-    }
-    &.is-disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
+  }
+  .ml-clock-number-selected {
+    background: #000000;
+    border-color: #000000;
+    color: #ffffff;
+  }
+  .ml-clock-number.ml-disabled {
+    opacity: 0.3; // valor antigo (0.3) vence o 0.4 canônico
   }
 
   // ---- AM/PM ----
-  .brutal-tp-ampm {
-    border-radius: 0;
-    border: 2px solid #000;
-    background: #fff;
-    color: #000;
+  .ml-clock-ampm {
+    background: var(--ml-surface, #ffffff);
+    color: var(--ml-on-surface, #000000);
+    border: 2px solid #000000;
+    border-radius: var(--ml-radius-sm, 0);
     cursor: pointer;
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
     font-weight: 700;
     text-transform: uppercase;
-
-    &.is-active {
-      background: #000;
-      border-color: #000;
-      color: #fff;
-    }
+    transition: none;
+  }
+  .ml-clock-ampm-selected {
+    background: #000000;
+    border-color: #000000;
+    color: #ffffff;
   }
 
-  // ---- ações ----
-  .brutal-tp-clear {
-    background: #fff;
-    border: 2px solid #000;
-    border-radius: 0;
-    color: #000;
+  // ---- ações (limpar / confirmar) ----
+  .ml-clock-action {
+    background: var(--ml-surface, #ffffff);
+    color: var(--ml-on-surface, #000000);
+    border: 2px solid #000000;
+    border-radius: var(--ml-radius-sm, 0);
     cursor: pointer;
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
     font-weight: 700;
     text-transform: uppercase;
-    box-shadow: 2px 2px 0 #000;
+    box-shadow: 2px 2px 0 #000000;
+    transition: none;
 
     &:hover {
-      background: #000;
-      color: #fff;
+      background: #000000;
+      color: #ffffff;
     }
     &:active {
       box-shadow: none;
       transform: translate(2px, 2px);
     }
   }
-  .brutal-tp-confirm {
-    border-radius: 0;
-    border: 2px solid #000;
-    background: #3b82f6;
-    color: #fff;
+  .ml-clock-confirm {
+    background: var(--ml-primary, #3b82f6);
+    color: var(--ml-on-primary, #ffffff);
+    border: 2px solid #000000;
+    border-radius: var(--ml-radius-sm, 0);
     cursor: pointer;
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
     font-weight: 700;
     text-transform: uppercase;
-    box-shadow: 2px 2px 0 #000;
+    box-shadow: 2px 2px 0 #000000;
+    transition: none;
 
     &:hover {
       background: #2563eb;

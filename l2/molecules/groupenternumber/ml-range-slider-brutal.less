@@ -1,66 +1,80 @@
 /// <mls fileReference="_102054_/l2/molecules/groupenternumber/ml-range-slider-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// RANGE SLIDER — BRUTALISM (102054, por herança)
+// RANGE SLIDER — BRUTALISM (Strategy D — theme sheet COMPLETO)
+// O .less da base escopa na tag base e não alcança a tag -brutal:
+// este arquivo define a aparência inteira. Valores migrados do .less antigo.
 // =============================================================================
 groupenternumber--ml-range-slider-brutal {
+  // ---- tokens do tema brutal (valores antigos vencem os canônicos) ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-surface: #e5e5e5;            // antigo: fundo do track
+  --ml-border-width: 2px;           // antigo: track/thumb usam 2px (vence os 3px canônicos)
+  --ml-outline-variant: #000000;
+  --ml-on-surface: #000000;
+  --ml-on-surface-muted: #666666;
+  --ml-error: #ef4444;
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;
+  --ml-letter-spacing: 0.05em;
+
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
 
-  .brutal-rs-label {
-    color: #000;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .brutal-rs-affix {
-    color: #666;
-    font-weight: 700;
-  }
-  .brutal-rs-value {
-    color: #000;
-    font-weight: 800;
-  }
-  .brutal-rs-sep {
-    color: #999;
-    font-weight: 700;
-  }
-  .brutal-rs-view {
-    color: #000;
-    font-weight: 700;
-  }
-  .brutal-rs-loading {
-    color: #666;
-  }
-  .brutal-helper {
-    color: #666;
-  }
-  .brutal-error-text {
-    color: #ef4444;
-    font-weight: 700;
+  .ml-label {
+    color: var(--ml-on-surface, #000000);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
   }
 
-  // ---- range nativo estilizado ----
-  .brutal-range {
+  // .ml-text tem dois papéis (mesmo mapeamento da variante glass):
+  // valor (span) vs container do view mode (div)
+  span.ml-text {
+    color: var(--ml-on-surface, #000000);
+    font-weight: 800; // antigo .brutal-rs-value
+  }
+  div.ml-text {
+    color: var(--ml-on-surface, #000000);
+    font-weight: var(--ml-font-weight-medium, 700); // antigo .brutal-rs-view
+  }
+
+  // .ml-text-muted, três papéis com valores antigos distintos:
+  // default = prefix/suffix (antigo .brutal-rs-affix)
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, #666666);
+    font-weight: var(--ml-font-weight-medium, 700);
+  }
+  // separador do intervalo (antigo .brutal-rs-sep)
+  div.ml-text-muted > span.ml-text-muted {
+    color: #999999;
+  }
+  // mensagem de loading (antigo .brutal-rs-loading)
+  div.ml-text-muted.mt-2 {
+    color: var(--ml-on-surface-muted, #666666);
+    font-weight: normal;
+  }
+
+  .ml-helper {
+    color: var(--ml-on-surface-muted, #666666);
+  }
+  .ml-error-text {
+    color: var(--ml-error, #ef4444);
+    font-weight: var(--ml-font-weight-medium, 700);
+  }
+
+  // ---- range nativo estilizado (antigo .brutal-range) ----
+  // height/cursor vêm das utilities herdadas (h-2, cursor-pointer);
+  // border-radius: 0 sobrescreve o rounded-full herdado (assinatura brutal).
+  .ml-slider-track {
     -webkit-appearance: none;
     appearance: none;
-    height: 0.5rem;
+    background: var(--ml-surface, #e5e5e5);
+    border: var(--ml-border-width, 2px) solid var(--ml-outline-variant, #000000);
     border-radius: 0;
-    background: #e5e5e5;
-    border: 2px solid #000;
     outline: none;
-    cursor: pointer;
-
-    &.is-error {
-      border-color: #ef4444;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-    &.is-readonly {
-      opacity: 0.7;
-    }
+    transition: none;
 
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
@@ -68,23 +82,37 @@ groupenternumber--ml-range-slider-brutal {
       width: 1.2rem;
       height: 1.2rem;
       border-radius: 0;
-      background: #000;
-      border: 2px solid #000;
-      box-shadow: 2px 2px 0 #000;
+      background: #000000;
+      border: 2px solid #000000;
+      box-shadow: 2px 2px 0 #000000;
       cursor: pointer;
     }
     &::-moz-range-thumb {
       width: 1.2rem;
       height: 1.2rem;
       border-radius: 0;
-      background: #000;
-      border: 2px solid #000;
-      box-shadow: 2px 2px 0 #000;
+      background: #000000;
+      border: 2px solid #000000;
+      box-shadow: 2px 2px 0 #000000;
       cursor: pointer;
     }
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
     }
+
+    &.ml-input-container-error {
+      border-color: var(--ml-error, #ef4444);
+    }
+    // readonly: base não emite classe — âncora no atributo aria (antigo opacity 0.7)
+    &[aria-readonly='true'] {
+      opacity: 0.7;
+    }
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 }

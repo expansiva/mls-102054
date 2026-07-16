@@ -2,64 +2,92 @@
 
 // =============================================================================
 // NAVIGATE PILLS — BRUTALISM
-// Pílulas sólidas com bordas grossas; ativa em preto.
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -brutal) e redefine toda a aparência.
+// Pílulas sólidas com bordas grossas; ativa em preto. Sem transparência, sem blur.
 // =============================================================================
 groupnavigatesection--ml-navigate-pills-brutal {
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
 
-  .brutal-nav-label {
-    color: #000;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  // ---- tokens do tema brutal ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-surface: #ffffff;
+  --ml-on-surface: #000000;
+  --ml-error: #ef4444;
+  --ml-shadow-1: 3px 3px 0 #000000;
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;
+  --ml-letter-spacing: 0.05em;
+
+  .ml-label {
+    color: var(--ml-on-surface, #000000);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
   }
 
-  .brutal-pill {
-    border-radius: 0;
-    border: 3px solid #000;
-    background: #fff;
-    color: #000;
-    cursor: pointer;
-    box-shadow: 3px 3px 0 #000;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  .ml-text {
+    color: var(--ml-on-surface, #000000);
+  }
 
-    &.is-active {
-      background: #000;
-      color: #fff;
-    }
-    &:not(.is-disabled):not(.is-active):hover {
-      background: #eee;
+  .ml-text-muted {
+    color: #666666;
+  }
+
+  .ml-error-text {
+    color: var(--ml-error, #ef4444);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // A mesma .ml-nav-pill é reaproveitada pelo bloco de "loading" (combinada
+  // com .ml-text-muted): o seletor composto abaixo garante que a cor #666
+  // vença ali sem depender de ordem no arquivo.
+  .ml-nav-pill {
+    border-radius: var(--ml-radius-sm, 0);
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    background: var(--ml-surface, #ffffff);
+    color: var(--ml-on-surface, #000000);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+    box-shadow: var(--ml-shadow-1, 3px 3px 0 #000000);
+    transition: none;
+
+    &.cursor-pointer:not(.ml-nav-pill-active):hover {
+      background: #eeeeee;
     }
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
     }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
-    }
+  }
+  .ml-nav-pill.ml-disabled {
+    border-color: #999999;
+  }
+  .ml-nav-pill.ml-text-muted {
+    color: #666666;
   }
 
-  .brutal-pill-panel {
-    border-radius: 0;
-    border: 3px solid #000;
-    background: #fff;
-    color: #000;
-    box-shadow: 3px 3px 0 #000;
+  .ml-nav-pill-active {
+    background: #000000;
+    color: #ffffff;
   }
 
-  .brutal-nav-loading {
-    border-radius: 0;
-    border: 3px solid #000;
-    background: #fff;
-    color: #666;
-    box-shadow: 3px 3px 0 #000;
-  }
-  .brutal-error-text {
-    color: #ef4444;
-    font-weight: 700;
-    text-transform: uppercase;
+  .ml-nav-pill-panel {
+    border-radius: var(--ml-radius-sm, 0);
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    background: var(--ml-surface, #ffffff);
+    box-shadow: var(--ml-shadow-1, 3px 3px 0 #000000);
   }
 }

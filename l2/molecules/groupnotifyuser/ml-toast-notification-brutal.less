@@ -1,88 +1,122 @@
 /// <mls fileReference="_102054_/l2/molecules/groupnotifyuser/ml-toast-notification-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// TOAST NOTIFICATION — BRUTALISM
-// Toast sólido tonalizado por tipo. Sem blur, sem transparência.
+// TOAST NOTIFICATION — BRUTALISM (Strategy D)
+// O render() herdado do 102040 emite classes semânticas ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -brutal) e redefine toda a aparência.
+// Toast sólido (branco) com acento por tipo. Sem blur, sem transparência.
+// Layout/posição/ANIMAÇÃO (fixed, transition-all, opacity-*, translate-y-*,
+// animate-slide-in-*) vêm do Tailwind no template — não tocar nessas classes
+// nem declarar transition/opacity/transform no seletor do container, para não
+// quebrar a entrada/saída animada do toast.
 // =============================================================================
 groupnotifyuser--ml-toast-notification-brutal {
   display: contents;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
 
-  .brutal-toast {
-    border-radius: 0;
-    border: 3px solid #000;
-    background: #fff;
-    box-shadow: 3px 3px 0 #000;
-    color: #000;
+  // ---- tokens do tema brutal ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-surface: #ffffff;
+  --ml-on-surface: #000000;
+  --ml-primary: #3b82f6;
+  --ml-success: #16a34a;
+  --ml-warning: #ca8a04; // valor antigo vence o default do skill (#d97706)
+  --ml-error: #ef4444;
+  --ml-text-transform: uppercase;
+  --ml-letter-spacing: 0.05em;
 
-    &.is-success {
-      background: #fff;
-      border-color: #000;
-      border-left: 6px solid #16a34a;
-    }
-    &.is-warning {
-      background: #fff;
-      border-color: #000;
-      border-left: 6px solid #ca8a04;
-    }
-    &.is-error {
-      background: #fff;
-      border-color: #000;
-      border-left: 6px solid #ef4444;
-    }
-    &.is-info {
-      background: #fff;
-      border-color: #000;
-      border-left: 6px solid #3b82f6;
-    }
-  }
+  font-family: var(--ml-font-family);
 
-  .brutal-toast-icon {
-    color: #000;
-  }
-  .is-success .brutal-toast-icon {
-    color: #16a34a;
-  }
-  .is-warning .brutal-toast-icon {
-    color: #ca8a04;
-  }
-  .is-error .brutal-toast-icon {
-    color: #ef4444;
-  }
-  .is-info .brutal-toast-icon {
-    color: #3b82f6;
+  // painel: as 4 combinações "*-dim-bg" só ocorrem no container. O antigo
+  // usava fundo branco sólido para todos os tipos (sem tonalização) — mantido.
+  // Sem transition/opacity/transform aqui: a animação de entrada/saída do
+  // toast é toda via Tailwind (transition-all, opacity-*, translate-y-*).
+  .ml-primary-dim-bg,
+  .ml-success-dim-bg,
+  .ml-warning-dim-bg,
+  .ml-error-dim-bg {
+    border-radius: var(--ml-radius-sm, 0);
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    background: var(--ml-surface, #ffffff);
+    box-shadow: 3px 3px 0 #000000; // offset antigo
+    color: var(--ml-on-surface, #000000);
   }
 
-  .brutal-toast-title {
-    color: #000;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  // acento por tipo (borda esquerda grossa) — mesma especificidade da regra
+  // acima; como vem depois, vence no border-left
+  .ml-border-info {
+    border-left: 6px solid var(--ml-primary, #3b82f6);
   }
-  .brutal-toast-message {
-    color: #333;
+  .ml-border-success {
+    border-left: 6px solid var(--ml-success, #16a34a);
   }
-  .brutal-toast-action {
-    color: #3b82f6;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  .ml-border-warning {
+    border-left: 6px solid var(--ml-warning, #ca8a04);
+  }
+  .ml-border-error {
+    border-left: 6px solid var(--ml-error, #ef4444);
+  }
+
+  // título vs mensagem — a única diferença estrutural é "font-semibold"
+  .ml-text {
+    color: #333333; // valor antigo
+  }
+  .font-semibold.ml-text {
+    color: var(--ml-on-surface, #000000);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+  }
+
+  // ícone (sem caixa, só cor) vs action (mesma cor por tipo) — diferenciados
+  // pela utility companheira: ícone tem "flex-shrink-0", action tem "cursor-pointer"
+  .ml-primary-text {
+    color: var(--ml-primary, #3b82f6);
+  }
+  .ml-success-text {
+    color: var(--ml-success, #16a34a);
+  }
+  .ml-warning-text {
+    color: var(--ml-warning, #ca8a04);
+  }
+  .ml-error-text {
+    color: var(--ml-error, #ef4444);
+  }
+
+  .ml-primary-text.cursor-pointer,
+  .ml-success-text.cursor-pointer,
+  .ml-warning-text.cursor-pointer,
+  .ml-error-text.cursor-pointer {
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+    transition: none; // sobrescreve "transition-colors" só neste controle interativo
+
     &:hover {
       text-decoration: underline;
     }
   }
 
-  .brutal-toast-close {
-    border: 3px solid #000;
-    border-radius: 0;
-    background: #fff;
-    color: #000;
+  // close (botão apenas com ícone) — os dois hooks de hover disponíveis
+  // ("hover:ml-text-muted" + "hover:ml-surface-dim-bg") compõem a inversão
+  // completa do botão antigo (cor + fundo), pois atuam no mesmo elemento
+  button.ml-text-faint {
+    border-radius: var(--ml-radius-sm, 0);
+    border: var(--ml-border-width, 3px) solid #000000;
+    background: var(--ml-surface, #ffffff);
+    color: #000000;
     cursor: pointer;
-    &:hover {
-      background: #000;
-      color: #fff;
-    }
+    transition: none;
+
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
     }
+  }
+  .hover\:ml-text-muted:hover {
+    color: #ffffff;
+  }
+  .hover\:ml-surface-dim-bg:hover {
+    background: #000000;
   }
 }

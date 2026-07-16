@@ -1,123 +1,171 @@
 /// <mls fileReference="_102054_/l2/molecules/groupnavigatemain/ml-sidebar-nav-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// SIDEBAR NAV — BRUTALISM
+// SIDEBAR NAV — BRUTALISM (Strategy D)
 // Sidebar sólida com bordas grossas. Sem transparência, sem blur.
+// Sem shadow/kinetic hover neste componente: o brutal.less anterior nunca usou
+// shadow ou "salto" no hover para a sidebar, então essa ausência é preservada
+// (adicionar shadow mudaria a aparência de repouso que o antigo não tinha).
 // =============================================================================
 groupnavigatemain--ml-sidebar-nav-brutal {
   display: block;
   height: 100%;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
 
-  .brutal-sidebar {
-    border-right: 3px solid #000;
-    background: #fff;
-    color: #000;
-  }
-  .brutal-sidebar-header {
-    border-bottom: 3px solid #000;
-  }
-  .brutal-sidebar-title {
-    color: #000;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .brutal-sidebar-footer {
-    border-top: 3px solid #000;
-  }
-  .brutal-sidebar-divider {
-    background: #000;
+  // ---- brutal theme tokens ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-text-transform: uppercase;
+  --ml-letter-spacing: 0.05em;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-primary: #3b82f6;
+  --ml-surface: #ffffff;
+  --ml-surface-dim: #eeeeee;
+  --ml-on-surface: #000000;
+  --ml-error: #ef4444;
+  --ml-radius-sm: 0;
+  --ml-disabled-opacity: 0.4;
+
+  font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+
+  // ---- brutal: sem transições, tudo "salta" instantaneamente ----
+  .transition,
+  .transition-all,
+  .transition-transform {
+    transition: none;
   }
 
-  // ---- itens ----
-  .brutal-nav-item {
-    border-radius: 0;
-    border: none;
-    background: transparent;
-    color: #000;
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  // ---- surfaces / borders ----
+  // .brutal-sidebar (antigo) = <nav> raiz: bg + borda + cor de texto padrão
+  .ml-surface-bg {
+    background: var(--ml-surface, #ffffff);
+    color: var(--ml-on-surface, #000000);
+  }
 
-    &.is-active {
-      background: #3b82f6;
-      color: #fff;
-    }
-    &:not(.is-active):not(.is-disabled):hover {
-      background: #eee;
-    }
-    &:focus-visible {
-      outline: 3px solid #000;
-      outline-offset: 2px;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
+  .ml-border {
+    border-color: var(--ml-outline-variant, #000000);
+
+    // largura por lado, conforme a utility Tailwind já aplicada no elemento
+    // (nunca redefinir border-width via shorthand: zeraria os outros lados)
+    &.border-r { border-right-width: var(--ml-border-width, 3px); }
+    &.border-b { border-bottom-width: var(--ml-border-width, 3px); }
+    &.border-t { border-top-width: var(--ml-border-width, 3px); }
+  }
+
+  // ---- text colors ----
+  // cobre: título do header (span com getSlotClass('Label')) e item inativo
+  .ml-text {
+    color: var(--ml-on-surface, #000000);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+  }
+
+  // cobre: ícone do item (padrão), botão de collapse e label de grupo (padrão)
+  .ml-text-faint {
+    color: var(--ml-on-surface, #000000);
+
+    // label de grupo: nuance própria (antigo: #666), diferente do ícone/collapse
+    &.tracking-wider {
+      color: #666666;
+      font-weight: 700;
     }
   }
-  .brutal-nav-icon {
-    color: #000;
-    &.is-active {
-      color: #fff;
+
+  // hover do label de grupo: escurece para preto (antigo: #666 -> #000)
+  // (o hover do botão de collapse não muda de cor no antigo — por isso não há
+  // uma regra genérica ".hover\:ml-text-muted:hover": sem regra, a classe fica
+  // inerte e a cor de repouso (preta) permanece, que é o comportamento antigo)
+  .hover\:ml-text-muted.tracking-wider:hover {
+    color: #000000;
+  }
+
+  // cobre: item ativo (texto), ícone ativo e o texto do badge (ver abaixo)
+  .ml-primary-text {
+    color: #ffffff;
+  }
+
+  // ---- backgrounds ----
+  // hover de fundo (item inativo/habilitado + botão de collapse)
+  .hover\:ml-surface-dim-bg:hover {
+    background: var(--ml-surface-dim, #eeeeee);
+  }
+
+  // cobre: iniciais de fallback, divisores e blocos de skeleton — 3 usos do
+  // mesmo class name do base com valores diferentes no antigo; desambiguado
+  // pelas utilities Tailwind que sempre acompanham cada uso
+  .ml-surface-dim-bg {
+    background: var(--ml-surface-dim, #eeeeee);
+
+    // divisor (h-px): linha sólida preta, não o tom neutro
+    &.h-px {
+      background: #000000;
+    }
+
+    // iniciais de fallback (rounded-md)
+    &.rounded-md {
+      border: 2px solid #000000;
     }
   }
-  .brutal-nav-initials {
-    background: #eee;
-    border: 2px solid #000;
-    color: #000;
+
+  // blocos de skeleton do loading (rounded, dentro do container animate-pulse)
+  .animate-pulse .ml-surface-dim-bg.rounded {
+    border: 2px solid #cccccc;
   }
-  .is-active .brutal-nav-initials {
+
+  // cobre: fundo do item ativo (azul) e o badge (rounded-full), que no antigo
+  // tinham valores opostos — desambiguado pela utility rounded-full do badge
+  .ml-primary-dim-bg {
+    background: var(--ml-primary, #3b82f6);
+
+    // badge chip: inverte (antigo: fundo preto / texto branco)
+    &.rounded-full {
+      background: #000000;
+      color: #ffffff;
+      border: 2px solid #000000;
+    }
+  }
+
+  // badge chip dentro do item ativo: inverte de novo para contraste (antigo:
+  // fundo branco / texto preto sobre o item azul)
+  button[aria-current='page'] .ml-primary-dim-bg.rounded-full {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  // iniciais de fallback dentro do item ativo (antigo: rgba branco translúcido)
+  button[aria-current='page'] .ml-surface-dim-bg.rounded-md {
     background: rgba(255, 255, 255, 0.2);
-    border-color: #fff;
-    color: #fff;
-  }
-  .brutal-nav-badge {
-    background: #000;
-    color: #fff;
-    border: 2px solid #000;
-  }
-  .is-active .brutal-nav-badge {
-    background: #fff;
-    color: #000;
-  }
-  .brutal-nav-dot {
-    background: #ef4444;
-    border: 2px solid #000;
+    border-color: #ffffff;
+    color: #ffffff;
   }
 
-  // ---- group label / toggle ----
-  .brutal-group-label {
+  // ponto de badge no modo colapsado
+  .ml-error-dim-bg {
+    background: var(--ml-error, #ef4444);
+    border: 2px solid #000000;
+  }
+
+  // ---- nav item buttons ----
+  // o base nunca emite uma classe fixa "ml-nav-item"; o atributo aria-disabled
+  // (sempre presente, "true" ou "false") é o único marcador estrutural comum a
+  // TODOS os botões de item — e só a eles (collapse/group-label não o têm).
+  button[aria-disabled] {
+    border-radius: var(--ml-radius-sm, 0);
     border: none;
-    background: transparent;
-    color: #666;
-    cursor: pointer;
-    font-weight: 700;
-    &:hover {
-      color: #000;
-    }
-    &:focus-visible {
-      outline: 3px solid #000;
-      outline-offset: 2px;
-    }
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+    // cursor: já coberto pelas utilities Tailwind cursor-pointer/cursor-not-allowed
   }
 
-  .brutal-collapse-btn {
-    border: 3px solid #000;
-    background: #fff;
-    color: #000;
-    cursor: pointer;
-    &:hover {
-      background: #eee;
-    }
-    &:focus-visible {
-      outline: 3px solid #000;
-      outline-offset: 2px;
-    }
+  // estado desabilitado: opacidade do token (0.4), diferente do opacity-50
+  // (0.5) que o Tailwind já aplica — por isso a sobrescrita é necessária
+  button[aria-disabled='true'] {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    border-color: #999999;
   }
 
-  .brutal-skeleton {
-    background: #eee;
-    border: 2px solid #ccc;
+  // ---- focus ----
+  button:focus-visible {
+    outline: var(--ml-border-width, 3px) solid #000000;
+    outline-offset: 2px;
   }
 }

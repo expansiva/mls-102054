@@ -1,81 +1,115 @@
 /// <mls fileReference="_102054_/l2/molecules/groupnotifyuser/ml-notify-banner-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
 // =============================================================================
-// NOTIFY BANNER — BRUTALISM
-// Painel sólido por tipo (info/success/warning/error). Sem blur, sem transparência.
+// NOTIFY BANNER — BRUTALISM (Strategy D)
+// O render() herdado do 102040 emite classes semânticas ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -brutal) e redefine toda a aparência.
+// Painel sólido (branco) com acento por tipo. Sem blur, sem transparência.
+// Layout/posição (fixed, flex, gap, px/py) vem do Tailwind no template.
 // =============================================================================
 groupnotifyuser--ml-notify-banner-brutal {
   display: contents;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
 
-  .brutal-banner {
-    position: relative;
-    border-radius: 0;
-    border: 3px solid #000;
-    background: #fff;
-    box-shadow: 3px 3px 0 #000;
-    color: #000;
+  // ---- tokens do tema brutal ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-surface: #ffffff;
+  --ml-on-surface: #000000;
+  --ml-primary: #3b82f6;
+  --ml-success: #16a34a;
+  --ml-warning: #ca8a04; // valor antigo vence o default do skill (#d97706)
+  --ml-error: #ef4444;
+  --ml-text-transform: uppercase;
+  --ml-letter-spacing: 0.05em;
 
-    &.is-info {
-      border-left: 6px solid #3b82f6;
-    }
-    &.is-success {
-      border-left: 6px solid #16a34a;
-    }
-    &.is-warning {
-      border-left: 6px solid #ca8a04;
-    }
-    &.is-error {
-      border-left: 6px solid #ef4444;
-    }
-  }
+  font-family: var(--ml-font-family);
 
-  .brutal-banner-icon {
-    color: #000;
-  }
-  .is-success .brutal-banner-icon {
-    color: #16a34a;
-  }
-  .is-warning .brutal-banner-icon {
-    color: #ca8a04;
-  }
-  .is-error .brutal-banner-icon {
-    color: #ef4444;
-  }
-  .is-info .brutal-banner-icon {
-    color: #3b82f6;
+  // mensagem/base de texto (o container também carrega "ml-text" — esta regra
+  // é sobrescrita nele pela regra do painel abaixo, que vem depois na cascata)
+  .ml-text {
+    color: #333333; // valor antigo
   }
 
-  .brutal-banner-title {
-    color: #000;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  // painel: as 4 combinações "*-dim-bg" só ocorrem no container. O antigo
+  // usava fundo branco sólido para todos os tipos (sem tonalização) — mantido.
+  .ml-primary-dim-bg,
+  .ml-success-dim-bg,
+  .ml-warning-dim-bg,
+  .ml-error-dim-bg {
+    border-radius: var(--ml-radius-sm, 0);
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    background: var(--ml-surface, #ffffff);
+    box-shadow: 3px 3px 0 #000000; // offset antigo
+    color: var(--ml-on-surface, #000000);
   }
-  .brutal-banner-message {
-    color: #333;
+
+  // acento por tipo (borda esquerda grossa) — mesma especificidade da regra
+  // acima; como vem depois, vence no border-left
+  .ml-border-info {
+    border-left: 6px solid var(--ml-primary, #3b82f6);
   }
-  .brutal-banner-action {
-    color: #3b82f6;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  .ml-border-success {
+    border-left: 6px solid var(--ml-success, #16a34a);
+  }
+  .ml-border-warning {
+    border-left: 6px solid var(--ml-warning, #ca8a04);
+  }
+  .ml-border-error {
+    border-left: 6px solid var(--ml-error, #ef4444);
+  }
+
+  // ícone: sem caixa, só cor (igual ao antigo)
+  .ml-primary-text {
+    color: var(--ml-primary, #3b82f6);
+  }
+  .ml-success-text {
+    color: var(--ml-success, #16a34a);
+  }
+  .ml-warning-text {
+    color: var(--ml-warning, #ca8a04);
+  }
+  .ml-error-text {
+    color: var(--ml-error, #ef4444);
+  }
+
+  // título — única diferença estrutural do texto simples é "font-semibold"
+  .font-semibold.ml-text {
+    color: var(--ml-on-surface, #000000);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+  }
+
+  // action: sempre ml-primary-text no template base; âncora na utility
+  // companheira "cursor-pointer" para não confundir com o ícone (que não a tem)
+  .ml-primary-text.cursor-pointer {
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+    transition: none;
+
     &:hover {
       text-decoration: underline;
     }
   }
 
-  .brutal-banner-dismiss {
-    border: 3px solid #000;
-    border-radius: 0;
-    background: #fff;
-    color: #000;
+  // dismiss (botão apenas com ícone) — único hook de hover disponível
+  // ("hover:ml-surface-dim-bg") reproduz a inversão completa do botão antigo
+  button.ml-text-muted {
+    border-radius: var(--ml-radius-sm, 0);
+    border: var(--ml-border-width, 3px) solid #000000;
+    background: var(--ml-surface, #ffffff);
+    color: #000000;
     cursor: pointer;
-    &:hover {
-      background: #000;
-      color: #fff;
-    }
+    transition: none;
+
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
     }
+  }
+  .hover\:ml-surface-dim-bg:hover {
+    background: #000000;
+    color: #ffffff;
   }
 }

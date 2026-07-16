@@ -2,65 +2,103 @@
 
 // =============================================================================
 // PROFILE CARD — BRUTALISM
-// Card solido. Bordas grossas, sombra offset, sem transparencia.
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -brutal) e redefine toda a aparência.
+// Card sólido. Bordas grossas, sombra offset, sem transparência.
+// Layout (padding, gap, flex) vem do Tailwind no template.
 // =============================================================================
 groupviewcard--ml-profile-card-brutal {
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
 
-  .brutal-card {
-    position: relative;
-    border-radius: 0;
-    border: 3px solid #000;
-    background: #fff;
-    box-shadow: 4px 4px 0 #000;
-    color: #000;
+  // ---- tokens do tema brutal ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 900;   // valor antigo (brutal-card-title/-text usavam 900) prevalece sobre o canônico 700
+  --ml-radius-md: 0;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-surface: #ffffff;
+  --ml-on-surface: #000000;
+  --ml-on-surface-muted: #555555;
+  --ml-disabled-opacity: 0.4;
 
-    &.is-interactive {
-      cursor: pointer;
-    }
-    &.is-interactive:hover {
-      box-shadow: 2px 2px 0 #000;
+  font-family: var(--ml-font-family);
+
+  // ---- card ----
+  .ml-card {
+    background: var(--ml-surface, #ffffff);
+    color: var(--ml-on-surface, #000000);
+    border-width: var(--ml-border-width, 3px);
+    border-style: solid;
+    border-color: var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-md, 0);
+    box-shadow: 4px 4px 0 #000000;
+    transition: none;
+  }
+
+  // clicável: role="button" só existe quando isInteractive() — evita colidir
+  // com .ml-card-hover que também é adicionada (sem :hover) quando "selected"
+  .ml-card[role='button'] {
+    &:hover {
+      box-shadow: 2px 2px 0 #000000;
       transform: translate(2px, 2px);
     }
-    &.is-interactive:focus-visible {
-      outline: 3px solid #000;
+    &:focus-visible {
+      outline: 3px solid #000000;
       outline-offset: 2px;
     }
-    &.is-selected {
-      background: #dbeafe;
-      border-color: #3b82f6;
-      box-shadow: 4px 4px 0 #3b82f6;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      box-shadow: 2px 2px 0 #999;
-      border-color: #999;
-    }
   }
 
-  .brutal-card-text,
-  .brutal-card-title {
-    color: #000;
+  // selecionado: aria-selected reflete a prop "selected" independente de hover
+  .ml-card[aria-selected='true'] {
+    background: #dbeafe;
+    border-color: #3b82f6;
+    box-shadow: 4px 4px 0 #3b82f6;
+  }
+
+  .ml-card.ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
+    border-color: #999999;
+    box-shadow: 2px 2px 0 #999999;
+  }
+
+  // ---- título ----
+  .ml-label {
+    font-family: var(--ml-font-family);
+    font-weight: var(--ml-font-weight-medium, 900);
+    color: var(--ml-on-surface, #000000);
     text-transform: uppercase;
-    font-weight: 900;
     letter-spacing: 0.03em;
   }
-  .brutal-card-desc {
-    color: #555;
-  }
-  .brutal-card-content {
-    color: #333;
-  }
-  .brutal-card-footer {
-    color: #777;
+
+  // ---- header custom (slot CardHeader completo) ----
+  .card-header.ml-text {
+    color: var(--ml-on-surface, #000000);
+    text-transform: uppercase;
+    font-weight: var(--ml-font-weight-medium, 900);
+    letter-spacing: 0.03em;
   }
 
-  .brutal-skeleton {
-    border-radius: 0;
+  // ---- conteúdo ----
+  .card-content.ml-text {
+    color: #333333;
+  }
+
+  // ---- descrição / rodapé — mesma classe ml-text-muted, diferenciados pelo wrapper ----
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, #555555);
+  }
+
+  .card-footer.ml-text-muted {
+    color: #777777;
+  }
+
+  // ---- skeleton de loading ----
+  .ml-skeleton {
+    border-radius: var(--ml-radius-md, 0);
     background: #e5e5e5;
-    border: 2px solid #ccc;
+    border: 2px solid #cccccc;
     animation: brutal-profile-pulse 1.4s steps(4) infinite;
   }
 

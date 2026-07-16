@@ -1,82 +1,107 @@
 /// <mls fileReference="_102054_/l2/molecules/groupnavigatesteps/ml-wizard-steps-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
 
-// =============================================================================
-// WIZARD STEPS — BRUTALISM
-// Cards de etapa sólidos com indicador quadrado. Sem blur, sem transições.
-// =============================================================================
 groupnavigatesteps--ml-wizard-steps-brutal {
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-primary: #3b82f6;
+  --ml-on-primary: #ffffff;
+  --ml-surface: #ffffff;
+  --ml-on-surface: #000000;
+  --ml-disabled-opacity: 0.4;
+  --ml-shadow-1: 3px 3px 0 #000000;
+  --ml-text-transform: uppercase;
+  --ml-letter-spacing: 0.05em;
+
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  font-family: var(--ml-font-family);
 
-  .brutal-wz-label {
-    color: #000;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .brutal-wz-loading {
-    background: #fff;
-    border: 3px solid #000;
-    border-radius: 0;
-    color: #666;
-    box-shadow: 3px 3px 0 #000;
+  .ml-label {
+    color: var(--ml-on-surface);
+    text-transform: var(--ml-text-transform);
+    letter-spacing: var(--ml-letter-spacing);
   }
 
-  // ---- card de etapa ----
-  .brutal-wz-step {
-    background: #fff;
-    border: 3px solid #000;
-    border-radius: 0;
-    cursor: pointer;
-    box-shadow: 3px 3px 0 #000;
+  // ---- loading (ml-step-container) ----
+  .ml-step-container {
+    background: var(--ml-surface);
+    border: var(--ml-border-width) solid var(--ml-outline-variant);
+    border-radius: var(--ml-radius-sm);
+    color: #666666;
+    box-shadow: var(--ml-shadow-1);
+  }
 
-    &:hover:not(.is-disabled):not(.is-active) {
-      background: #eee;
+  // ---- disabled ----
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // ---- card do step ----
+  .ml-step {
+    background: var(--ml-surface);
+    border: var(--ml-border-width) solid var(--ml-outline-variant);
+    border-radius: var(--ml-radius-sm);
+    box-shadow: var(--ml-shadow-1);
+    transition: none;
+
+    &:not(.ml-disabled):not(.ml-step-active):hover {
+      background: #eeeeee;
     }
-    &.is-active {
-      background: #3b82f6;
-      border-color: #000;
-      color: #fff;
-    }
-    &.is-completed {
-      border-color: #000;
+
+    // base não emite classe "completed" no card — só no badge (ml-step-badge-done).
+    // :has() reconstrói o estado estrutural que o .ts não expõe diretamente.
+    &:has(.ml-step-badge-done) {
+      border-color: var(--ml-outline-variant);
       background: #f0f0f0;
     }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
-    }
   }
 
-  .brutal-wz-title {
-    color: #000;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  .ml-step-active {
+    background: var(--ml-primary);
+    border-color: var(--ml-outline-variant);
+    color: var(--ml-on-primary);
   }
-  .is-active .brutal-wz-title {
-    color: #fff;
+
+  .ml-step.ml-disabled {
+    border-color: #999999;
+    box-shadow: 3px 3px 0 #999999;
   }
-  .brutal-wz-desc {
-    color: #666;
+
+  // ---- título / descrição ----
+  .ml-text {
+    color: var(--ml-on-surface);
+    text-transform: var(--ml-text-transform);
+    letter-spacing: var(--ml-letter-spacing);
   }
-  .is-active .brutal-wz-desc {
+  .ml-step-active .ml-text {
+    color: var(--ml-on-primary);
+  }
+
+  .ml-text-muted {
+    color: #666666;
+  }
+  .ml-step-active .ml-text-muted {
     color: rgba(255, 255, 255, 0.8);
   }
 
-  // ---- indicador ----
-  .brutal-wz-dot {
-    border-radius: 0;
-    border: 3px solid #000;
-    color: #000;
-
-    &.is-active {
-      border-color: #fff;
-      color: #fff;
-    }
-    &.is-completed {
-      border-color: #000;
-      background: #000;
-      color: #fff;
-    }
+  // ---- badge / indicador ----
+  .ml-step-badge,
+  .ml-step-badge-active,
+  .ml-step-badge-done {
+    border-radius: var(--ml-radius-sm);
+    border: var(--ml-border-width) solid var(--ml-outline-variant);
+    color: var(--ml-on-surface);
+  }
+  .ml-step-badge-active {
+    border-color: var(--ml-on-primary);
+    color: var(--ml-on-primary);
+  }
+  .ml-step-badge-done {
+    border-color: var(--ml-outline-variant);
+    background: var(--ml-on-surface);
+    color: var(--ml-on-primary);
   }
 }

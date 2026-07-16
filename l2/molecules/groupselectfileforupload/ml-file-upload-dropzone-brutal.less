@@ -2,107 +2,144 @@
 
 // =============================================================================
 // FILE UPLOAD DROPZONE — BRUTALISM
+// Estratégia D: o render() herdado do 102040 emite classes ml-*; este .less é
+// COMPLETO (o .less base não alcança a tag -brutal) e redefine toda a aparência.
 // Zona tracejada sólida + cards de arquivo com bordas grossas.
+// Layout (padding, gap, flex) vem do Tailwind no template.
 // =============================================================================
 groupselectfileforupload--ml-file-upload-dropzone-brutal {
   display: block;
-  font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
 
-  .brutal-dz-label {
-    color: #000;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    display: block;
+  // ---- tokens do tema brutal ----
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-radius-sm: 0;
+  --ml-border-width: 3px;
+  --ml-outline-variant: #000000;
+  --ml-primary: #3b82f6;
+  --ml-surface: #ffffff;
+  --ml-on-surface: #000000;
+  --ml-on-surface-muted: #666666; // valor do .less antigo (não os #999999 canônicos)
+  --ml-error: #ef4444;
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;
+  --ml-letter-spacing: 0.05em;
+
+  font-family: var(--ml-font-family);
+
+  .ml-label {
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+    // sem font-weight: o .less antigo não aplicava peso extra aqui (herda o
+    // font-medium do Tailwind já presente no template)
   }
-  .brutal-helper {
-    color: #666;
+
+  .ml-helper {
+    color: var(--ml-on-surface-muted, #666666);
+    font-family: var(--ml-font-family);
   }
-  .brutal-error-text {
-    color: #ef4444;
-    font-weight: 700;
-    text-transform: uppercase;
+
+  .ml-error-text {
+    color: var(--ml-error, #ef4444);
+    font-family: var(--ml-font-family);
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
   }
-  .brutal-dz-loading {
-    color: #666;
+
+  .ml-text {
+    color: var(--ml-on-surface, #000000);
+    font-family: var(--ml-font-family);
+    font-weight: var(--ml-font-weight-medium, 700);
   }
-  .brutal-dz-title {
-    color: #000;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+
+  .ml-text-muted {
+    color: var(--ml-on-surface-muted, #666666);
+    font-family: var(--ml-font-family);
   }
-  .brutal-dz-subtitle {
-    color: #666;
+
+  // colisão N-para-1: a base reaproveita .ml-text-muted no subtítulo do trigger
+  // padrão, no tamanho do arquivo e no texto de loading (cinza, valor do antigo)
+  // E no conteúdo do slot Trigger (preto no antigo .brutal-dz-trigger-slot). O
+  // conteúdo do slot é filho direto da zona de drop; os demais usos não são —
+  // seletor estrutural resolve a colisão.
+  .ml-dropzone > .ml-text-muted {
+    color: var(--ml-on-surface, #000000);
   }
-  .brutal-dz-trigger-slot {
-    color: #000;
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
   // ---- zona de drop ----
-  .brutal-dz-zone {
-    background: #fff;
-    border: 3px dashed #000;
-    border-radius: 0;
-    color: #000;
-    cursor: pointer;
-    box-shadow: 3px 3px 0 #000;
+  .ml-dropzone {
+    background: var(--ml-surface, #ffffff);
+    border: var(--ml-border-width, 3px) dashed var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-sm, 0);
+    color: var(--ml-on-surface, #000000);
+    box-shadow: 3px 3px 0 #000000;
+    transition: none;
 
     &:focus-visible {
-      outline: 3px solid #000;
+      outline: 3px solid #000000;
       outline-offset: 2px;
-    }
-    &.is-dragging {
-      border-style: solid;
-      border-color: #3b82f6;
-      background: #eff6ff;
-      box-shadow: 3px 3px 0 #3b82f6;
-    }
-    &.is-error {
-      border-color: #ef4444;
-      box-shadow: 3px 3px 0 #ef4444;
-    }
-    &.is-disabled {
-      opacity: 0.4;
-      border-color: #999;
-      cursor: not-allowed;
     }
   }
 
-  .brutal-dz-icon {
-    background: #eee;
-    border: 3px solid #000;
-    color: #000;
+  .ml-dropzone-active {
+    border-style: solid;
+    border-color: var(--ml-primary, #3b82f6);
+    background: #eff6ff;
+    box-shadow: 3px 3px 0 #3b82f6;
+  }
+
+  .ml-dropzone-error {
+    border-color: var(--ml-error, #ef4444);
+    box-shadow: 3px 3px 0 var(--ml-error, #ef4444);
+  }
+
+  // disabled sobre a zona: cinza a estrutura (ausente no antigo, mas canônica
+  // para completude do estado desabilitado)
+  .ml-dropzone.ml-disabled {
+    border-color: #999999;
+    box-shadow: 3px 3px 0 #999999;
+  }
+
+  .ml-dropzone-icon {
+    background: #eeeeee;
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    color: var(--ml-on-surface, #000000);
   }
 
   // ---- cards de arquivo ----
-  .brutal-dz-file {
-    background: #fff;
-    border: 3px solid #000;
-    border-radius: 0;
-    box-shadow: 2px 2px 0 #000;
+  .ml-dropzone-file-item {
+    background: var(--ml-surface, #ffffff);
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-sm, 0);
+    box-shadow: 2px 2px 0 #000000;
   }
-  .brutal-dz-file-name {
-    color: #000;
-    font-weight: 700;
-  }
-  .brutal-dz-file-size {
-    color: #666;
-  }
-  .brutal-dz-remove {
-    background: #fff;
-    border: 3px solid #000;
-    color: #000;
+
+  .ml-dropzone-file-remove {
+    background: var(--ml-surface, #ffffff);
+    border: var(--ml-border-width, 3px) solid var(--ml-outline-variant, #000000);
+    border-radius: var(--ml-radius-sm, 0);
+    color: var(--ml-on-surface, #000000);
     cursor: pointer;
-    font-weight: 700;
-    text-transform: uppercase;
+    font-weight: var(--ml-font-weight-medium, 700);
+    text-transform: var(--ml-text-transform, uppercase);
     padding: 0.125rem 0.5rem;
+    font-family: var(--ml-font-family);
 
     &:hover {
-      background: #000;
-      color: #fff;
+      background: #000000;
+      color: #ffffff;
     }
     &:disabled {
-      opacity: 0.4;
-      border-color: #999;
+      opacity: var(--ml-disabled-opacity, 0.4);
+      border-color: #999999;
       cursor: not-allowed;
     }
   }
