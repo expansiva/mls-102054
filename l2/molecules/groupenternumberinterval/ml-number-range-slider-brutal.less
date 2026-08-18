@@ -1,0 +1,255 @@
+/// <mls fileReference="_102054_/l2/molecules/groupenternumberinterval/ml-number-range-slider-brutal.less" enhancement="_102020_/l2/enhancementStyleAura" />
+groupenternumberinterval--ml-number-range-slider-brutal {
+  display: block;
+  font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+  color: var(--ml-on-surface, #000000);
+
+  --ml-font-family: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+  --ml-font-weight-medium: 700;
+  --ml-radius-sm: 0;
+  --ml-radius-md: 0;
+  --ml-radius-lg: 0;
+  --ml-border-width: 3px;
+  --ml-border-style: solid;
+  --ml-outline-variant: #000000;
+  --ml-primary: #3b82f6;
+  --ml-on-primary: #ffffff;
+  --ml-surface: #ffffff;
+  --ml-surface-dim: #f5f5f5;
+  --ml-on-surface: #000000;
+  --ml-on-surface-muted: #999999;
+  --ml-error: #ef4444;
+  --ml-shadow-1: 4px 4px 0 #000000;
+  --ml-shadow-2: 2px 2px 0 #000000;
+  --ml-disabled-opacity: 0.4;
+  --ml-text-transform: uppercase;
+  --ml-letter-spacing: 0.05em;
+
+  .ml-nrs-root {
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+  }
+
+  .ml-nrs-view {
+    cursor: default;
+  }
+
+  .ml-nrs-loading {
+    cursor: wait;
+  }
+
+  .ml-nrs-readonly {
+    .ml-nrs-track-area,
+    .ml-nrs-handle {
+      cursor: default;
+    }
+  }
+
+  .ml-nrs-error {
+    .ml-nrs-track-fill {
+      background: var(--ml-error, #ef4444);
+    }
+
+    .ml-nrs-handle-knob {
+      background: var(--ml-error, #ef4444);
+    }
+
+    .ml-nrs-handle-focused .ml-nrs-handle-knob {
+      box-shadow: 0 0 0 2px var(--ml-error, #ef4444);
+    }
+  }
+
+  .ml-nrs-track-area {
+    touch-action: pan-y;
+    user-select: none;
+  }
+
+  .ml-nrs-track {
+    height: var(--ml-nrs-handle-size, 20px);
+  }
+
+  .ml-nrs-track-base {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: var(--ml-nrs-track-height, 6px);
+    transform: translateY(-50%);
+    background: var(--ml-surface-dim, #f5f5f5);
+    border: 1px solid var(--ml-outline-variant, #000000);
+    border-radius: 0;
+  }
+
+  .ml-nrs-track-fill {
+    position: absolute;
+    top: 50%;
+    height: var(--ml-nrs-track-height, 6px);
+    transform: translateY(-50%);
+    background: var(--ml-primary, #3b82f6);
+    border-radius: 0;
+  }
+
+  .ml-nrs-handle {
+    width: var(--ml-nrs-handle-size, 20px);
+    height: var(--ml-nrs-handle-size, 20px);
+    touch-action: none;
+    user-select: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .ml-nrs-handle-start,
+  .ml-nrs-handle-end {
+    z-index: 1;
+  }
+
+  .ml-nrs-handle-active {
+    z-index: 2;
+
+    .ml-nrs-handle-knob {
+      transform: scale(var(--ml-nrs-knob-active-scale, 1.15));
+    }
+  }
+
+  .ml-nrs-handle-focused {
+    z-index: 2;
+
+    .ml-nrs-handle-knob {
+      box-shadow: 0 0 0 2px var(--ml-primary, #3b82f6);
+    }
+  }
+
+  .ml-nrs-handle-knob {
+    width: var(--ml-nrs-knob-size, 16px);
+    height: var(--ml-nrs-knob-size, 16px);
+    background: var(--ml-primary, #3b82f6);
+    border: 2px solid var(--ml-surface, #ffffff);
+    border-radius: 0;
+    box-shadow: 2px 2px 0 #000000;
+    transition: none;
+  }
+
+  .ml-nrs-tooltip {
+    position: absolute;
+    bottom: calc(100% + var(--ml-nrs-tooltip-offset, 6px));
+    left: 50%;
+    transform: translateX(-50%);
+    padding: var(--ml-nrs-tooltip-padding, 2px 6px);
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    font-size: var(--ml-nrs-tooltip-font-size, 12px);
+    line-height: var(--ml-nrs-tooltip-line-height, 1.4);
+    white-space: nowrap;
+    color: var(--ml-on-surface, #000000);
+    background: var(--ml-surface, #ffffff);
+    border: 1px solid var(--ml-outline-variant, #000000);
+    border-radius: 0;
+    box-shadow: none;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .ml-nrs-readout,
+  .ml-nrs-placeholder {
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+  }
+
+  .ml-nrs-view-value {
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    color: var(--ml-on-surface, #000000);
+  }
+
+  .ml-nrs-loading-block {
+    color: var(--ml-on-surface-muted, #999999);
+  }
+
+  .ml-nrs-skeleton-track {
+    height: var(--ml-nrs-track-height, 6px);
+    border-radius: 0;
+  }
+
+  .ml-label {
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    font-weight: var(--ml-font-weight-medium, 700);
+    color: var(--ml-on-surface, #000000);
+    text-transform: var(--ml-text-transform, uppercase);
+    letter-spacing: var(--ml-letter-spacing, 0.05em);
+  }
+
+  .ml-helper {
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    color: #555555;
+  }
+
+  .ml-error-text {
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    color: var(--ml-error, #ef4444);
+  }
+
+  .ml-text {
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    color: var(--ml-on-surface, #000000);
+  }
+
+  .ml-text-muted {
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    color: #555555;
+  }
+
+  .ml-text-faint {
+    font-family: var(--ml-font-family, 'JetBrains Mono', 'SF Mono', 'Courier New', monospace);
+    color: #666666;
+  }
+
+  .ml-disabled {
+    opacity: var(--ml-disabled-opacity, 0.4);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .ml-disabled .ml-nrs-track-base {
+    border-color: #999999;
+  }
+
+  .ml-disabled .ml-nrs-track-fill,
+  .ml-disabled .ml-nrs-handle-knob {
+    background: #999999;
+  }
+
+  .ml-disabled .ml-nrs-handle-knob {
+    border-color: #999999;
+    box-shadow: 2px 2px 0 #999999;
+  }
+
+  .ml-spinner {
+    display: inline-block;
+    width: var(--ml-spinner-size, 16px);
+    height: var(--ml-spinner-size, 16px);
+    border: 2px solid var(--ml-outline-variant, #000000);
+    border-top-color: var(--ml-primary, #3b82f6);
+    border-radius: 0;
+    animation: ml-nrs-spin 0.8s steps(8) infinite;
+  }
+
+  .ml-skeleton {
+    background: var(--ml-surface-dim, #f5f5f5);
+    background-size: 200% 100%;
+    border-radius: 0;
+    animation: none;
+  }
+
+  @keyframes ml-nrs-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes ml-nrs-skeleton-shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+}
+
+
